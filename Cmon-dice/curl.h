@@ -32,7 +32,7 @@
 #define RESPUESTA_SERVIDOR_CON_ERROR_DE_FORMATO 422 //Unprocessable Entity: error de formato, lo recibi mal o me lo enviaron mal
 
 ///SSL
-#define CERTIFICADO_SITIO_SEGURO "random-org.pem"
+#define CERTIFICADO_SITIO_SEGURO "random-org.pem" //aechivo de certificado .pem
 
 #define OK 1
 

@@ -198,24 +198,33 @@ int validaFormatoRespuestaAPI(const char* respuesta)
 
 void construccionURL(char* URL, unsigned tam, unsigned ce)//doy la flexibilidad de usar cantidad de elementos o no
 {
+    /**Armo la URL que le mando a la API*/
+    /* A la URL base se le especifica:
+    -params formato:indice max e indice minimo, base (10), format:plain para que devuelva texto.
+    -param cantidad de elementos: "&num=", se va a completar con la cantidad de elementos calculada en el parámetro siguiente.
+    -cantidad de elementos: cuántos números le vamos a pedir a la api. Si hay un solo jugador y nuestro promedio es de 15 rondes, pedirá 15 números.
+    */
     snprintf(URL, tam, "%s%s%s%u", URL_BASE, QUERY_PARAMS_FORMATO, QUERY_PARAM_CANTIDAD_DE_ELEMENTOS, ce * CANT_RONDAS_PROMEDIO_JUGADAS);
 }
 
-int consumoAPI(tReconstruccionDato* datoRespuestaAPI, unsigned cantidadDeJugadores,void (*construccionURL)(char* URL, unsigned tam, unsigned ce))
+int consumoAPI(tReconstruccionDato* datoRespuestaAPI, unsigned cantidadDeJugadores, void (*construccionURL)(char* URL, unsigned tam, unsigned ce))
 {
+    /** Esta es una función genérica para poder consumir cualquier tipo de API, según el armado de URL. */
     CURL* curl;
     char URL[TAM_URL];
     int retornoCodigoDeError;
 
     construccionURL(URL, sizeof(URL),cantidadDeJugadores);
 
+    //se reservan los recursos del curl
     if(ERROR_INICIAR_ESTRUCTURA_CURL == inicializacionEstructuraCURL(&curl))
     {
         return ERROR_INICIAR_ESTRUCTURA_CURL;
     }
 
-    configuracionEstructuraCURL(curl, URL, datoRespuestaAPI);
-    retornoCodigoDeError = ejecutarSolicitudHTTPS(curl);
+
+    configuracionEstructuraCURL(curl, URL, datoRespuestaAPI); // se configura el curl para hacer la solicitud a la API
+    retornoCodigoDeError = ejecutarSolicitudHTTPS(curl); /// llamado a la API
     if(!(retornoCodigoDeError >= RESPUESTA_SERVIDOR_OK_MIN && retornoCodigoDeError <= RESPUESTA_SERVIDOR_OK_MAX))
     {
         fprintf(stderr, "Codigo de error: %d. %s.\n", retornoCodigoDeError,
@@ -229,10 +238,10 @@ int consumoAPI(tReconstruccionDato* datoRespuestaAPI, unsigned cantidadDeJugador
         return retornoCodigoDeError;
     }
 
-    fprintf(stdout, "%s\n",(char*)(datoRespuestaAPI->buffer));
+    fprintf(stdout, "%s\n",(char*)(datoRespuestaAPI->buffer)); // para ver qué responde la API.
     curl_easy_cleanup(curl);
 
-    if(OK != (retornoCodigoDeError = validaFormatoRespuestaAPI(datoRespuestaAPI->buffer)))
+    if(OK != (retornoCodigoDeError = validaFormatoRespuestaAPI(datoRespuestaAPI->buffer))) // se valida el formato que recibimos de la API
     {
         fprintf(stderr, "La respuesta del servidor no llego en el formato esperado.\n");
         return retornoCodigoDeError;
@@ -249,9 +258,10 @@ void imprimirResultados(FILE* pf, tRecursos* recursos)
 
 void construccionNombreArchivoTxtInforme(char* NOMBRE_ARCHIVO_TXT_INFORME, unsigned tam, struct tm* fechaYHora)
 {
+        /** se utiliza la biblioteca time.h */
         snprintf(NOMBRE_ARCHIVO_TXT_INFORME, tam,
             "informe-juego_%4d-%02d-%02d-%02d-%02d.txt",
-            fechaYHora->tm_year + 1900,
+            fechaYHora->tm_year + 1900, // +1900 para sumarle la fecha base y que de 2024
             fechaYHora->tm_mon + 1,
             fechaYHora->tm_mday,
             fechaYHora->tm_hour,
@@ -292,20 +302,30 @@ char obtenerCaracterDeSecuencia(const char* cadenaConIndices, const char* caract
 
 int generarRondas(tRecursos* recursos)
 {
-    char caracteresDeSecuencia[] = {COLOR_VERDE, COLOR_AMARILLO, COLOR_ROJO, COLOR_NARANJA};
-    int retornoCodigoDeError;
+    char caracteresDeSecuencia[] = {COLOR_VERDE, COLOR_AMARILLO, COLOR_ROJO, COLOR_NARANJA}; // V, A, R, N
+    int retornoCodigoDeError; //puede devolver un error o puede devolver que está todo ok.
 
+    /*
+    CALCULO CUÁNTO ESPACIO RESERVAR PARA RESPUESTA DE LA API
+    para hacer la solicitud a la api, se toma en cuenta la cantidad de jugadores y la cantidad de rondas (iteración por caracter) que van a jugar.
+    se incluye en espacio reservado el /n para cada caracter y el /0 una única vez.
+    Una vez calculada la cantidad de bytes, se realiza el malloc.
+    */
     (recursos->datoRespuestaAPI).cantBytesFijosAReservar = recursos->cantidadDeJugadores * CANT_RONDAS_PROMEDIO_JUGADAS * INCLUIR_BARRA_N + CONTAR_BARRA_CERO;
     (recursos->datoRespuestaAPI).buffer = malloc((recursos->datoRespuestaAPI).cantBytesFijosAReservar);
+
     if(NULL == (recursos->datoRespuestaAPI).buffer)
     {
         fprintf(stderr, "No pude reservar memoria para buffer de respuesta de API.\n");
         return NO_PUDE_RESERVAR_MEMORIA;
     }
-    *(char*)((recursos->datoRespuestaAPI).buffer) = '\0';
+
+    *(char*)((recursos->datoRespuestaAPI).buffer) = '\0'; // por seguridad, en caso de que la API no agregue el /0
+
     recursos->datoRespuestaAPI.cantBytesReservados = recursos->datoRespuestaAPI.cantBytesFijosAReservar;
     recursos->datoRespuestaAPI.cantBytesCopiados = 0;
 
+    /// ACÁ EMPIEZA A CONSUMIR
     if(OK != (retornoCodigoDeError = consumoAPI(&(recursos->datoRespuestaAPI), recursos->cantidadDeJugadores, construccionURL)))
     {
         fprintf(stderr, "No pude generar rondas.\n");
@@ -313,12 +333,14 @@ int generarRondas(tRecursos* recursos)
         return retornoCodigoDeError;
     }
 
-    recursos->cadenaConIndices = (recursos->datoRespuestaAPI).buffer;
-    while('\0' != *(recursos->cadenaConIndices))
-    {
-        printf("LETRA OBTENIDA: %c\n", obtenerCaracterDeSecuencia(recursos->cadenaConIndices, caracteresDeSecuencia));
-        (recursos->cadenaConIndices) += 2;///porque 2?, 1 por el caracter que ya utilice y 1 por el \n
-    }
+
+    ///Codigo de prueba: para visualizar lo que trae la API
+//    recursos->cadenaConIndices = (recursos->datoRespuestaAPI).buffer;
+//    while('\0' != *(recursos->cadenaConIndices))
+//    {
+//        printf("LETRA OBTENIDA: %c\n", obtenerCaracterDeSecuencia(recursos->cadenaConIndices, caracteresDeSecuencia));
+//        (recursos->cadenaConIndices) += 2;///porque 2?, 1 por el caracter que ya utilice y 1 por el \n
+//    }
 
     free((recursos->datoRespuestaAPI).buffer);
     return retornoCodigoDeError;

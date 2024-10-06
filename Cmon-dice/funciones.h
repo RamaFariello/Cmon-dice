@@ -99,12 +99,12 @@ typedef struct
 
 typedef struct
 {
-    tConfiguracion configuraciones[CANTIDAD_DE_NIVELES];
-    unsigned indiceDeNivelDeConfiguracionElegida;
+    tConfiguracion configuraciones[CANTIDAD_DE_NIVELES]; // configuración según el nivel
+    unsigned indiceDeNivelDeConfiguracionElegida; // lo que se lecciona en el menú, para buscarlo en el vector de configuración según nivel
     t_lista listaDeJugadores;
     unsigned cantidadDeJugadores;
-    tReconstruccionDato datoRespuestaAPI;
-    char* cadenaConIndices;
+    tReconstruccionDato datoRespuestaAPI; // para almacenar la respuesta de la API
+    char* cadenaConIndices; // para acceder al vector de cadena (VARN), según el valor que traiga la API
 }tRecursos;
 
 void mostrarConfiguracionElegida(tConfiguracion* configuracion, unsigned indiceDeNivelDeConfiguracionElegida);
