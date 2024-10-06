@@ -1,0 +1,274 @@
+# depslib dependency file v1.0
+1728049127 source:c:\users\pc\desktop\materias2°c-2024\topicos-algoritmos[github]\aye[3640]-2024\cmon-dice\main.c
+	"funciones.h"
+
+1728060139 source:c:\users\pc\desktop\cmon-dice\funciones.c
+	"funciones.h"
+
+1728059116 c:\users\pc\desktop\cmon-dice\funciones.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"curl.h"
+	"./Biblioteca/include/listaSimple/listaSimple.h"
+	"./Biblioteca/include/menu/menu.h"
+	"./Biblioteca/include/generico.h"
+
+1728059728 c:\users\pc\desktop\cmon-dice\curl.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<curl/curl.h>
+
+1727841381 c:\users\pc\desktop\cmon-dice\biblioteca\include\listasimple\listasimple.h
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<time.h>
+
+1727946518 c:\users\pc\desktop\cmon-dice\biblioteca\include\menu\menu.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"arbol.h"
+
+1727584423 c:\users\pc\desktop\cmon-dice\biblioteca\include\menu\arbol.h
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+
+1725963750 c:\users\pc\desktop\cmon-dice\biblioteca\include\generico.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1728057070 source:c:\users\pc\desktop\cmon-dice\curl.c
+	"curl.h"
+
+1728054114 source:c:\users\pc\desktop\cmon-dice\configuraciones.c
+	"configuraciones.h"
+
+1728055545 c:\users\pc\desktop\cmon-dice\configuraciones.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"funciones.h"
+
+1728049127 source:c:\users\pc\desktop\cmon-dice\main.c
+	"funciones.h"
+
+1727843487 source:c:\users\pc\desktop\cmon-dice\biblioteca\src\cola\cola.c
+	"../../include/cola/cola.h"
+
+1725482439 c:\users\pc\desktop\cmon-dice\biblioteca\include\cola\cola.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1728029229 source:c:\users\pc\desktop\cmon-dice\biblioteca\src\generico.c
+	"../include/generico.h"
+
+1728009023 source:c:\users\pc\desktop\cmon-dice\biblioteca\src\listasimple\listasimple.c
+	"../../include/listaSimple/listaSimple.h"
+
+1727589018 source:c:\users\pc\desktop\cmon-dice\biblioteca\src\menu\arbol.c
+	"../../include/menu/arbol.h"
+
+1727846557 source:c:\users\pc\desktop\cmon-dice\biblioteca\src\menu\menu.c
+	"../../include/menu/menu.h"
+
+1727843487 source:c:\users\pc\desktop\materias2°c-2024\topicos-algoritmos[github]\aye[3640]-2024\cmon-dice\biblioteca\src\cola\cola.c
+	"../../include/cola/cola.h"
+
+1725482439 c:\users\pc\desktop\materias2°c-2024\topicos-algoritmos[github]\aye[3640]-2024\cmon-dice\biblioteca\include\cola\cola.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1728029229 source:c:\users\pc\desktop\materias2°c-2024\topicos-algoritmos[github]\aye[3640]-2024\cmon-dice\biblioteca\src\generico.c
+	"../include/generico.h"
+
+1725963750 c:\users\pc\desktop\materias2°c-2024\topicos-algoritmos[github]\aye[3640]-2024\cmon-dice\biblioteca\include\generico.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1728009023 source:c:\users\pc\desktop\materias2°c-2024\topicos-algoritmos[github]\aye[3640]-2024\cmon-dice\biblioteca\src\listasimple\listasimple.c
+	"../../include/listaSimple/listaSimple.h"
+
+1727841381 c:\users\pc\desktop\materias2°c-2024\topicos-algoritmos[github]\aye[3640]-2024\cmon-dice\biblioteca\include\listasimple\listasimple.h
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<time.h>
+
+1727589018 source:c:\users\pc\desktop\materias2°c-2024\topicos-algoritmos[github]\aye[3640]-2024\cmon-dice\biblioteca\src\menu\arbol.c
+	"../../include/menu/arbol.h"
+
+1727584423 c:\users\pc\desktop\materias2°c-2024\topicos-algoritmos[github]\aye[3640]-2024\cmon-dice\biblioteca\include\menu\arbol.h
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+
+1727846557 source:c:\users\pc\desktop\materias2°c-2024\topicos-algoritmos[github]\aye[3640]-2024\cmon-dice\biblioteca\src\menu\menu.c
+	"../../include/menu/menu.h"
+
+1727946518 c:\users\pc\desktop\materias2°c-2024\topicos-algoritmos[github]\aye[3640]-2024\cmon-dice\biblioteca\include\menu\menu.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"arbol.h"
+
+1728057070 source:c:\users\pc\desktop\materias2°c-2024\topicos-algoritmos[github]\aye[3640]-2024\cmon-dice\curl.c
+	"curl.h"
+
+1728059728 c:\users\pc\desktop\materias2°c-2024\topicos-algoritmos[github]\aye[3640]-2024\cmon-dice\curl.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<curl/curl.h>
+
+1728059116 c:\users\pc\desktop\materias2°c-2024\topicos-algoritmos[github]\aye[3640]-2024\cmon-dice\funciones.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"curl.h"
+	"./Biblioteca/include/listaSimple/listaSimple.h"
+	"./Biblioteca/include/menu/menu.h"
+	"./Biblioteca/include/generico.h"
+
+1728060968 source:c:\users\pc\desktop\materias2°c-2024\topicos-algoritmos[github]\aye[3640]-2024\cmon-dice\funciones.c
+	"funciones.h"
+
+1728245482 source:c:\users\lulis\downloads\cmon-dice\biblioteca\src\cola\cola.c
+	"../../include/cola/cola.h"
+
+1728245482 c:\users\lulis\downloads\cmon-dice\biblioteca\include\cola\cola.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1728245482 source:c:\users\lulis\downloads\cmon-dice\biblioteca\src\generico.c
+	"../include/generico.h"
+
+1728245482 c:\users\lulis\downloads\cmon-dice\biblioteca\include\generico.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1728245482 source:c:\users\lulis\downloads\cmon-dice\biblioteca\src\listasimple\listasimple.c
+	"../../include/listaSimple/listaSimple.h"
+
+1728245482 c:\users\lulis\downloads\cmon-dice\biblioteca\include\listasimple\listasimple.h
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<time.h>
+
+1728245482 source:c:\users\lulis\downloads\cmon-dice\biblioteca\src\menu\arbol.c
+	"../../include/menu/arbol.h"
+
+1728245482 c:\users\lulis\downloads\cmon-dice\biblioteca\include\menu\arbol.h
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+
+1728245482 source:c:\users\lulis\downloads\cmon-dice\biblioteca\src\menu\menu.c
+	"../../include/menu/menu.h"
+
+1728245482 c:\users\lulis\downloads\cmon-dice\biblioteca\include\menu\menu.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"arbol.h"
+
+1728245481 source:c:\users\lulis\downloads\cmon-dice\curl.c
+	"curl.h"
+
+1728245481 c:\users\lulis\downloads\cmon-dice\curl.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<curl/curl.h>
+
+1728245481 source:c:\users\lulis\downloads\cmon-dice\funciones.c
+	"funciones.h"
+
+1728245481 c:\users\lulis\downloads\cmon-dice\funciones.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"curl.h"
+	"./Biblioteca/include/listaSimple/listaSimple.h"
+	"./Biblioteca/include/menu/menu.h"
+	"./Biblioteca/include/generico.h"
+
+1728245481 source:c:\users\lulis\downloads\cmon-dice\main.c
+	"funciones.h"
+
+1728245482 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\biblioteca\src\cola\cola.c
+	"../../include/cola/cola.h"
+
+1728245482 c:\users\lulis\documents\github\cmon-dice\cmon-dice\biblioteca\include\cola\cola.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1728245482 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\biblioteca\src\generico.c
+	"../include/generico.h"
+
+1728245482 c:\users\lulis\documents\github\cmon-dice\cmon-dice\biblioteca\include\generico.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1728245482 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\biblioteca\src\listasimple\listasimple.c
+	"../../include/listaSimple/listaSimple.h"
+
+1728245482 c:\users\lulis\documents\github\cmon-dice\cmon-dice\biblioteca\include\listasimple\listasimple.h
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<time.h>
+
+1728245482 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\biblioteca\src\menu\arbol.c
+	"../../include/menu/arbol.h"
+
+1728245482 c:\users\lulis\documents\github\cmon-dice\cmon-dice\biblioteca\include\menu\arbol.h
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+
+1728245482 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\biblioteca\src\menu\menu.c
+	"../../include/menu/menu.h"
+
+1728245482 c:\users\lulis\documents\github\cmon-dice\cmon-dice\biblioteca\include\menu\menu.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"arbol.h"
+
+1728245481 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\curl.c
+	"curl.h"
+
+1728245481 c:\users\lulis\documents\github\cmon-dice\cmon-dice\curl.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<curl/curl.h>
+
+1728251839 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\funciones.c
+	"funciones.h"
+
+1728250485 c:\users\lulis\documents\github\cmon-dice\cmon-dice\funciones.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"curl.h"
+	"./Biblioteca/include/listaSimple/listaSimple.h"
+	"./Biblioteca/include/menu/menu.h"
+	"./Biblioteca/include/generico.h"
+
+1728250485 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\main.c
+	"funciones.h"
+
