@@ -86,9 +86,19 @@ typedef struct
     unsigned id;
     char nya[TAM_NyA];
     unsigned cantidadDeVidas;
+    unsigned puntosTotales;
     t_lista rondasJugadas;
-    t_lista secuenciaFinalRespondida;///COLA PARA GRABAR, PILA PARA USO DE VIDAS
+    t_lista secuenciaFinalRespondida;//COLA PARA GRABAR, PILA PARA USO DE VIDAS
 }tJugador;
+
+
+#define TAM_SECUENCIA_TEMP 100 ///HAY QUE BORRARLO
+typedef struct
+{
+    char secuencia[TAM_SECUENCIA_TEMP];
+    char respuesta[TAM_SECUENCIA_TEMP];
+    unsigned puntosTotales;
+}tRonda;
 
 typedef struct
 {

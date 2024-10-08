@@ -25,10 +25,10 @@ int cargarConfiguraciones(FILE* aConfiguracion, tConfiguracion* configuraciones)
         }
 
         sscanf(buffer, "%*c|%u|%u|%u",
-            &(configuraciones[indice].tiempoDeVisualizacionSecuenciaCorrecta),
-            &(configuraciones[indice].tiempoRespuestaPorRonda),
-            &(configuraciones[indice].cantidadDeVidas)
-        );//%*c ignora la primer letra
+               &(configuraciones[indice].tiempoDeVisualizacionSecuenciaCorrecta),
+               &(configuraciones[indice].tiempoRespuestaPorRonda),
+               &(configuraciones[indice].cantidadDeVidas)
+              );//%*c ignora la primer letra
 
         if(
             !(configuraciones[indice].tiempoDeVisualizacionSecuenciaCorrecta > MIN_TIEMPO_JUEGO_POR_RONDA && configuraciones[indice].tiempoDeVisualizacionSecuenciaCorrecta <= MAX_TIEMPO_JUEGO_POR_RONDA) ||
@@ -233,7 +233,7 @@ int consumoAPI(tReconstruccionDato* datoRespuestaAPI, unsigned cantidadDeJugador
                 retornoCodigoDeError >= RESPUESTA_SERVIDOR_INFORMATIVA_MIN && retornoCodigoDeError <= RESPUESTA_SERVIDOR_INFORMATIVA_MAX ? "Mensaje informativo del Servidor" :
                 retornoCodigoDeError >= RESPUESTA_SERVIDOR_REDIRECCION_MIN && retornoCodigoDeError <= RESPUESTA_SERVIDOR_REDIRECCION_MAX ? "Redireccion" :
                 "Ocurrio un error en el codigo de CURL"
-                );
+               );
         curl_easy_cleanup(curl);
         return retornoCodigoDeError;
     }
@@ -253,20 +253,20 @@ int consumoAPI(tReconstruccionDato* datoRespuestaAPI, unsigned cantidadDeJugador
 void imprimirResultados(FILE* pf, tRecursos* recursos)
 {
     fprintf(pf, "\nIMPLEMENTAR FORMATO DE INFORME EN LA FUNCION imprimirResultado\n"
-            );
+           );
 }
 
 void construccionNombreArchivoTxtInforme(char* NOMBRE_ARCHIVO_TXT_INFORME, unsigned tam, struct tm* fechaYHora)
 {
-        /** se utiliza la biblioteca time.h */
-        snprintf(NOMBRE_ARCHIVO_TXT_INFORME, tam,
-            "informe-juego_%4d-%02d-%02d-%02d-%02d.txt",
-            fechaYHora->tm_year + 1900, // +1900 para sumarle la fecha base y que de 2024
-            fechaYHora->tm_mon + 1,
-            fechaYHora->tm_mday,
-            fechaYHora->tm_hour,
-            fechaYHora->tm_min
-        );
+    /** se utiliza la biblioteca time.h */
+    snprintf(NOMBRE_ARCHIVO_TXT_INFORME, tam,
+             "informe-juego_%4d-%02d-%02d-%02d-%02d.txt",
+             fechaYHora->tm_year + 1900, // +1900 para sumarle la fecha base y que de 2024
+             fechaYHora->tm_mon + 1,
+             fechaYHora->tm_mday,
+             fechaYHora->tm_hour,
+             fechaYHora->tm_min
+            );
 }
 
 int generarInforme(tRecursos* recursos, void (*construccionNombreArchivoTxtInforme)(char* NOMBRE_ARCHIVO_TXT_INFORME, unsigned tam, struct tm* fechaYHora))
@@ -397,6 +397,22 @@ int jugar(tRecursos* recursos)
 
         ///TODO:
         ///CODEAR LOGICA DE RONDAS
+
+        tJugador jugador;
+
+        while(listaSimpleVacia(recursos->listaDeJugadores)) // 1ra condición de corte: cuando hayan jugado todos los jugadores
+        {
+            jugador.cantidadDeVidas = recursos.configuraciones.cantidadDeVidas;
+
+            // inicializar jugador: carga toda la info del jugador
+            // nya y id
+            while(jugador.cantidadDeVidas > 0) //2da condición de corte: el jugador se quedó sin vidas
+            {
+
+            }
+
+        }
+
         //CALCULAR PUNTOS POR JUGADOR POR RONDA
         //IR CALCULANDO EL TOTAL DE PUNTOS PARA NO VOLVER A RECORRER
         //COLA DE GANADORES?[cuanto termina de jugar el primero, lo acolo, luego, comparo con el primero de la cola]-> solo guardar ID, NOMBRE Y PUNTOS que consiguio para ganr
@@ -418,8 +434,8 @@ void switchTextoMenu(int opcion, void* recursos)
 {
     switch(opcion)
     {
-        case JUGAR:
-            jugar(recursos);
+    case JUGAR:
+        jugar(recursos);
         break;
     }
 }
