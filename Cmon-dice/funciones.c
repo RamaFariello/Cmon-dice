@@ -417,13 +417,13 @@ int jugar(tRecursos* recursos)
         //IR CALCULANDO EL TOTAL DE PUNTOS PARA NO VOLVER A RECORRER
         //COLA DE GANADORES?[cuanto termina de jugar el primero, lo acolo, luego, comparo con el primero de la cola]-> solo guardar ID, NOMBRE Y PUNTOS que consiguio para ganr
         ///CODEAR FORMATO DEL INFORME
-//
-//        if(OK != (retornoCodigoDeError = generarInforme(recursos, construccionNombreArchivoTxtInforme)))
-//        {
-//            fprintf(stderr, "No pude grabar archivo de informe.\n");
-//            vaciarListaSimple(&(recursos->listaDeJugadores));
-//            return retornoCodigoDeError;
-//        }
+
+        if(OK != (retornoCodigoDeError = generarInforme(recursos, construccionNombreArchivoTxtInforme)))
+        {
+            fprintf(stderr, "No pude grabar archivo de informe.\n");
+            vaciarListaSimple(&(recursos->listaDeJugadores));
+            return retornoCodigoDeError;
+        }
     }
     //RESETEO TODOS LOS PARAMETROS PARA VOLVER A JUGAR
     vaciarListaSimple(&(recursos->listaDeJugadores));
