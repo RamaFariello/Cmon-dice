@@ -398,20 +398,20 @@ int jugar(tRecursos* recursos)
         ///TODO:
         ///CODEAR LOGICA DE RONDAS
 
-        tJugador jugador;
-
-        while(listaSimpleVacia(recursos->listaDeJugadores)) // 1ra condición de corte: cuando hayan jugado todos los jugadores
-        {
-            jugador.cantidadDeVidas = recursos.configuraciones.cantidadDeVidas;
-
-            // inicializar jugador: carga toda la info del jugador
-            // nya y id
-            while(jugador.cantidadDeVidas > 0) //2da condición de corte: el jugador se quedó sin vidas
-            {
-
-            }
-
-        }
+//        tJugador jugador;
+//
+//        while(listaSimpleVacia(recursos->listaDeJugadores)) // 1ra condición de corte: cuando hayan jugado todos los jugadores
+//        {
+//            jugador.cantidadDeVidas = recursos.configuraciones.cantidadDeVidas;
+//
+//            // inicializar jugador: carga toda la info del jugador
+//            // nya y id
+//            while(jugador.cantidadDeVidas > 0) //2da condición de corte: el jugador se quedó sin vidas
+//            {
+//
+//            }
+//
+//        }
 
         //CALCULAR PUNTOS POR JUGADOR POR RONDA
         //IR CALCULANDO EL TOTAL DE PUNTOS PARA NO VOLVER A RECORRER

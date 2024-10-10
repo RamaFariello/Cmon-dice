@@ -272,3 +272,69 @@
 1728250485 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\main.c
 	"funciones.h"
 
+1728567841 source:c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\src\cola\cola.c
+	"../../include/cola/cola.h"
+
+1728567841 c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\include\cola\cola.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1728567841 source:c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\src\generico.c
+	"../include/generico.h"
+
+1728567841 c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\include\generico.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1728567841 source:c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\src\listasimple\listasimple.c
+	"../../include/listaSimple/listaSimple.h"
+
+1728567841 c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\include\listasimple\listasimple.h
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<time.h>
+
+1728567841 source:c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\src\menu\arbol.c
+	"../../include/menu/arbol.h"
+
+1728567841 c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\include\menu\arbol.h
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+
+1728567841 source:c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\src\menu\menu.c
+	"../../include/menu/menu.h"
+
+1728567841 c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\include\menu\menu.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"arbol.h"
+
+1728567841 source:c:\users\pc\desktop\cmon-dice\cmon-dice\curl.c
+	"curl.h"
+
+1728567841 c:\users\pc\desktop\cmon-dice\cmon-dice\curl.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<curl/curl.h>
+
+1728567841 source:c:\users\pc\desktop\cmon-dice\cmon-dice\main.c
+	"funciones.h"
+
+1728567841 c:\users\pc\desktop\cmon-dice\cmon-dice\funciones.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"curl.h"
+	"./Biblioteca/include/listaSimple/listaSimple.h"
+	"./Biblioteca/include/menu/menu.h"
+	"./Biblioteca/include/generico.h"
+
+1728567892 source:c:\users\pc\desktop\cmon-dice\cmon-dice\funciones.c
+	"funciones.h"
+
