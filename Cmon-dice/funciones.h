@@ -96,7 +96,7 @@ typedef struct
 {
     char secuencia[TAM_SECUENCIA_TEMP];
     char respuesta[TAM_SECUENCIA_TEMP];
-    unsigned puntosTotales;
+    unsigned puntosObtenidosPorRonda;
 }tRonda;
 
 typedef struct
