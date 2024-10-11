@@ -67,7 +67,7 @@
 ///obtenerCaracterDeSecuencia
 #define A_NUMERO(X) ((X) - '0')
 
-///generarRondas
+///pedirLetraAleatoria
 #define COLOR_VERDE 'V'
 #define COLOR_AMARILLO 'A'
 #define COLOR_ROJO 'R'
@@ -113,6 +113,7 @@ typedef struct
     t_lista listaDeJugadores;
     unsigned cantidadDeJugadores;
     tReconstruccionDato datoRespuestaAPI; // para almacenar la respuesta de la API
+    char* cadenaDeIndicesTraidosDeAPI;
     unsigned cantidadDeIndicesDeCaracteresDeSecuenciaRestantes;
 }tRecursos;
 
@@ -133,11 +134,11 @@ void imprimirResultados(FILE* pf, tRecursos* recursos);
 void construccionNombreArchivoTxtInforme(char* NOMBRE_ARCHIVO_TXT_INFORME, unsigned tam, struct tm* fechaYHora);
 int generarInforme(tRecursos* recursos, void (*construccionNombreArchivoTxtInforme)(char* NOMBRE_ARCHIVO_TXT_INFORME, unsigned tam, struct tm* fechaYHora));
 
-int inicializarReconstruccionDeDato(tRecursos* recursos);
-void liberarReconstruccionDeDato(tRecursos* recursos);
+int inicializarRecursosParaConsumoDeAPI(tRecursos* recursos);
+void liberarRecursosParaConsumoDeAPI(tRecursos* recursos);
 char convertirIndiceEnCaracterDeSecuencia(char caracterIndice);
-char obtenerCaracterDeSecuenciaAleatorio(const char* cadena, unsigned* cantidadDeCaracteresRestantes);
-int generarRondas(tRecursos* recursos);
+char obtenerCaracterDeSecuenciaAleatorio(tRecursos* recursos);
+int pedirLetraAleatoria(tRecursos* recursos);
 int iniciarJuego(tRecursos* recursos);
 int jugar(tRecursos* recursos);
 

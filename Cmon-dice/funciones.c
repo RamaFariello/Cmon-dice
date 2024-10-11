@@ -294,7 +294,7 @@ int generarInforme(tRecursos* recursos, void (*construccionNombreArchivoTxtInfor
     return OK;
 }
 
-int inicializarReconstruccionDeDato(tRecursos* recursos)
+int inicializarRecursosParaConsumoDeAPI(tRecursos* recursos)
 {
     /*
         CALCULO CUÁNTO ESPACIO RESERVAR PARA RESPUESTA DE LA API
@@ -316,7 +316,7 @@ int inicializarReconstruccionDeDato(tRecursos* recursos)
     return OK;
 }
 
-void liberarReconstruccionDeDato(tRecursos* recursos)
+void liberarRecursosParaConsumoDeAPI(tRecursos* recursos)
 {
     free((recursos->datoRespuestaAPI).buffer);
 }
@@ -324,42 +324,54 @@ void liberarReconstruccionDeDato(tRecursos* recursos)
 char convertirIndiceEnCaracterDeSecuencia(char caracterIndice)
 {
     char caracteresDeSecuencia[] = {COLOR_VERDE, COLOR_AMARILLO, COLOR_ROJO, COLOR_NARANJA}; // V, A, R, N
-    return caracteresDeSecuencia[A_NUMERO(caracterIndice)];///ASUMO ENTRADA VALIDA
+    return '\0' == caracterIndice ? CARACTER_DE_SALIDA : caracteresDeSecuencia[A_NUMERO(caracterIndice)];
 }
 
-char obtenerCaracterDeSecuenciaAleatorio(const char* cadena, unsigned* cantidadDeCaracteresRestantes)
+char obtenerCaracterDeSecuenciaAleatorio(tRecursos* recursos)
 {
-    while('\0' != *cadena)
-    {
-        printf("LETRA OBTENIDA: %c\n", convertirIndiceEnCaracterDeSecuencia(*cadena));
-        *cantidadDeCaracteresRestantes -= 2;///porque 2?, 1 por el caracter que ya utilice y 1 por el \n
-        cadena += 2;
-    }
-    return CARACTER_DE_SALIDA;
+    char letraObtenida;
+
+    letraObtenida = convertirIndiceEnCaracterDeSecuencia(*(recursos->cadenaDeIndicesTraidosDeAPI));
+    recursos->cantidadDeIndicesDeCaracteresDeSecuenciaRestantes -= 2;///porque 2?, 1 por el caracter que ya utilice y 1 por el \n
+    (recursos->cadenaDeIndicesTraidosDeAPI) += 2;
+
+    return letraObtenida;
 }
 
-int generarRondas(tRecursos* recursos)
+int pedirLetraAleatoria(tRecursos* recursos)
 {
     int retornoCodigoDeError; //puede devolver un error o puede devolver que está todo ok.
 
-    if(OK != (retornoCodigoDeError = inicializarReconstruccionDeDato(recursos)))
+    if(OK != (retornoCodigoDeError = inicializarRecursosParaConsumoDeAPI(recursos)))
     {
-        fprintf(stderr, "No pude inicializar estructura de reconstruccion de dato.\n");
-        liberarReconstruccionDeDato(recursos);
+        fprintf(stderr, "No pude inicializar los recursos para el consumo de la API.\n");
+        liberarRecursosParaConsumoDeAPI(recursos);
         return retornoCodigoDeError;
     }
 
     if(OK != (retornoCodigoDeError = consumoAPI(&(recursos->datoRespuestaAPI), recursos->cantidadDeJugadores, construccionURL)))
     {
-        fprintf(stderr, "No pude generar rondas.\n");
-        liberarReconstruccionDeDato(recursos);
+        fprintf(stderr, "No pude consumir API.\n");
+        liberarRecursosParaConsumoDeAPI(recursos);
         return retornoCodigoDeError;
     }
 
+    recursos->cadenaDeIndicesTraidosDeAPI = recursos->datoRespuestaAPI.buffer;
     recursos->cantidadDeIndicesDeCaracteresDeSecuenciaRestantes = recursos->cantidadDeJugadores * CANT_RONDAS_PROMEDIO_JUGADAS;
-    obtenerCaracterDeSecuenciaAleatorio(recursos->datoRespuestaAPI.buffer, &(recursos->cantidadDeIndicesDeCaracteresDeSecuenciaRestantes));
+    char caracterObtenido;///HARDCODEADO!!!
 
-    liberarReconstruccionDeDato(recursos);
+    if(CARACTER_DE_SALIDA == (caracterObtenido = obtenerCaracterDeSecuenciaAleatorio(recursos)))
+    {
+        ///VUELVO A CONSUMIR API
+    }
+
+    while(CARACTER_DE_SALIDA != (caracterObtenido = obtenerCaracterDeSecuenciaAleatorio(recursos)))
+    {
+        printf("LETRA OBTENIDA: %c\n", caracterObtenido);
+    }
+    ///Cuando CARACTER DE SALIDA == caracterObtenido => consumo la API nuevamente.
+
+    liberarRecursosParaConsumoDeAPI(recursos);
 
     return retornoCodigoDeError;
 }
@@ -368,7 +380,7 @@ int iniciarJuego(tRecursos* recursos)
 {
     int retornoCodigoDeError;
 
-    if(OK != (retornoCodigoDeError = generarRondas(recursos)))
+    if(OK != (retornoCodigoDeError = pedirLetraAleatoria(recursos)))
     {
         return retornoCodigoDeError;
     }
