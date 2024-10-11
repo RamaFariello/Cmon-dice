@@ -38,7 +38,7 @@
 
 typedef struct
 {
-    void* buffer;
+    char* buffer;
     size_t cantBytesCopiados;
     size_t cantBytesReservados;
     size_t cantBytesFijosAReservar;

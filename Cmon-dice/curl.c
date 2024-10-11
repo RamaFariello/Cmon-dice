@@ -22,7 +22,7 @@ size_t datosObtenidosDeRespuestaURL(const char* bufferParaDatosRecibidos, size_t
 
     memcpy(((tReconstruccionDato*)sDato)->buffer + ((tReconstruccionDato*)sDato)->cantBytesCopiados, bufferParaDatosRecibidos, cantidadDeBytesRecibidos);
     (((tReconstruccionDato*)sDato)->cantBytesCopiados) += cantidadDeBytesRecibidos;
-    ((char*)(((tReconstruccionDato*)sDato)->buffer))[((tReconstruccionDato*)sDato)->cantBytesCopiados] = '\0'; // se agrega el \0 por seguridad, en caso de que la API no lo haga.
+    (((tReconstruccionDato*)sDato)->buffer)[((tReconstruccionDato*)sDato)->cantBytesCopiados] = '\0'; // se agrega el \0 por seguridad, en caso de que la API no lo haga.
 
     return cantidadDeBytesRecibidos;
 }

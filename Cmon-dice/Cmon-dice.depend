@@ -314,10 +314,10 @@
 	<string.h>
 	"arbol.h"
 
-1728568006 source:c:\users\pc\desktop\cmon-dice\cmon-dice\curl.c
+1728683311 source:c:\users\pc\desktop\cmon-dice\cmon-dice\curl.c
 	"curl.h"
 
-1728567841 c:\users\pc\desktop\cmon-dice\cmon-dice\curl.h
+1728685630 c:\users\pc\desktop\cmon-dice\cmon-dice\curl.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -326,7 +326,7 @@
 1728567841 source:c:\users\pc\desktop\cmon-dice\cmon-dice\main.c
 	"funciones.h"
 
-1728567841 c:\users\pc\desktop\cmon-dice\cmon-dice\funciones.h
+1728685807 c:\users\pc\desktop\cmon-dice\cmon-dice\funciones.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -335,6 +335,6 @@
 	"./Biblioteca/include/menu/menu.h"
 	"./Biblioteca/include/generico.h"
 
-1728567892 source:c:\users\pc\desktop\cmon-dice\cmon-dice\funciones.c
+1728604109 source:c:\users\pc\desktop\cmon-dice\cmon-dice\funciones.c
 	"funciones.h"
 

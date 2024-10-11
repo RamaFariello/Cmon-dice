@@ -88,7 +88,6 @@ typedef struct
     unsigned cantidadDeVidas;
     unsigned puntosTotales;
     t_lista rondasJugadas;
-    t_lista secuenciaFinalRespondida;//COLA PARA GRABAR, PILA PARA USO DE VIDAS
 }tJugador;
 
 
@@ -114,7 +113,7 @@ typedef struct
     t_lista listaDeJugadores;
     unsigned cantidadDeJugadores;
     tReconstruccionDato datoRespuestaAPI; // para almacenar la respuesta de la API
-    char* cadenaConIndices; // para acceder al vector de cadena (VARN), según el valor que traiga la API
+    unsigned cantidadDeIndicesDeCaracteresDeSecuenciaRestantes;
 }tRecursos;
 
 void mostrarConfiguracionElegida(tConfiguracion* configuracion, unsigned indiceDeNivelDeConfiguracionElegida);
@@ -134,7 +133,10 @@ void imprimirResultados(FILE* pf, tRecursos* recursos);
 void construccionNombreArchivoTxtInforme(char* NOMBRE_ARCHIVO_TXT_INFORME, unsigned tam, struct tm* fechaYHora);
 int generarInforme(tRecursos* recursos, void (*construccionNombreArchivoTxtInforme)(char* NOMBRE_ARCHIVO_TXT_INFORME, unsigned tam, struct tm* fechaYHora));
 
-char obtenerCaracterDeSecuencia(const char* cadenaConIndices, const char* caracteresDeSecuencia);
+int inicializarReconstruccionDeDato(tRecursos* recursos);
+void liberarReconstruccionDeDato(tRecursos* recursos);
+char convertirIndiceEnCaracterDeSecuencia(char caracterIndice);
+char obtenerCaracterDeSecuenciaAleatorio(const char* cadena, unsigned* cantidadDeCaracteresRestantes);
 int generarRondas(tRecursos* recursos);
 int iniciarJuego(tRecursos* recursos);
 int jugar(tRecursos* recursos);

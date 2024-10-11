@@ -222,7 +222,6 @@ int consumoAPI(tReconstruccionDato* datoRespuestaAPI, unsigned cantidadDeJugador
         return ERROR_INICIAR_ESTRUCTURA_CURL;
     }
 
-
     configuracionEstructuraCURL(curl, URL, datoRespuestaAPI); // se configura el curl para hacer la solicitud a la API
     retornoCodigoDeError = ejecutarSolicitudHTTPS(curl); /// llamado a la API
     if(!(retornoCodigoDeError >= RESPUESTA_SERVIDOR_OK_MIN && retornoCodigoDeError <= RESPUESTA_SERVIDOR_OK_MAX))
@@ -295,54 +294,73 @@ int generarInforme(tRecursos* recursos, void (*construccionNombreArchivoTxtInfor
     return OK;
 }
 
-char obtenerCaracterDeSecuencia(const char* cadenaConIndices, const char* caracteresDeSecuencia)
+int inicializarReconstruccionDeDato(tRecursos* recursos)
 {
-    return '\0' == *cadenaConIndices ? CARACTER_DE_SALIDA : caracteresDeSecuencia[A_NUMERO(*cadenaConIndices)];
-}
-
-int generarRondas(tRecursos* recursos)
-{
-    char caracteresDeSecuencia[] = {COLOR_VERDE, COLOR_AMARILLO, COLOR_ROJO, COLOR_NARANJA}; // V, A, R, N
-    int retornoCodigoDeError; //puede devolver un error o puede devolver que está todo ok.
-
     /*
-    CALCULO CUÁNTO ESPACIO RESERVAR PARA RESPUESTA DE LA API
-    para hacer la solicitud a la api, se toma en cuenta la cantidad de jugadores y la cantidad de rondas (iteración por caracter) que van a jugar.
-    se incluye en espacio reservado el /n para cada caracter y el /0 una única vez.
-    Una vez calculada la cantidad de bytes, se realiza el malloc.
+        CALCULO CUÁNTO ESPACIO RESERVAR PARA RESPUESTA DE LA API
+        para hacer la solicitud a la api, se toma en cuenta la cantidad de jugadores y la cantidad de rondas (iteración por caracter) que van a jugar.
+        se incluye en espacio reservado el /n para cada caracter y el /0 una única vez.
+        Una vez calculada la cantidad de bytes, se realiza el malloc.
     */
     (recursos->datoRespuestaAPI).cantBytesFijosAReservar = recursos->cantidadDeJugadores * CANT_RONDAS_PROMEDIO_JUGADAS * INCLUIR_BARRA_N + CONTAR_BARRA_CERO;
     (recursos->datoRespuestaAPI).buffer = malloc((recursos->datoRespuestaAPI).cantBytesFijosAReservar);
-
     if(NULL == (recursos->datoRespuestaAPI).buffer)
     {
         fprintf(stderr, "No pude reservar memoria para buffer de respuesta de API.\n");
         return NO_PUDE_RESERVAR_MEMORIA;
     }
-
     *(char*)((recursos->datoRespuestaAPI).buffer) = '\0'; // por seguridad, en caso de que la API no agregue el /0
-
     recursos->datoRespuestaAPI.cantBytesReservados = recursos->datoRespuestaAPI.cantBytesFijosAReservar;
     recursos->datoRespuestaAPI.cantBytesCopiados = 0;
 
-    /// ACÁ EMPIEZA A CONSUMIR
-    if(OK != (retornoCodigoDeError = consumoAPI(&(recursos->datoRespuestaAPI), recursos->cantidadDeJugadores, construccionURL)))
+    return OK;
+}
+
+void liberarReconstruccionDeDato(tRecursos* recursos)
+{
+    free((recursos->datoRespuestaAPI).buffer);
+}
+
+char convertirIndiceEnCaracterDeSecuencia(char caracterIndice)
+{
+    char caracteresDeSecuencia[] = {COLOR_VERDE, COLOR_AMARILLO, COLOR_ROJO, COLOR_NARANJA}; // V, A, R, N
+    return caracteresDeSecuencia[A_NUMERO(caracterIndice)];///ASUMO ENTRADA VALIDA
+}
+
+char obtenerCaracterDeSecuenciaAleatorio(const char* cadena, unsigned* cantidadDeCaracteresRestantes)
+{
+    while('\0' != *cadena)
     {
-        fprintf(stderr, "No pude generar rondas.\n");
-        free((recursos->datoRespuestaAPI).buffer);
+        printf("LETRA OBTENIDA: %c\n", convertirIndiceEnCaracterDeSecuencia(*cadena));
+        *cantidadDeCaracteresRestantes -= 2;///porque 2?, 1 por el caracter que ya utilice y 1 por el \n
+        cadena += 2;
+    }
+    return CARACTER_DE_SALIDA;
+}
+
+int generarRondas(tRecursos* recursos)
+{
+    int retornoCodigoDeError; //puede devolver un error o puede devolver que está todo ok.
+
+    if(OK != (retornoCodigoDeError = inicializarReconstruccionDeDato(recursos)))
+    {
+        fprintf(stderr, "No pude inicializar estructura de reconstruccion de dato.\n");
+        liberarReconstruccionDeDato(recursos);
         return retornoCodigoDeError;
     }
 
+    if(OK != (retornoCodigoDeError = consumoAPI(&(recursos->datoRespuestaAPI), recursos->cantidadDeJugadores, construccionURL)))
+    {
+        fprintf(stderr, "No pude generar rondas.\n");
+        liberarReconstruccionDeDato(recursos);
+        return retornoCodigoDeError;
+    }
 
-    ///Codigo de prueba: para visualizar lo que trae la API
-//    recursos->cadenaConIndices = (recursos->datoRespuestaAPI).buffer;
-//    while('\0' != *(recursos->cadenaConIndices))
-//    {
-//        printf("LETRA OBTENIDA: %c\n", obtenerCaracterDeSecuencia(recursos->cadenaConIndices, caracteresDeSecuencia));
-//        (recursos->cadenaConIndices) += 2;///porque 2?, 1 por el caracter que ya utilice y 1 por el \n
-//    }
+    recursos->cantidadDeIndicesDeCaracteresDeSecuenciaRestantes = recursos->cantidadDeJugadores * CANT_RONDAS_PROMEDIO_JUGADAS;
+    obtenerCaracterDeSecuenciaAleatorio(recursos->datoRespuestaAPI.buffer, &(recursos->cantidadDeIndicesDeCaracteresDeSecuenciaRestantes));
 
-    free((recursos->datoRespuestaAPI).buffer);
+    liberarReconstruccionDeDato(recursos);
+
     return retornoCodigoDeError;
 }
 
