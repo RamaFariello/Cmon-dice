@@ -5,7 +5,7 @@ void mostrarCaracter(const void* dato)  ///HARDCODEADO
     printf("%c", *(char*)dato);
 }
 
-void juegarRondas(void* vRecursos, void* vJugador, int* retornoCodigoDeError) //ex funcion inicializarJugador[esta funcion es la que se ejecuta en el map]
+void jugarRondas(void* vRecursos, void* vJugador, int* retornoCodigoDeError) //ex funcion inicializarJugador[esta funcion es la que se ejecuta en el map]
 {
     tRecursos* recursos = (tRecursos*)vRecursos;
     tJugador* jugador = (tJugador*)vJugador;
@@ -20,7 +20,7 @@ void juegarRondas(void* vRecursos, void* vJugador, int* retornoCodigoDeError) //
     recursos->ronda.puntosObtenidos = 0;
     recursos->ronda.vidasUsadas = 0;
 
-    printf("Simulando juego:");                                                                         ///HARDCODEADO
+    printf("Simulando juego. ");                                                                         ///HARDCODEADO
     printf("\nEn este momento esta jugando:\n");
     mostrarJugador(jugador);
     while(cantidadDeVidasSegunNivelDeConfiguracionElegido - recursos->cantidadDeVidasUsadasTotales >= 0)
@@ -56,7 +56,7 @@ int iniciarJuego(tRecursos* recursos)
     recursos->datoRespuestaAPI.buffer = NULL;//para hacer free de NULL y no de basura en caso de errores
     recursos->cantidadDeIndicesDeCaracteresDeSecuenciaRestantes = 0;
 
-    mapEnListaSimple(&(recursos->listaDeJugadores), recursos, &retornoCodigoDeError, juegarRondas);
+    mapEnListaSimple(&(recursos->listaDeJugadores), recursos, &retornoCodigoDeError, jugarRondas);
 
     if(OK != retornoCodigoDeError)
     {
