@@ -1,381 +1,92 @@
 #include "funciones.h"
 
-void mostrarConfiguracionElegida(tConfiguracion* configuracion, unsigned indiceDeNivelDeConfiguracionElegida)
-{
-    printf("Configuracion seleccionada:\n");
-    printf("\tNivel de dificultad: %s.\n",
-           INDICE_NIVEL_FACIL == indiceDeNivelDeConfiguracionElegida ? "FACIL" : INDICE_NIVEL_MEDIO == indiceDeNivelDeConfiguracionElegida ? "MEDIO" : "DIFICIL"
-          );
-    printf("\tTiempo de visualizacion de secuencia: %u.\n", configuracion[indiceDeNivelDeConfiguracionElegida].tiempoDeVisualizacionSecuenciaCorrecta);
-    printf("\tTiempo de respuesta: %u.\n", configuracion[indiceDeNivelDeConfiguracionElegida].tiempoRespuestaPorRonda);
-    printf("\tCantidad de vidas: %u.\n", configuracion[indiceDeNivelDeConfiguracionElegida].cantidadDeVidas);
-}
-
-int cargarConfiguraciones(FILE* aConfiguracion, tConfiguracion* configuraciones)
-{
-    char buffer[TAM_BUFFER_CARGA_CONFIGURACIONES];
-    unsigned indice;
-
-    while(fgets(buffer, TAM_BUFFER_CARGA_CONFIGURACIONES, aConfiguracion))
-    {
-        if(INDICE_INVALIDO == (indice = defineIndiceDeNivelSegunCaracter(*buffer)))
-        {
-            fprintf(stderr, "Error de grabacion de archivo de configuraciones: LETRA INICIAL INCORRECTA.\n");
-            return ARCHIVO_TXT_DE_CONFIGURACION_CON_ERRORES;
-        }
-
-        sscanf(buffer, "%*c|%u|%u|%u",
-               &(configuraciones[indice].tiempoDeVisualizacionSecuenciaCorrecta),
-               &(configuraciones[indice].tiempoRespuestaPorRonda),
-               &(configuraciones[indice].cantidadDeVidas)
-              );//%*c ignora la primer letra
-
-        if(
-            !(configuraciones[indice].tiempoDeVisualizacionSecuenciaCorrecta > MIN_TIEMPO_JUEGO_POR_RONDA && configuraciones[indice].tiempoDeVisualizacionSecuenciaCorrecta <= MAX_TIEMPO_JUEGO_POR_RONDA) ||
-            !(configuraciones[indice].tiempoRespuestaPorRonda > MIN_TIEMPO_JUEGO_POR_RONDA && configuraciones[indice].tiempoRespuestaPorRonda <= MAX_TIEMPO_JUEGO_POR_RONDA) ||
-            !(configuraciones[indice].cantidadDeVidas >= MIN_CANT_VIDAS && configuraciones[indice].cantidadDeVidas <= MAX_CANT_VIDAS)
-        )
-        {
-            fprintf(stderr, "Error de grabacion de archivo de configuraciones: VALORES FUERA DE RANGO.\n");
-            return ARCHIVO_TXT_DE_CONFIGURACION_CON_ERRORES;
-        }
-    }
-    return OK;
-}
-
-void mostrarJugador(const void* dato)
-{
-    printf("[ID: %u]%s\n",
-           ((tJugador*)dato)->id,
-           ((tJugador*)dato)->nya
-          );
-}
-
-int validoIngresoDeNombre(const char* cadena)
-{
-    if(!ES_LETRA(*cadena))
-    {
-        return NOMBRE_INVALIDO;
-    }
-
-    while('\0' != *cadena)
-    {
-        if((!ES_LETRA(*cadena) && !ES_BLANCO(*cadena)) ||
-                ((ES_LETRA(*cadena) && '\0' != *(cadena + 1) && ES_BLANCO(*(cadena + 1)) && '\0' != *(cadena + 2) && !ES_LETRA(*(cadena + 2)))))
-        {
-            return NOMBRE_INVALIDO;
-        }
-
-        cadena++;
-    }
-
-    if(ES_BLANCO(*(cadena - 1)))
-    {
-        return NOMBRE_INVALIDO;
-    }
-
-    return OK;
-}
-
-int ingresoDeNombresAListaSimple(t_lista* listaDeJugadores, unsigned* cantidadDeJugadores)
-{
-    tJugador jugador;
-    unsigned ingresoNombres = 1;
-    char* retorno;
-
-    jugador.id = 0;
-    *cantidadDeJugadores = 0;
-
-    printf("\t\tINGRESO DE NOMBRES DE LOS JUGADORES\n");
-    printf(" _______________________________________________________________________\n");
-    printf("|Reglas de formato de ingreso:                                          |\n");
-    printf("|-Solo puede hacer ingreso de caracteres LETRA o ESPACIO para nombre.   |\n");
-    printf("|-Solo puede utilizar un ESPACIO entre dos caracteres LETRA para nombre.|\n");
-    printf("|-Al finalizar ingreso de nombre, presione ENTER.                       |\n");
-    printf("|FINALIZAR INGRESO DE NOMBRES: ingrese 'X' y presione ENTER.            |\n");
-    printf("|_______________________________________________________________________|\n\n");
-    system("pause");
-    system("cls");
-
-    do
-    {
-        printf("[FINALIZAR INGRESO DE NOMBRE DE LOS JUGADORES: ingrese 'X' y presione ENTER]\n");
-        printf("\nIngrese Nombre de Jugador con ID = %d:\t", jugador.id + 1);
-        fflush(stdin);
-        fgets(jugador.nya, TAM_NyA, stdin);
-
-        if(NULL != (retorno = strrchr(jugador.nya, '\n')))
-        {
-            *retorno = '\0';
-        }
-        *(jugador.nya) = ES_LETRA(*(jugador.nya)) ? A_MAYUS(*(jugador.nya)) : *(jugador.nya);
-
-        if(CARACTER_DE_SALIDA == *(jugador.nya) && '\0' == *(jugador.nya + 1))
-        {
-            ingresoNombres = 0;
-        }
-        else if(!validoIngresoDeNombre(jugador.nya))
-        {
-            printf("\nIngreso de nombre invalido, intente nuevamente.\n");
-            system("pause");
-        }
-        else
-        {
-            (jugador.id)++;///SOLO SI ES UN NOMBRE VALIDO LE ASIGNO ID
-            (*cantidadDeJugadores) = jugador.id;
-            insertarAlFinalEnListaSimple(listaDeJugadores, &jugador, sizeof(tJugador));
-        }
-        system("cls");
-    }
-    while(ingresoNombres);
-
-    if(!*cantidadDeJugadores)
-    {
-        return NO_HAY_JUGADORES;
-    }
-
-    return OK;
-}
-
-int defineIndiceDeNivelSegunCaracter(char caracter)
-{
-    if(!ES_LETRA(caracter))
-    {
-        return INDICE_INVALIDO;
-    }
-
-    caracter = A_MAYUS(caracter);
-    if(FACIL == caracter)
-    {
-        return INDICE_NIVEL_FACIL;
-    }
-    else if(MEDIO == caracter)
-    {
-        return INDICE_NIVEL_MEDIO;
-    }
-    else if(DIFICIL == caracter)
-    {
-        return INDICE_NIVEL_DIFICIL;
-    }
-
-    return INDICE_INVALIDO;
-}
-
-void ingresoDeNivel(unsigned* indiceDeNivelDeConfiguracionElegida)//aca no soy tan estricto con lo que ingresa porque me interesa que elija uno
-{
-    int indiceNivelDeDificultad;
-    char nivelDeDificultadIngresado;
-
-    do
-    {
-        printf("Ingrese nivel de dificiltad[FACIL(F) - MEDIO(M) - DIFICIL(D)]:\t");
-        fflush(stdin);
-        scanf("%c", &nivelDeDificultadIngresado);
-        nivelDeDificultadIngresado = A_MAYUS(nivelDeDificultadIngresado);
-
-        if(INDICE_INVALIDO == (indiceNivelDeDificultad = defineIndiceDeNivelSegunCaracter(nivelDeDificultadIngresado)))
-        {
-            printf("\nIngreso invalido, intente nuevamente.\n");
-            system("pause");
-        }
-        system("cls");
-    }
-    while(INDICE_INVALIDO == indiceNivelDeDificultad);
-    printf("Nivel de dificultad ingresado: %c\n", nivelDeDificultadIngresado);
-
-    *indiceDeNivelDeConfiguracionElegida = indiceNivelDeDificultad;
-}
-
-int validaFormatoRespuestaAPI(const char* respuesta)
-{
-    if(0 != strlen(respuesta) % 2)//SIEMPRE ES 1 CARACTER y 1 \n => la cantidad recibida es PAR(NO INCLUYO EL \0 en la validacion, se asume que esta-> lo pone mi funcion de write callback)
-    {
-        fprintf(stderr, "Respuesta de API en formato erroneo.\n");
-        return RESPUESTA_SERVIDOR_CON_ERROR_DE_FORMATO;
-    }
-    return OK;
-}
-
-void construccionURL(char* URL, unsigned tam, unsigned ce)//doy la flexibilidad de usar cantidad de elementos o no
-{
-    /**Armo la URL que le mando a la API*/
-    /* A la URL base se le especifica:
-    -params formato:indice max e indice minimo, base (10), format:plain para que devuelva texto.
-    -param cantidad de elementos: "&num=", se va a completar con la cantidad de elementos calculada en el parámetro siguiente.
-    -cantidad de elementos: cuántos números le vamos a pedir a la api. Si hay un solo jugador y nuestro promedio es de 15 rondes, pedirá 15 números.
-    */
-    snprintf(URL, tam, "%s%s%s%u", URL_BASE, QUERY_PARAMS_FORMATO, QUERY_PARAM_CANTIDAD_DE_ELEMENTOS, ce * CANT_RONDAS_PROMEDIO_JUGADAS);
-}
-
-int consumoAPI(tReconstruccionDato* datoRespuestaAPI, unsigned cantidadDeJugadores, void (*construccionURL)(char* URL, unsigned tam, unsigned ce))
-{
-    /** Esta es una función genérica para poder consumir cualquier tipo de API, según el armado de URL. */
-    CURL* curl;
-    char URL[TAM_URL];
-    int retornoCodigoDeError;
-
-    construccionURL(URL, sizeof(URL),cantidadDeJugadores);
-
-    //se reservan los recursos del curl
-    if(ERROR_INICIAR_ESTRUCTURA_CURL == inicializacionEstructuraCURL(&curl))
-    {
-        return ERROR_INICIAR_ESTRUCTURA_CURL;
-    }
-
-    configuracionEstructuraCURL(curl, URL, datoRespuestaAPI); // se configura el curl para hacer la solicitud a la API
-    retornoCodigoDeError = ejecutarSolicitudHTTPS(curl); /// llamado a la API
-    if(!(retornoCodigoDeError >= RESPUESTA_SERVIDOR_OK_MIN && retornoCodigoDeError <= RESPUESTA_SERVIDOR_OK_MAX))
-    {
-        fprintf(stderr, "Codigo de error: %d. %s.\n", retornoCodigoDeError,
-                retornoCodigoDeError >= RESPUESTA_SERVIDOR_ERROR_CLIENTE_MIN && retornoCodigoDeError <= RESPUESTA_SERVIDOR_ERROR_CLIENTE_MAX ? "Error del Cliente" :
-                retornoCodigoDeError >= RESPUESTA_SERVIDOR_ERROR_SERVIDOR_MIN && retornoCodigoDeError <= RESPUESTA_SERVIDOR_ERROR_SERVIDOR_MAX ? "Error del Servidor" :
-                retornoCodigoDeError >= RESPUESTA_SERVIDOR_INFORMATIVA_MIN && retornoCodigoDeError <= RESPUESTA_SERVIDOR_INFORMATIVA_MAX ? "Mensaje informativo del Servidor" :
-                retornoCodigoDeError >= RESPUESTA_SERVIDOR_REDIRECCION_MIN && retornoCodigoDeError <= RESPUESTA_SERVIDOR_REDIRECCION_MAX ? "Redireccion" :
-                "Ocurrio un error en el codigo de CURL"
-               );
-        curl_easy_cleanup(curl);
-        return retornoCodigoDeError;
-    }
-
-    fprintf(stdout, "%s\n",(char*)(datoRespuestaAPI->buffer)); // para ver qué responde la API.
-    curl_easy_cleanup(curl);
-
-    if(OK != (retornoCodigoDeError = validaFormatoRespuestaAPI(datoRespuestaAPI->buffer))) // se valida el formato que recibimos de la API
-    {
-        fprintf(stderr, "La respuesta del servidor no llego en el formato esperado.\n");
-        return retornoCodigoDeError;
-    }
-
-    return OK;
-}
-
-void imprimirResultados(FILE* pf, tRecursos* recursos)
-{
-    fprintf(pf, "\nIMPLEMENTAR FORMATO DE INFORME EN LA FUNCION imprimirResultado\n"
-           );
-}
-
-void construccionNombreArchivoTxtInforme(char* NOMBRE_ARCHIVO_TXT_INFORME, unsigned tam, struct tm* fechaYHora)
-{
-    /** se utiliza la biblioteca time.h */
-    snprintf(NOMBRE_ARCHIVO_TXT_INFORME, tam,
-             "informe-juego_%4d-%02d-%02d-%02d-%02d.txt",
-             fechaYHora->tm_year + 1900, // +1900 para sumarle la fecha base y que de 2024
-             fechaYHora->tm_mon + 1,
-             fechaYHora->tm_mday,
-             fechaYHora->tm_hour,
-             fechaYHora->tm_min
-            );
-}
-
-int generarInforme(tRecursos* recursos, void (*construccionNombreArchivoTxtInforme)(char* NOMBRE_ARCHIVO_TXT_INFORME, unsigned tam, struct tm* fechaYHora))
-{
-    FILE* aInforme;
-    char NOMBRE_ARCHIVO_TXT_INFORME[TAM_NOMBRE_ARCHIVO_INFORME];
-    time_t tiempoTranscurrido;
-    struct tm* fechaYHora;
-
-    imprimirResultados(stdout, recursos);
-
-    tiempoTranscurrido = time(NULL);
-    fechaYHora = localtime(&tiempoTranscurrido);
-
-    construccionNombreArchivoTxtInforme(NOMBRE_ARCHIVO_TXT_INFORME, sizeof(NOMBRE_ARCHIVO_TXT_INFORME), fechaYHora);
-
-    if(!abrirArchivo(&aInforme, NOMBRE_ARCHIVO_TXT_INFORME, "wt"))
-    {
-        return NO_PUDE_ABRIR_ARCHIVO_TXT_INFORME;
-    }
-
-    imprimirResultados(aInforme, recursos);
-
-    fclose(aInforme);
-
-    return OK;
-}
-
-int inicializarRecursosParaConsumoDeAPI(tRecursos* recursos)
-{
-    /*
-        CALCULO CUÁNTO ESPACIO RESERVAR PARA RESPUESTA DE LA API
-        para hacer la solicitud a la api, se toma en cuenta la cantidad de jugadores y la cantidad de rondas (iteración por caracter) que van a jugar.
-        se incluye en espacio reservado el /n para cada caracter y el /0 una única vez.
-        Una vez calculada la cantidad de bytes, se realiza el malloc.
-    */
-    (recursos->datoRespuestaAPI).cantBytesFijosAReservar = recursos->cantidadDeJugadores * CANT_RONDAS_PROMEDIO_JUGADAS * INCLUIR_BARRA_N + CONTAR_BARRA_CERO;
-    (recursos->datoRespuestaAPI).buffer = malloc((recursos->datoRespuestaAPI).cantBytesFijosAReservar);
-    if(NULL == (recursos->datoRespuestaAPI).buffer)
-    {
-        fprintf(stderr, "No pude reservar memoria para buffer de respuesta de API.\n");
-        return NO_PUDE_RESERVAR_MEMORIA;
-    }
-    *(char*)((recursos->datoRespuestaAPI).buffer) = '\0'; // por seguridad, en caso de que la API no agregue el /0
-    recursos->datoRespuestaAPI.cantBytesReservados = recursos->datoRespuestaAPI.cantBytesFijosAReservar;
-    recursos->datoRespuestaAPI.cantBytesCopiados = 0;
-
-    return OK;
-}
-
-void liberarRecursosParaConsumoDeAPI(tRecursos* recursos)
-{
-    free((recursos->datoRespuestaAPI).buffer);
-}
-
-char convertirIndiceEnCaracterDeSecuencia(char caracterIndice)
+int convertirIndiceEnCaracterDeSecuencia(char caracterIndice, char* letra)
 {
     char caracteresDeSecuencia[] = {COLOR_VERDE, COLOR_AMARILLO, COLOR_ROJO, COLOR_NARANJA}; // V, A, R, N
-    return '\0' == caracterIndice ? CARACTER_DE_SALIDA : caracteresDeSecuencia[A_NUMERO(caracterIndice)];
+
+    if(!('\0' != caracterIndice && ES_RANGO_INDICE_VALIDO(caracterIndice)))
+    {
+        fprintf(stderr, "No pude asignar caracter de secuencia, caracterIndice no estaba dentro del rango de %c - %c o era fin de cadena.\n", RANGO_MIN_DE_INDICE_VALIDO, RANGO_MAX_DE_INDICE_VALIDO);
+        *letra = caracterIndice;
+        return NO_PUDE_ASIGNAR_CARACTER_DE_SECUENCIA;
+    }
+
+    *letra = caracteresDeSecuencia[A_NUMERO(caracterIndice)];
+    return OK;
 }
 
-char obtenerCaracterDeSecuenciaAleatorio(tRecursos* recursos)
+int obtenerCaracterDeSecuenciaAleatorio(tRecursos* recursos, char* letra)
 {
-    char letraObtenida;
+    int retornoCodigoDeError;
 
-    letraObtenida = convertirIndiceEnCaracterDeSecuencia(*(recursos->cadenaDeIndicesTraidosDeAPI));
-    recursos->cantidadDeIndicesDeCaracteresDeSecuenciaRestantes -= 2;///porque 2?, 1 por el caracter que ya utilice y 1 por el \n
-    (recursos->cadenaDeIndicesTraidosDeAPI) += 2;
+    if(OK != (retornoCodigoDeError = convertirIndiceEnCaracterDeSecuencia(*(recursos->cadenaDeIndicesTraidosDeAPI), letra)))
+    {
+        fprintf(stderr, "No pude obtenerCaracter de secuenciaAleatorio.\n");
+        return retornoCodigoDeError;
+    }
 
-    return letraObtenida;
+    recursos->cantidadDeIndicesDeCaracteresDeSecuenciaRestantes -= 1;///use uno de los caracteres que traje de la API
+    (recursos->cadenaDeIndicesTraidosDeAPI) += 2;///proximo caracter valido a convertir
+
+    return retornoCodigoDeError;
 }
 
 int pedirLetraAleatoria(tRecursos* recursos, char* letra)
 {
     int retornoCodigoDeError; //puede devolver un error o puede devolver que está todo ok.
 
-    if(OK != (retornoCodigoDeError = inicializarRecursosParaConsumoDeAPI(recursos)))
+    if(!recursos->cantidadDeIndicesDeCaracteresDeSecuenciaRestantes)    ///AB: si nunca le pegue a la API o si me quede sin caracteres que traje, la consumo.
     {
-        fprintf(stderr, "No pude inicializar los recursos para el consumo de la API.\n");
+        printf("\n*************************************\n");//AB: HARDCODEADO PARA TESTEAR
+        printf("CONSUMI API");
+        printf("\n*************************************\n");
+        if(OK != (retornoCodigoDeError = inicializarRecursosParaConsumoDeAPI(recursos)))
+        {
+            fprintf(stderr, "No pude inicializar los recursos para el consumo de la API.\n");
+            liberarRecursosParaConsumoDeAPI(recursos);
+            return retornoCodigoDeError;
+        }
+
+        if(OK != (retornoCodigoDeError = consumoAPI(&(recursos->datoRespuestaAPI), recursos->cantidadDeJugadores, construccionURL)))
+        {
+            fprintf(stderr, "No pude consumir API.\n");
+            liberarRecursosParaConsumoDeAPI(recursos);
+            return retornoCodigoDeError;
+        }
+        recursos->cadenaDeIndicesTraidosDeAPI = recursos->datoRespuestaAPI.buffer;
+        recursos->cantidadDeIndicesDeCaracteresDeSecuenciaRestantes = recursos->cantidadDeJugadores * CANT_RONDAS_PROMEDIO_JUGADAS;
+    }
+
+    if(OK != (retornoCodigoDeError = obtenerCaracterDeSecuenciaAleatorio(recursos, letra)))
+    {
+        fprintf(stderr, "No pude asignar una letra aleatoria por un error inesperado en conversion de indice traido por API a letra.\n");
         liberarRecursosParaConsumoDeAPI(recursos);
         return retornoCodigoDeError;
     }
 
-    if(OK != (retornoCodigoDeError = consumoAPI(&(recursos->datoRespuestaAPI), recursos->cantidadDeJugadores, construccionURL)))
+    if(recursos->cantidadDeIndicesDeCaracteresDeSecuenciaRestantes) //AB: HARDCODEADO PARA TESTEAR
+        printf("LETRA OBTENIDA: %c\n", *letra);
+
+    if(!recursos->cantidadDeIndicesDeCaracteresDeSecuenciaRestantes)    ///AB: SI me quede sin caracteres, hago free. NUNCA voy a poder entrar si al menos no consumi 1 vez la api
     {
-        fprintf(stderr, "No pude consumir API.\n");
+        printf("ULTIMA LETRA OBTENIDA: %c\n", *letra);  //AB: HARDCODEADO PARA TESTEAR
+        printf("\n*************************************\n");
+        printf("HICE FREE PORQUE ME CONSUMI TODO EL LOTE TRAIDO DE API\n");
+        printf("\n*************************************\n");
+
         liberarRecursosParaConsumoDeAPI(recursos);
-        return retornoCodigoDeError;
     }
-
-    recursos->cadenaDeIndicesTraidosDeAPI = recursos->datoRespuestaAPI.buffer;
-    recursos->cantidadDeIndicesDeCaracteresDeSecuenciaRestantes = recursos->cantidadDeJugadores * CANT_RONDAS_PROMEDIO_JUGADAS;
-    char caracterObtenido;///HARDCODEADO!!!
-
-    if(CARACTER_DE_SALIDA == (caracterObtenido = obtenerCaracterDeSecuenciaAleatorio(recursos)))
-    {
-        ///VUELVO A CONSUMIR API
-    }
-
-    while(CARACTER_DE_SALIDA != (caracterObtenido = obtenerCaracterDeSecuenciaAleatorio(recursos)))
-    {
-        printf("LETRA OBTENIDA: %c\n", caracterObtenido);
-    }
-    ///Cuando CARACTER DE SALIDA == caracterObtenido => consumo la API nuevamente.
-
-    liberarRecursosParaConsumoDeAPI(recursos);
-
-    *letra = caracterObtenido;
-
     return retornoCodigoDeError;
+}
+
+void mostrarCaracteresValidos()
+{
+    printf("\nCaracteres validos para ingreso en secuencias: %s.\n", CARACTERES_VALIDOS_A_INGRESAR_PARA_SECUENCIA);
+    printf("\tX: uso de vida.\n");
+    printf("\tV: color verde.\n");
+    printf("\tA: color amarillo.\n");
+    printf("\tR: color rojo.\n");
+    printf("\tN: color naranja.\n\n");
 }
 
 int jugar(tRecursos* recursos)
@@ -392,15 +103,12 @@ int jugar(tRecursos* recursos)
         mezclarListaSimpleAleatoriamente(&(recursos->listaDeJugadores), recursos->cantidadDeJugadores);
 
         system("cls");
+
         mostrarConfiguracionElegida(recursos->configuraciones, recursos->indiceDeNivelDeConfiguracionElegida);
-        printf("\nCaracteres validos para ingreso en secuencias: %s.\n", CARACTERES_VALIDOS_A_INGRESAR_PARA_SECUENCIA);
-        printf("\tX: uso de vida.\n");
-        printf("\tV: color verde.\n");
-        printf("\tA: color amarillo.\n");
-        printf("\tR: color rojo.\n");
-        printf("\tN: color naranja.\n\n");
+        mostrarCaracteresValidos();
         system("pause");
         system("cls");
+
         printf("Lista de jugadores en el orden que deben jugar:\n");
         mostrarListaSimpleEnOrden(&(recursos->listaDeJugadores), mostrarJugador);
         system("pause");
@@ -415,29 +123,7 @@ int jugar(tRecursos* recursos)
             return retornoCodigoDeError;
         }
 
-        ///TODO:
-        ///CODEAR LOGICA DE RONDAS
-
-//        tJugador jugador;
-//
-//        while(mapJugadores != finalDeLaLista) // 1ra condición de corte: cuando hayan jugado todos los jugadores
-//        {
-//            /// le asigno las configuracioenes del juego al jugador
-//            jugador.cantidadDeVidas = recursos->configuraciones.cantidadDeVidas;
-//
-//            // inicializar jugador: carga toda la info del jugador
-//            // nya y id
-////            while(jugador.cantidadDeVidas >= 0) //2da condición de corte: el jugador se quedó sin vidas
-////            {
-////
-////            }
-//
-//        }
-
-        //CALCULAR PUNTOS POR JUGADOR POR RONDA
-        //IR CALCULANDO EL TOTAL DE PUNTOS PARA NO VOLVER A RECORRER
-        //COLA DE GANADORES?[cuanto termina de jugar el primero, lo acolo, luego, comparo con el primero de la cola]-> solo guardar ID, NOMBRE Y PUNTOS que consiguio para ganr
-        ///CODEAR FORMATO DEL INFORME
+        ///PUNTOS
 
         if(OK != (retornoCodigoDeError = generarInforme(recursos, construccionNombreArchivoTxtInforme)))
         {
@@ -455,8 +141,8 @@ void switchTextoMenu(int opcion, void* recursos)
 {
     switch(opcion)
     {
-    case JUGAR:
-        jugar(recursos);
+        case JUGAR:
+            jugar(recursos);
         break;
     }
 }

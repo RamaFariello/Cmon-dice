@@ -35,6 +35,6 @@ void insertarArchivoBinarioEnListaSimple(FILE* pf, t_lista* pl, void* dato, unsi
 void swapDeNodos(t_nodo** nodo1, t_nodo** nodo2);
 t_nodo** direccionDeSigNodoAnteriorAlAzar(t_nodo** base, unsigned cantidadDeElementos);
 void mezclarListaSimpleAleatoriamente(t_lista* pl, unsigned cantidadDeElementos);
-void* mapEnListaSimple(const t_lista* pl, void (*accion)(void* dato));
+void* mapEnListaSimple(const t_lista* pl, void* recursos, void (*accion)(void* recursos, void* dato));
 
 #endif // LISTASIMPLE_H_INCLUDED

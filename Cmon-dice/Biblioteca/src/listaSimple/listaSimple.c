@@ -227,13 +227,13 @@ void mezclarListaSimpleAleatoriamente(t_lista* pl, unsigned cantidadDeElementos)
     }
 }
 
-void* mapEnListaSimple(const t_lista* pl, void (*accion)(void* dato))
+void* mapEnListaSimple(const t_lista* pl, void* recursos, void (*accion)(void* recursos, void* dato))
 {
     t_nodo* inicioLista = *pl;
 
     while(*pl)
     {
-        accion((*pl)->dato);
+        accion(recursos, (*pl)->dato);
         pl = &((*pl)->sig);
     }
 

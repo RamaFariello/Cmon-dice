@@ -1,10 +1,51 @@
 #include "funciones.h"
 
+/**
+MODIFIQUE ESTA FUNCION: ahora puedo pedir la cantidad de letras que quiera y automaticamente se va a consumir la API cuando sea necesario.
+Solamente es obligatorio setear: recursos->cantidadDeIndicesDeCaracteresDeSecuenciaRestantes = 0;
+
+Como testear esto:
+Ingresar SOLO 1 JUGADOR.
+Modificar a gusto la variable ce y observar la cantidad de veces que se consume la API.
+
+FREE de NULL no hace nada, pero FREE de basura rompe todo.
+Evito posibles memory leaks
+*/
+
 int iniciarJuego(tRecursos* recursos)
 {
     int retornoCodigoDeError;
+    int i;///HARDCODEADO PARA TESTEAR
+    char letra;///HARDCODEADO PARA TESTEAR
+    int ce = recursos->cantidadDeJugadores * CANT_RONDAS_PROMEDIO_JUGADAS + 10;///HARDCODEADO PARA TESTEAR[sume 10 para simular caso que me paso de cantidad traida]
+
+    recursos->datoRespuestaAPI.buffer = NULL;  ///Porque es necesario esto?, un jugador pudo haber terminado su turno y sobraron letras. Nunca va a poder liberar la memoria.
+    recursos->cantidadDeIndicesDeCaracteresDeSecuenciaRestantes = 0;///ESTA LINEA ES FUNDAMENTAL
+
+    printf("\n[IMPORTANTE]Las funciones:\n-iniciarJuego\n-pedirLetraAleatoria\n\nESTAN HARDCODEADAS con comentarios para analizar comportamiento de los cambios que hizo Agustin[BORRAR LUEGO DE PROBAR].\n\n");    //AB: HARDCODEADO PARA TESTEAR
+    system("pause");//AB: HARDCODEADO PARA TESTEAR
+    system("cls");//AB: HARDCODEADO PARA TESTEAR
+
+    for(i = 0; i < ce; i++)//AB: HARDCODEADO PARA TESTEAR
+    {
+        if(OK != (retornoCodigoDeError = pedirLetraAleatoria(recursos, &letra)))    ///NO BORRAR
+        {
+            fprintf(stderr, "No pude iniciar juego.\n"); ///NO BORRAR
+            free(recursos->datoRespuestaAPI.buffer); ///NO BORRAR
+            return retornoCodigoDeError;    ///NO BORRAR
+        }
+    }
+
     //mapEnListaSimple(&(recursos->listaDeJugadores), recursos, inicializarJugador);
-    return OK;
+
+    printf("\n-------------------------------------\n");    //AB: HARDCODEADO PARA TESTEAR
+    printf("HICE FREE porque termine el juego.\n");
+    printf("\n-------------------------------------\n");
+    system("pause");
+    system("cls");
+
+    free(recursos->datoRespuestaAPI.buffer);///NO BORRAR
+    return retornoCodigoDeError;///NO BORRAR
 }
 
 //int inicializarJugador(tRecursos* recursos)
