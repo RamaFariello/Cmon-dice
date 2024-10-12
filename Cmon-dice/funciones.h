@@ -85,26 +85,25 @@ typedef struct
 {
     unsigned id;
     char nya[TAM_NyA];
-    unsigned cantidadDeVidas;
+    int cantidadDeVidas;
     unsigned puntosTotales;
-    t_lista rondasJugadas;
-}tJugador;
+    t_lista rondasJugadas; //guarda un tRonda
+    t_lista secuenciaAsignada; //guarda la secuencia que debe ingresar el jugador
+    t_lista respuestaFinal; //guarda todas las respuestas del jugador.
+} tJugador;
 
-
-#define TAM_SECUENCIA_TEMP 100 ///HAY QUE BORRARLO
 typedef struct
 {
-    char secuencia[TAM_SECUENCIA_TEMP];
-    char respuesta[TAM_SECUENCIA_TEMP];
-    unsigned puntosObtenidosPorRonda;
-}tRonda;
+    unsigned puntosObtenidos;
+    unsigned vidasUsadas;
+} tRonda; ///una ronda por secuencia
 
 typedef struct
 {
     unsigned tiempoDeVisualizacionSecuenciaCorrecta;
     unsigned tiempoRespuestaPorRonda;
     unsigned cantidadDeVidas;
-}tConfiguracion;
+} tConfiguracion;
 
 typedef struct
 {
@@ -115,7 +114,7 @@ typedef struct
     tReconstruccionDato datoRespuestaAPI; // para almacenar la respuesta de la API
     char* cadenaDeIndicesTraidosDeAPI;
     unsigned cantidadDeIndicesDeCaracteresDeSecuenciaRestantes;
-}tRecursos;
+} tRecursos;
 
 void mostrarConfiguracionElegida(tConfiguracion* configuracion, unsigned indiceDeNivelDeConfiguracionElegida);
 int cargarConfiguraciones(FILE* aConfiguracion, tConfiguracion* configuraciones);
@@ -138,7 +137,7 @@ int inicializarRecursosParaConsumoDeAPI(tRecursos* recursos);
 void liberarRecursosParaConsumoDeAPI(tRecursos* recursos);
 char convertirIndiceEnCaracterDeSecuencia(char caracterIndice);
 char obtenerCaracterDeSecuenciaAleatorio(tRecursos* recursos);
-int pedirLetraAleatoria(tRecursos* recursos);
+int pedirLetraAleatoria(tRecursos* recursos, char* letra);
 int iniciarJuego(tRecursos* recursos);
 int jugar(tRecursos* recursos);
 

@@ -222,10 +222,10 @@
 	<stdlib.h>
 	<string.h>
 
-1728245482 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\biblioteca\src\listasimple\listasimple.c
+1728696167 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\biblioteca\src\listasimple\listasimple.c
 	"../../include/listaSimple/listaSimple.h"
 
-1728245482 c:\users\lulis\documents\github\cmon-dice\cmon-dice\biblioteca\include\listasimple\listasimple.h
+1728696167 c:\users\lulis\documents\github\cmon-dice\cmon-dice\biblioteca\include\listasimple\listasimple.h
 	<stdlib.h>
 	<stdio.h>
 	<string.h>
@@ -248,19 +248,19 @@
 	<string.h>
 	"arbol.h"
 
-1728245481 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\curl.c
+1728685944 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\curl.c
 	"curl.h"
 
-1728253065 c:\users\lulis\documents\github\cmon-dice\cmon-dice\curl.h
+1728685944 c:\users\lulis\documents\github\cmon-dice\cmon-dice\curl.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<curl/curl.h>
 
-1728251839 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\funciones.c
+1728700943 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\funciones.c
 	"funciones.h"
 
-1728250485 c:\users\lulis\documents\github\cmon-dice\cmon-dice\funciones.h
+1728701101 c:\users\lulis\documents\github\cmon-dice\cmon-dice\funciones.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -336,5 +336,8 @@
 	"./Biblioteca/include/generico.h"
 
 1728687131 source:c:\users\pc\desktop\cmon-dice\cmon-dice\funciones.c
+	"funciones.h"
+
+1728700301 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\juegoindividual.c
 	"funciones.h"
 

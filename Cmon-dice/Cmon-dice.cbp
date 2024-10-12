@@ -46,6 +46,9 @@
 		<Unit filename="Biblioteca/src/menu/menu.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="consumoAPI.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="curl.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -54,6 +57,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="funciones.h" />
+		<Unit filename="juegoIndividual.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -338,7 +338,7 @@ char obtenerCaracterDeSecuenciaAleatorio(tRecursos* recursos)
     return letraObtenida;
 }
 
-int pedirLetraAleatoria(tRecursos* recursos)
+int pedirLetraAleatoria(tRecursos* recursos, char* letra)
 {
     int retornoCodigoDeError; //puede devolver un error o puede devolver que está todo ok.
 
@@ -373,19 +373,9 @@ int pedirLetraAleatoria(tRecursos* recursos)
 
     liberarRecursosParaConsumoDeAPI(recursos);
 
+    *letra = caracterObtenido;
+
     return retornoCodigoDeError;
-}
-
-int iniciarJuego(tRecursos* recursos)
-{
-    int retornoCodigoDeError;
-
-    if(OK != (retornoCodigoDeError = pedirLetraAleatoria(recursos)))
-    {
-        return retornoCodigoDeError;
-    }
-
-    return OK;
 }
 
 int jugar(tRecursos* recursos)
@@ -430,16 +420,17 @@ int jugar(tRecursos* recursos)
 
 //        tJugador jugador;
 //
-//        while(listaSimpleVacia(recursos->listaDeJugadores)) // 1ra condición de corte: cuando hayan jugado todos los jugadores
+//        while(mapJugadores != finalDeLaLista) // 1ra condición de corte: cuando hayan jugado todos los jugadores
 //        {
-//            jugador.cantidadDeVidas = recursos.configuraciones.cantidadDeVidas;
+//            /// le asigno las configuracioenes del juego al jugador
+//            jugador.cantidadDeVidas = recursos->configuraciones.cantidadDeVidas;
 //
 //            // inicializar jugador: carga toda la info del jugador
 //            // nya y id
-//            while(jugador.cantidadDeVidas > 0) //2da condición de corte: el jugador se quedó sin vidas
-//            {
-//
-//            }
+////            while(jugador.cantidadDeVidas >= 0) //2da condición de corte: el jugador se quedó sin vidas
+////            {
+////
+////            }
 //
 //        }
 
