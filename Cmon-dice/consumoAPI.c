@@ -25,6 +25,7 @@ int inicializarRecursosParaConsumoDeAPI(tRecursos* recursos)
 void liberarRecursosParaConsumoDeAPI(tRecursos* recursos)
 {
     free((recursos->datoRespuestaAPI).buffer);
+    (recursos->datoRespuestaAPI).buffer = NULL;
 }
 
 int validaFormatoRespuestaAPI(const char* respuesta)
@@ -78,7 +79,7 @@ int consumoAPI(tReconstruccionDato* datoRespuestaAPI, unsigned cantidadDeJugador
         return retornoCodigoDeError;
     }
 
-    fprintf(stdout, "%s\n",(char*)(datoRespuestaAPI->buffer)); // para ver qué responde la API.
+///    fprintf(stdout, "%s\n",(char*)(datoRespuestaAPI->buffer));
     curl_easy_cleanup(curl);
 
     if(OK != (retornoCodigoDeError = validaFormatoRespuestaAPI(datoRespuestaAPI->buffer))) // se valida el formato que recibimos de la API

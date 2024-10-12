@@ -75,6 +75,18 @@ void mostrarListaSimpleEnOrden(const t_lista* pl, void (*mostrar)(const void* da
     }
 }
 
+void mostrarListaSimpleEnOrdenFormatoEspecial(const t_lista* pl, void (*mostrar)(const void* dato))
+{
+    printf("\n");
+    while(*pl)
+    {
+        mostrar((*pl)->dato);
+        printf(" ");
+        pl = &((*pl)->sig);
+    }
+    printf("\n");
+}
+
 int listaSimpleVacia(const t_lista* pl)
 {
     return NULL == *pl;
@@ -227,13 +239,26 @@ void mezclarListaSimpleAleatoriamente(t_lista* pl, unsigned cantidadDeElementos)
     }
 }
 
-void* mapEnListaSimple(const t_lista* pl, void* recursos, void (*accion)(void* recursos, void* dato))
+void* mapEnListaSimple(const t_lista* pl, void* recursos, int* retornoCodigoDeError, void (*accion)(void* recursos, void* dato, int* retornoCodigoDeError))
 {
     t_nodo* inicioLista = *pl;
+    int usoCodigoDeError = 0;
+
+    if(NULL != retornoCodigoDeError)
+    {
+        usoCodigoDeError = 1;
+        *retornoCodigoDeError = OK;
+    }
 
     while(*pl)
     {
-        accion(recursos, (*pl)->dato);
+        if(usoCodigoDeError && OK != *retornoCodigoDeError)
+        {
+            fprintf(stderr, "Fallo aplicando accion en map.\n");
+            return NULL;
+        }
+        accion(recursos, (*pl)->dato, retornoCodigoDeError);
+
         pl = &((*pl)->sig);
     }
 

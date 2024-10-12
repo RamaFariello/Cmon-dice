@@ -25,6 +25,7 @@ void crearListaSimple(t_lista* pl);
 int insertarAlFinalEnListaSimple(t_lista* pl, const void* dato, unsigned tam);
 int sacarPrimeroEnListaSimple(t_lista* pl, void* dato, unsigned tam);
 void mostrarListaSimpleEnOrden(const t_lista* pl, void (*mostrar)(const void* dato));
+void mostrarListaSimpleEnOrdenFormatoEspecial(const t_lista* pl, void (*mostrar)(const void* dato));
 void vaciarListaSimple(t_lista *pl);
 int listaSimpleVacia(const t_lista* pl);
 //int insertarOrdenadoSinDuplicados(t_lista* pl, const void* dato, unsigned tam, int (*comparar)(const void* a, const void* b));
@@ -35,6 +36,6 @@ void insertarArchivoBinarioEnListaSimple(FILE* pf, t_lista* pl, void* dato, unsi
 void swapDeNodos(t_nodo** nodo1, t_nodo** nodo2);
 t_nodo** direccionDeSigNodoAnteriorAlAzar(t_nodo** base, unsigned cantidadDeElementos);
 void mezclarListaSimpleAleatoriamente(t_lista* pl, unsigned cantidadDeElementos);
-void* mapEnListaSimple(const t_lista* pl, void* recursos, void (*accion)(void* recursos, void* dato));
+void* mapEnListaSimple(const t_lista* pl, void* recursos, int* retornoCodigoDeError, void (*accion)(void* recursos, void* dato, int* retornoCodigoDeError));
 
 #endif // LISTASIMPLE_H_INCLUDED

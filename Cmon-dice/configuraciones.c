@@ -1,13 +1,5 @@
 #include "funciones.h"
 
-void mostrarJugador(const void* dato)
-{
-    printf("[ID: %u]%s\n",
-           ((tJugador*)dato)->id,
-           ((tJugador*)dato)->nya
-          );
-}
-
 int validoIngresoDeNombre(const char* cadena)
 {
     if(!ES_LETRA(*cadena))
@@ -80,11 +72,15 @@ int ingresoDeNombresAListaSimple(t_lista* listaDeJugadores, unsigned* cantidadDe
         {
             (jugador.id)++;///SOLO SI ES UN NOMBRE VALIDO LE ASIGNO ID
             (*cantidadDeJugadores) = jugador.id;
+
+            ///ACA VAN TODAS LAS INICIALIZACIONES NECESARIAS PARA LOS JUGADORES:
+            crearListaSimple(&jugador.rondasJugadas);
+            crearListaSimple(&jugador.secuenciaAsignada);
+
             insertarAlFinalEnListaSimple(listaDeJugadores, &jugador, sizeof(tJugador));
         }
         system("cls");
-    }
-    while(ingresoNombres);
+    }while(ingresoNombres);
 
     if(!*cantidadDeJugadores)
     {

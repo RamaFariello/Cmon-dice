@@ -89,36 +89,39 @@ typedef struct
 {
     unsigned id;
     char nya[TAM_NyA];
-    int cantidadDeVidas;
     unsigned puntosTotales;
     t_lista rondasJugadas; //guarda un tRonda
     t_lista secuenciaAsignada; //guarda la secuencia que debe ingresar el jugador
     t_lista respuestaFinal; //guarda todas las respuestas del jugador.
-} tJugador;
+}tJugador;
 
 typedef struct
 {
     unsigned puntosObtenidos;
     unsigned vidasUsadas;
-} tRonda; ///una ronda por secuencia
+}tRonda; ///una ronda por secuencia
 
 typedef struct
 {
     unsigned tiempoDeVisualizacionSecuenciaCorrecta;
     unsigned tiempoRespuestaPorRonda;
     unsigned cantidadDeVidas;
-} tConfiguracion;
+}tConfiguracion;
 
 typedef struct
 {
     tConfiguracion configuraciones[CANTIDAD_DE_NIVELES]; // configuración según el nivel
     unsigned indiceDeNivelDeConfiguracionElegida; // lo que se lecciona en el menú, para buscarlo en el vector de configuración según nivel
+
     t_lista listaDeJugadores;
+    tRonda ronda;   ///BUFFER para usar en cada una de las rondas para todos los jugadores
+    int cantidadDeVidasUsadasTotales;
     unsigned cantidadDeJugadores;
+
     tReconstruccionDato datoRespuestaAPI; // para almacenar la respuesta de la API
     char* cadenaDeIndicesTraidosDeAPI;
     unsigned cantidadDeIndicesDeCaracteresDeSecuenciaRestantes;
-} tRecursos;
+}tRecursos;
 
 void mostrarConfiguracionElegida(tConfiguracion* configuracion, unsigned indiceDeNivelDeConfiguracionElegida);
 int cargarConfiguraciones(FILE* aConfiguracion, tConfiguracion* configuraciones);

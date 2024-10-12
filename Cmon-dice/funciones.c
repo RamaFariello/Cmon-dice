@@ -1,12 +1,20 @@
 #include "funciones.h"
 
+void mostrarJugador(const void* dato)
+{
+    printf("[ID: %u]%s\n",
+           ((tJugador*)dato)->id,
+           ((tJugador*)dato)->nya
+          );
+}
+
 int convertirIndiceEnCaracterDeSecuencia(char caracterIndice, char* letra)
 {
     char caracteresDeSecuencia[] = {COLOR_VERDE, COLOR_AMARILLO, COLOR_ROJO, COLOR_NARANJA}; // V, A, R, N
 
-    if(!('\0' != caracterIndice && ES_RANGO_INDICE_VALIDO(caracterIndice)))
+    if(!ES_RANGO_INDICE_VALIDO(caracterIndice))
     {
-        fprintf(stderr, "No pude asignar caracter de secuencia, caracterIndice no estaba dentro del rango de %c - %c o era fin de cadena.\n", RANGO_MIN_DE_INDICE_VALIDO, RANGO_MAX_DE_INDICE_VALIDO);
+        fprintf(stderr, "No pude asignar caracter de secuencia, caracterIndice no estaba dentro del rango de %c a %c.\n", RANGO_MIN_DE_INDICE_VALIDO, RANGO_MAX_DE_INDICE_VALIDO);
         *letra = caracterIndice;
         return NO_PUDE_ASIGNAR_CARACTER_DE_SECUENCIA;
     }
@@ -21,7 +29,7 @@ int obtenerCaracterDeSecuenciaAleatorio(tRecursos* recursos, char* letra)
 
     if(OK != (retornoCodigoDeError = convertirIndiceEnCaracterDeSecuencia(*(recursos->cadenaDeIndicesTraidosDeAPI), letra)))
     {
-        fprintf(stderr, "No pude obtenerCaracter de secuenciaAleatorio.\n");
+        fprintf(stderr, "No pude obtener caracter de secuencia aleatorio.\n");
         return retornoCodigoDeError;
     }
 
@@ -33,13 +41,10 @@ int obtenerCaracterDeSecuenciaAleatorio(tRecursos* recursos, char* letra)
 
 int pedirLetraAleatoria(tRecursos* recursos, char* letra)
 {
-    int retornoCodigoDeError; //puede devolver un error o puede devolver que está todo ok.
+    int retornoCodigoDeError;
 
-    if(!recursos->cantidadDeIndicesDeCaracteresDeSecuenciaRestantes)    ///AB: si nunca le pegue a la API o si me quede sin caracteres que traje, la consumo.
+    if(!recursos->cantidadDeIndicesDeCaracteresDeSecuenciaRestantes)
     {
-        printf("\n*************************************\n");//AB: HARDCODEADO PARA TESTEAR
-        printf("CONSUMI API");
-        printf("\n*************************************\n");
         if(OK != (retornoCodigoDeError = inicializarRecursosParaConsumoDeAPI(recursos)))
         {
             fprintf(stderr, "No pude inicializar los recursos para el consumo de la API.\n");
@@ -64,16 +69,8 @@ int pedirLetraAleatoria(tRecursos* recursos, char* letra)
         return retornoCodigoDeError;
     }
 
-    if(recursos->cantidadDeIndicesDeCaracteresDeSecuenciaRestantes) //AB: HARDCODEADO PARA TESTEAR
-        printf("LETRA OBTENIDA: %c\n", *letra);
-
-    if(!recursos->cantidadDeIndicesDeCaracteresDeSecuenciaRestantes)    ///AB: SI me quede sin caracteres, hago free. NUNCA voy a poder entrar si al menos no consumi 1 vez la api
+    if(!recursos->cantidadDeIndicesDeCaracteresDeSecuenciaRestantes)
     {
-        printf("ULTIMA LETRA OBTENIDA: %c\n", *letra);  //AB: HARDCODEADO PARA TESTEAR
-        printf("\n*************************************\n");
-        printf("HICE FREE PORQUE ME CONSUMI TODO EL LOTE TRAIDO DE API\n");
-        printf("\n*************************************\n");
-
         liberarRecursosParaConsumoDeAPI(recursos);
     }
     return retornoCodigoDeError;
@@ -89,9 +86,18 @@ void mostrarCaracteresValidos()
     printf("\tN: color naranja.\n\n");
 }
 
+void liberarListasDeCadaJugador(void* vRecursos, void* vJugador, int* retornoCodigoDeError)///¡¡¡IMPORTANTE:HACER FREE de&jugador.rondasJugadas!!!
+{
+    tJugador* jugador = (tJugador*)vJugador;
+     vaciarListaSimple(&(jugador->rondasJugadas));
+     vaciarListaSimple(&(jugador->secuenciaAsignada));
+}
+
 int jugar(tRecursos* recursos)
 {
     int retornoCodigoDeError;
+
+    crearListaSimple(&(recursos->listaDeJugadores));
 
     if(!ingresoDeNombresAListaSimple(&(recursos->listaDeJugadores), &(recursos->cantidadDeJugadores)))
     {
@@ -114,26 +120,26 @@ int jugar(tRecursos* recursos)
         system("pause");
         system("cls");
 
-
-        printf("\n**************************ARRANCA EL JUEGO**************************\n");
-        if(OK != (retornoCodigoDeError = iniciarJuego(recursos)))
+        if(OK != (retornoCodigoDeError = iniciarJuego(recursos)))   ///ACA EMPIEZA EL JUEGO
         {
-            fprintf(stderr, "No pude iniciar el juego.\n");
+            fprintf(stderr, "No se pudo jugar, intente nuevamente.\n");
+            mapEnListaSimple(&(recursos->listaDeJugadores), recursos, NULL, liberarListasDeCadaJugador);
             vaciarListaSimple(&(recursos->listaDeJugadores));
             return retornoCodigoDeError;
         }
 
-        ///PUNTOS
-
         if(OK != (retornoCodigoDeError = generarInforme(recursos, construccionNombreArchivoTxtInforme)))
         {
             fprintf(stderr, "No pude grabar archivo de informe.\n");
+            mapEnListaSimple(&(recursos->listaDeJugadores), recursos, NULL, liberarListasDeCadaJugador);
             vaciarListaSimple(&(recursos->listaDeJugadores));
             return retornoCodigoDeError;
         }
     }
     //RESETEO TODOS LOS PARAMETROS PARA VOLVER A JUGAR
+    mapEnListaSimple(&(recursos->listaDeJugadores), recursos, NULL, liberarListasDeCadaJugador);
     vaciarListaSimple(&(recursos->listaDeJugadores));
+
     return OK;
 }
 
