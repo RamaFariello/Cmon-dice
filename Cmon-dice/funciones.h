@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+#include <conio.h>
+#include <windows.h>
 #include "curl.h"
 
 #include "./Biblioteca/include/listaSimple/listaSimple.h"
@@ -122,6 +125,8 @@ typedef struct
     char* cadenaDeIndicesTraidosDeAPI;
     unsigned cantidadDeIndicesDeCaracteresDeSecuenciaRestantes;
 }tRecursos;
+
+void temporizador(int segundos);
 
 void mostrarConfiguracionElegida(tConfiguracion* configuracion, unsigned indiceDeNivelDeConfiguracionElegida);
 int cargarConfiguraciones(FILE* aConfiguracion, tConfiguracion* configuraciones);

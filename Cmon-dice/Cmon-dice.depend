@@ -222,10 +222,10 @@
 	<stdlib.h>
 	<string.h>
 
-1728696167 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\biblioteca\src\listasimple\listasimple.c
+1728853595 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\biblioteca\src\listasimple\listasimple.c
 	"../../include/listaSimple/listaSimple.h"
 
-1728696167 c:\users\lulis\documents\github\cmon-dice\cmon-dice\biblioteca\include\listasimple\listasimple.h
+1728853595 c:\users\lulis\documents\github\cmon-dice\cmon-dice\biblioteca\include\listasimple\listasimple.h
 	<stdlib.h>
 	<stdio.h>
 	<string.h>
@@ -257,19 +257,22 @@
 	<string.h>
 	<curl/curl.h>
 
-1728700943 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\funciones.c
+1728856327 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\funciones.c
 	"funciones.h"
 
-1728701101 c:\users\lulis\documents\github\cmon-dice\cmon-dice\funciones.h
+1728860705 c:\users\lulis\documents\github\cmon-dice\cmon-dice\funciones.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
+	<time.h>
+	<conio.h>
+	<windows.h>
 	"curl.h"
 	"./Biblioteca/include/listaSimple/listaSimple.h"
 	"./Biblioteca/include/menu/menu.h"
 	"./Biblioteca/include/generico.h"
 
-1728250485 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\main.c
+1728853595 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\main.c
 	"funciones.h"
 
 1728702921 source:c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\src\cola\cola.c
@@ -338,7 +341,7 @@
 1728842509 source:c:\users\pc\desktop\cmon-dice\cmon-dice\funciones.c
 	"funciones.h"
 
-1728700301 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\juegoindividual.c
+1728860621 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\juegoindividual.c
 	"funciones.h"
 
 1728843036 source:c:\users\pc\desktop\cmon-dice\cmon-dice\juegoindividual.c
@@ -351,5 +354,14 @@
 	"funciones.h"
 
 1728746931 source:c:\users\pc\desktop\cmon-dice\cmon-dice\configuraciones.c
+	"funciones.h"
+
+1728853595 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\configuraciones.c
+	"funciones.h"
+
+1728853595 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\consumoapi.c
+	"funciones.h"
+
+1728853595 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\informe.c
 	"funciones.h"
 

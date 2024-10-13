@@ -1,75 +1,107 @@
 #include "funciones.h"
 
-void mostrarCaracter(const void* dato)  ///HARDCODEADO
+void mostrarCaracter(const void* dato)
 {
     printf("%c", *(char*)dato);
 }
 
-//void jugarRondas(void* vRecursos, void* vJugador, int* retornoCodigoDeError) //ex funcion inicializarJugador[esta funcion es la que se ejecuta en el map]
-//{
-//    tRecursos* recursos = (tRecursos*)vRecursos;
-//    tJugador* jugador = (tJugador*)vJugador;
-//    int puntosTotalesAcumulados;
-//    int cantidadDeVidasSegunNivelDeConfiguracionElegido;
-//    char letra;///HARDCODEADO
-//
-//    puntosTotalesAcumulados = 0;
-//    cantidadDeVidasSegunNivelDeConfiguracionElegido = (recursos->configuraciones)[recursos->indiceDeNivelDeConfiguracionElegida].cantidadDeVidas;
-//    recursos->cantidadDeVidasUsadasTotales = 0;
-//
-//    recursos->ronda.puntosObtenidos = 0;
-//    recursos->ronda.vidasUsadas = 0;
-//
-//    printf("Simulando juego. ");                                                                         ///HARDCODEADO
-//    printf("\nEn este momento esta jugando:\n");
-//    mostrarJugador(jugador);
-//    while(cantidadDeVidasSegunNivelDeConfiguracionElegido - recursos->cantidadDeVidasUsadasTotales >= 0)
-//    {
-//        if(OK != (*retornoCodigoDeError = pedirLetraAleatoria(recursos, &letra)))
-//        {
-//            fprintf(stderr, "No pude obtener letra aleatoria para formar secuencia.\n");
-//            break;
-//        }
-//        insertarAlFinalEnListaSimple(&(jugador->secuenciaAsignada), &letra, sizeof(char));
-//
-//        puntosTotalesAcumulados = 1000;             ///HARDCODEADO para ver algo, aca va la cantidad real acumulada
-//        recursos->cantidadDeVidasUsadasTotales++;   ///HARDCODEADO PARA NO ESTAR EN BUCLE INFINITO: lo modifico segun lo que el jugador haga en las rondas
-//    }
-//
-//    if(OK == *retornoCodigoDeError)                                                                         ///HARDCODEADO
-//    {
-//        printf("\nSecuencia asignada:");                                                                    ///HARDCODEADO
-//        mostrarListaSimpleEnOrdenFormatoEspecial(&(jugador->secuenciaAsignada), mostrarCaracter);           ///HARDCODEADO
-//        printf("Cantidad de puntos totales acumulados por el jugador: %d\n", puntosTotalesAcumulados);      ///HARDCODEADO
-//        jugador->puntosTotales = puntosTotalesAcumulados;                                                   ///HARDCODEADO
-//    }
-//
-//    printf("\n");                                                                                       ///HARDCODEADO
-//    system("pause");                                                                                    ///HARDCODEADO
-//    system("cls");                                                                                      ///HARDCODEADO
-//}
+void temporizador(int segundos)
+{
+    double tiempoLimite = (double)segundos; // Tiempo límite en segundos
 
+    // Capturar el tiempo de inicio
+    clock_t tiempoInicio = clock();
+
+    while (1)
+    {
+
+        // Calcular el tiempo transcurrido
+        clock_t tiempoActual = clock();
+        double tiempoTranscurrido = (double)(tiempoActual - tiempoInicio) / CLOCKS_PER_SEC;
+
+        // Verificar si han pasado los segundos
+        if (tiempoTranscurrido >= tiempoLimite)
+        {
+            break;
+        }
+
+        // Agregar un pequeño retraso para evitar consumir demasiados recursos
+        Sleep(100); // 100 milisegundos
+    }
+
+    //si salgo del while es que se agotó el tiempo
+    printf("Tiempo agotado.\n");
+}
+
+int respuestaJugador(tRecursos* recursos, tJugador* jugador, unsigned tiempoVisualizacion, unsigned tiempoRespuesta)
+{
+    char caracterIngresado[2];
+    t_lista secuenciaIngresada;
+    crearListaSimple(&secuenciaIngresada);
+
+    ///muestro la secuencia por tiempo configurado.
+    printf("\nSecuencia asignada:");
+    mostrarListaSimpleEnOrdenFormatoEspecial(&(jugador->secuenciaAsignada), mostrarCaracter);
+    temporizador(tiempoVisualizacion);
+    system("cls");
+
+
+//    /// 4. El jugador ingresa su respuesta (magia del juego)
+/// VER DE PONER EL LÍMITE DEL TIEMPO
+    fflush(stdin);
+    fgets(caracterIngresado,2,stdin);
+    do
+    {
+        insertarAlFinalEnListaSimple(&secuenciaIngresada, &caracterIngresado, sizeof(char));
+    }
+    while(strstr(caracterIngresado,CARACTERES_VALIDOS_A_INGRESAR_PARA_SECUENCIA));
+
+//    /** COSAS A TENER EN CUENTA:
+//        - USO DE VIDAS: resetean el tiempo, pueden finalizar la jugada (si se acaban),
+//         hay que retroceder en la lista de respuesta según la cantidad de vidas usadas.
+//        - TIEMPO: si se acaba el tiempo se pierde una vida y se vuelve a mostrar la secuencia.
+    // RECORDAR: se suma 1 segundo al tiempo de respuesta por cada respuesta correcta (o por cada ronda superada).
+//     */
+//
+//    /// 4.1 El jugador sigue en juego
+
+//
+//    /// 4.2 El jugador PERDIÓ --> Se quedó sin vida.
+
+/// 4.3 obligatorio: se guarda la respuesta mandada en jugador.respuestaFinal (no importa si acertó o no).
+//    //se tiene que guardar la última respuesta que hizo que el jugador perdiera + puntos ganados (técnicamente 0).
+    vaciarListaSimple(&secuenciaIngresada);
+    return OK;
+}
+
+
+/// generarRondas es por CADA RONDA del jugador.
 int generaRondas(tRecursos* recursos, tJugador* jugador, int cantidadDeVidasSegunConfiguracion, int* retornoCodigoDeError)
 {
     char letra;
-    int puntosTotalesAcumulados;
+    int puntosTotalesAcumulados = 0;
 
-    puntosTotalesAcumulados = 0;
-    while(cantidadDeVidasSegunConfiguracion - recursos->cantidadDeVidasUsadasTotales >= 0)
+    while(cantidadDeVidasSegunConfiguracion - recursos->cantidadDeVidasUsadasTotales >= 0) //mientras tenga vidas.
     {
-        if(OK != (*retornoCodigoDeError = pedirLetraAleatoria(recursos, &letra)))
+        if(OK != (*retornoCodigoDeError = pedirLetraAleatoria(recursos, &letra))) //si no recibo una letra válida
         {
             fprintf(stderr, "No pude obtener letra aleatoria para formar secuencia.\n");
             return *retornoCodigoDeError;
         }
+        //si recibo una letra válida: inserto en la secuencia asignada
         insertarAlFinalEnListaSimple(&(jugador->secuenciaAsignada), &letra, sizeof(char));
+        respuestaJugador(recursos,jugador,
+                         recursos->configuraciones[recursos->indiceDeNivelDeConfiguracionElegida].tiempoDeVisualizacionSecuenciaCorrecta,
+                         recursos->configuraciones[recursos->indiceDeNivelDeConfiguracionElegida].tiempoRespuestaPorRonda);
+
+        ///HARDCODEADO - BORRAR DESPUÉS: para que no siga en bucle infinito porque todavía no está la lógica de juego terminada
         recursos->cantidadDeVidasUsadasTotales++;
     }
-    jugador->puntosTotales = puntosTotalesAcumulados;
-
+    jugador->puntosTotales = puntosTotalesAcumulados; //posiblemente haya que borrar la variable puntosTotalesAcumulados...
     return OK;
 }
 
+/// jugarRondas es UNA VEZ por jugador.
 void jugarRondas(void* vRecursos, void* vJugador, int* retornoCodigoDeError) //ex funcion inicializarJugador[esta funcion es la que se ejecuta en el map]
 {
     tRecursos* recursos = (tRecursos*)vRecursos;
@@ -82,7 +114,9 @@ void jugarRondas(void* vRecursos, void* vJugador, int* retornoCodigoDeError) //e
     printf("En este momento esta jugando:\n");
     mostrarJugador(jugador);
 
-    if(OK == (*retornoCodigoDeError = generaRondas(recursos, jugador, (recursos->configuraciones)[recursos->indiceDeNivelDeConfiguracionElegida].cantidadDeVidas, retornoCodigoDeError)))
+    if(OK == (*retornoCodigoDeError = generaRondas(recursos, jugador,
+                                      (recursos->configuraciones)[recursos->indiceDeNivelDeConfiguracionElegida].cantidadDeVidas,
+                                      retornoCodigoDeError)))
     {
         printf("\nSecuencia final asignada:");
         mostrarListaSimpleEnOrdenFormatoEspecial(&(jugador->secuenciaAsignada), mostrarCaracter);
@@ -110,21 +144,8 @@ int iniciarJuego(tRecursos* recursos)
     return retornoCodigoDeError;
 }
 
-//int inicializarJugador(tRecursos* recursos)
-//{
-//    /// Asignar parámetros al jugador
-//    // jugador.cantidadVidas = recursos->configuración[INDICE_DIFICULTAD].cantidadDeVidas
-//    // jugador.puntosTotales = 0;
-//    // crearLista(secuencia);
-//
-//    while(cantidadVidas >= 0)
-//    {
-//        //juegarRonda(recursos);
-//    }
-//
-//}
-//
-//int jugarRonda(tRecursos* recursos)
+
+//int generarRondasViejo(tRecursos* recursos)
 //{
 //    /// 1. inicializar variables y listas
 //    //crearLista(respuesta);
