@@ -5,48 +5,91 @@ void mostrarCaracter(const void* dato)  ///HARDCODEADO
     printf("%c", *(char*)dato);
 }
 
+//void jugarRondas(void* vRecursos, void* vJugador, int* retornoCodigoDeError) //ex funcion inicializarJugador[esta funcion es la que se ejecuta en el map]
+//{
+//    tRecursos* recursos = (tRecursos*)vRecursos;
+//    tJugador* jugador = (tJugador*)vJugador;
+//    int puntosTotalesAcumulados;
+//    int cantidadDeVidasSegunNivelDeConfiguracionElegido;
+//    char letra;///HARDCODEADO
+//
+//    puntosTotalesAcumulados = 0;
+//    cantidadDeVidasSegunNivelDeConfiguracionElegido = (recursos->configuraciones)[recursos->indiceDeNivelDeConfiguracionElegida].cantidadDeVidas;
+//    recursos->cantidadDeVidasUsadasTotales = 0;
+//
+//    recursos->ronda.puntosObtenidos = 0;
+//    recursos->ronda.vidasUsadas = 0;
+//
+//    printf("Simulando juego. ");                                                                         ///HARDCODEADO
+//    printf("\nEn este momento esta jugando:\n");
+//    mostrarJugador(jugador);
+//    while(cantidadDeVidasSegunNivelDeConfiguracionElegido - recursos->cantidadDeVidasUsadasTotales >= 0)
+//    {
+//        if(OK != (*retornoCodigoDeError = pedirLetraAleatoria(recursos, &letra)))
+//        {
+//            fprintf(stderr, "No pude obtener letra aleatoria para formar secuencia.\n");
+//            break;
+//        }
+//        insertarAlFinalEnListaSimple(&(jugador->secuenciaAsignada), &letra, sizeof(char));
+//
+//        puntosTotalesAcumulados = 1000;             ///HARDCODEADO para ver algo, aca va la cantidad real acumulada
+//        recursos->cantidadDeVidasUsadasTotales++;   ///HARDCODEADO PARA NO ESTAR EN BUCLE INFINITO: lo modifico segun lo que el jugador haga en las rondas
+//    }
+//
+//    if(OK == *retornoCodigoDeError)                                                                         ///HARDCODEADO
+//    {
+//        printf("\nSecuencia asignada:");                                                                    ///HARDCODEADO
+//        mostrarListaSimpleEnOrdenFormatoEspecial(&(jugador->secuenciaAsignada), mostrarCaracter);           ///HARDCODEADO
+//        printf("Cantidad de puntos totales acumulados por el jugador: %d\n", puntosTotalesAcumulados);      ///HARDCODEADO
+//        jugador->puntosTotales = puntosTotalesAcumulados;                                                   ///HARDCODEADO
+//    }
+//
+//    printf("\n");                                                                                       ///HARDCODEADO
+//    system("pause");                                                                                    ///HARDCODEADO
+//    system("cls");                                                                                      ///HARDCODEADO
+//}
+
+int generaRondas(tRecursos* recursos, tJugador* jugador, int cantidadDeVidasSegunConfiguracion, int* retornoCodigoDeError)
+{
+    char letra;
+    int puntosTotalesAcumulados;
+
+    puntosTotalesAcumulados = 0;
+    while(cantidadDeVidasSegunConfiguracion - recursos->cantidadDeVidasUsadasTotales >= 0)
+    {
+        if(OK != (*retornoCodigoDeError = pedirLetraAleatoria(recursos, &letra)))
+        {
+            fprintf(stderr, "No pude obtener letra aleatoria para formar secuencia.\n");
+            return *retornoCodigoDeError;
+        }
+        insertarAlFinalEnListaSimple(&(jugador->secuenciaAsignada), &letra, sizeof(char));
+        recursos->cantidadDeVidasUsadasTotales++;
+    }
+    jugador->puntosTotales = puntosTotalesAcumulados;
+
+    return OK;
+}
+
 void jugarRondas(void* vRecursos, void* vJugador, int* retornoCodigoDeError) //ex funcion inicializarJugador[esta funcion es la que se ejecuta en el map]
 {
     tRecursos* recursos = (tRecursos*)vRecursos;
     tJugador* jugador = (tJugador*)vJugador;
-    int puntosTotalesAcumulados;
-    int cantidadDeVidasSegunNivelDeConfiguracionElegido;
-    char letra;///HARDCODEADO
-
-    puntosTotalesAcumulados = 0;
-    cantidadDeVidasSegunNivelDeConfiguracionElegido = (recursos->configuraciones)[recursos->indiceDeNivelDeConfiguracionElegida].cantidadDeVidas;
     recursos->cantidadDeVidasUsadasTotales = 0;
 
     recursos->ronda.puntosObtenidos = 0;
     recursos->ronda.vidasUsadas = 0;
 
-    printf("Simulando juego. ");                                                                         ///HARDCODEADO
-    printf("\nEn este momento esta jugando:\n");
+    printf("En este momento esta jugando:\n");
     mostrarJugador(jugador);
-    while(cantidadDeVidasSegunNivelDeConfiguracionElegido - recursos->cantidadDeVidasUsadasTotales >= 0)
+
+    if(OK == (*retornoCodigoDeError = generaRondas(recursos, jugador, (recursos->configuraciones)[recursos->indiceDeNivelDeConfiguracionElegida].cantidadDeVidas, retornoCodigoDeError)))
     {
-        if(OK != (*retornoCodigoDeError = pedirLetraAleatoria(recursos, &letra)))
-        {
-            fprintf(stderr, "No pude obtener letra aleatoria para formar secuencia.\n");
-            break;
-        }
-        insertarAlFinalEnListaSimple(&(jugador->secuenciaAsignada), &letra, sizeof(char));
-
-        puntosTotalesAcumulados = 1000;             ///HARDCODEADO para ver algo, aca va la cantidad real acumulada
-        recursos->cantidadDeVidasUsadasTotales++;   ///HARDCODEADO PARA NO ESTAR EN BUCLE INFINITO: lo modifico segun lo que el jugador haga en las rondas
+        printf("\nSecuencia final asignada:");
+        mostrarListaSimpleEnOrdenFormatoEspecial(&(jugador->secuenciaAsignada), mostrarCaracter);
+        printf("Cantidad de puntos totales acumulados por el jugador: %d\n", jugador->puntosTotales);
     }
-
-    if(OK == *retornoCodigoDeError)                                                                         ///HARDCODEADO
-    {
-        printf("\nSecuencia asignada:");                                                                    ///HARDCODEADO
-        mostrarListaSimpleEnOrdenFormatoEspecial(&(jugador->secuenciaAsignada), mostrarCaracter);           ///HARDCODEADO
-        printf("Cantidad de puntos totales acumulados por el jugador: %d\n", puntosTotalesAcumulados);      ///HARDCODEADO
-        jugador->puntosTotales = puntosTotalesAcumulados;                                                   ///HARDCODEADO
-    }
-
-    printf("\n");                                                                                       ///HARDCODEADO
-    system("pause");                                                                                    ///HARDCODEADO
-    system("cls");                                                                                      ///HARDCODEADO
+    system("pause");
+    system("cls");
 }
 
 int iniciarJuego(tRecursos* recursos)

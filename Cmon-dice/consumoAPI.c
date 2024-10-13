@@ -56,7 +56,7 @@ int consumoAPI(tReconstruccionDato* datoRespuestaAPI, unsigned cantidadDeJugador
     char URL[TAM_URL];
     int retornoCodigoDeError;
 
-    construccionURL(URL, sizeof(URL),cantidadDeJugadores);
+    construccionURL(URL, sizeof(URL), cantidadDeJugadores);
 
     //se reservan los recursos del curl
     if(ERROR_INICIAR_ESTRUCTURA_CURL == inicializacionEstructuraCURL(&curl))

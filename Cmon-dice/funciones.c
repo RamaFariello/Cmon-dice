@@ -52,6 +52,7 @@ int pedirLetraAleatoria(tRecursos* recursos, char* letra)
             return retornoCodigoDeError;
         }
 
+        ///PODRIA HACER UN RETRY DE 3 INTENTOS POR SI EL SERVER TIRA 500 PARA SALVER EL ERROR.
         if(OK != (retornoCodigoDeError = consumoAPI(&(recursos->datoRespuestaAPI), recursos->cantidadDeJugadores, construccionURL)))
         {
             fprintf(stderr, "No pude consumir API.\n");
