@@ -139,7 +139,7 @@ void ingresoCantidadDeVidas(unsigned* cantidadDeVidasIngresadas, int cantidadDeC
 {
     int cantidadIngresada;
 
-    printf("Ingrese la cantidad de vidas que desea usar:\t");
+    printf("\nIngrese la cantidad de vidas que desea usar:\t");
     do
     {
         fflush(stdin);
@@ -147,7 +147,7 @@ void ingresoCantidadDeVidas(unsigned* cantidadDeVidasIngresadas, int cantidadDeC
 
         if(!cantidadIngresada)
         {
-            printf("Ingreso de cantidad de vidas invalido, debe ser mayor a 0.\n");
+            printf("\nIngreso de cantidad de vidas invalido, debe ser mayor a 0.\n");
         }else if(cantidadDeVidasRestantes < cantidadIngresada)
             {
                 printf("\nIngreso de cantidad de vidas invalido, la cantidad de vidas a usar es mayor a la cantidad de vidas restantes.\n");
@@ -173,15 +173,17 @@ int usoDeVida(tRecursos* recursos, tJugador* jugador, int* cantidadDeCaracteresD
 
     if(!*cantidadDeCaracteresDeSecuenciaIngresados)///TENGO VIDAS y NO INGRESE NADA, reinicio ronda
     {
+        (recursos->ronda.vidasUsadas)++;
         return DEBO_REPETIR_RONDA;
     }
 
     ingresoCantidadDeVidas(&cantidadDeVidasIngresadas, *cantidadDeCaracteresDeSecuenciaIngresados, cantidadDeVidasSegunConfiguracion - recursos->cantidadDeVidasUsadasTotales);
     (*cantidadDeCaracteresDeSecuenciaIngresados) -= cantidadDeVidasIngresadas;
+    (recursos->ronda.vidasUsadas) += cantidadDeVidasIngresadas;
 
-    while(cantidadDeVidasIngresadas && sacarUltimoEnListaSimple(&(recursos->ronda.secuenciaIngresada), &ronda, sizeof(tRonda)))
+    while(*cantidadDeCaracteresDeSecuenciaIngresados && sacarUltimoEnListaSimple(&(recursos->ronda.secuenciaIngresada), &ronda, sizeof(tRonda)))
     {
-        cantidadDeVidasIngresadas--;
+        (*cantidadDeCaracteresDeSecuenciaIngresados)--;
     }
 
     if(listaSimpleVacia(&(recursos->ronda.secuenciaIngresada)))
@@ -189,7 +191,7 @@ int usoDeVida(tRecursos* recursos, tJugador* jugador, int* cantidadDeCaracteresD
         return DEBO_REPETIR_RONDA;
     }
 
-    return OK;
+    return USO_DE_VIDA;
 }
 
 int ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, int cantidadDeVidasSegunConfiguracion, unsigned maximaCantidadDeCaracteresDeSecuencia, unsigned maximoTiempoParaIngresoDeRespuesta)
@@ -210,6 +212,7 @@ int ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, int cantidadDeVid
         //Bucle para esperar la entrada del usuario o el timeout
         while(!recursos->temporizador.timeout)
         {
+            fflush(stdin);
             if(_kbhit())//Verifica si presione una tecla
             {
                 ch = _getch(); //Lee un caracter SIN ESPERAR ENTER
@@ -232,21 +235,22 @@ int ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, int cantidadDeVid
                     {
                         insertarAlFinalEnListaSimple(&(recursos->ronda.secuenciaIngresada), &ch, sizeof(char));
                         cantidadDeCaracteresDeSecuenciaIngresados++; //Incrementar el contador de intentos
-                        break;
                     }
                     else
                     {
-                        ///SI USO DE VIDA DEVUELVE OK, significa que ya saco los caracteres de la lista y debo seguir ingresando
                         recursos->temporizador.detenerTemporizador = 1;
-                        if(OK == (retorno = usoDeVida(recursos, jugador, &cantidadDeCaracteresDeSecuenciaIngresados, cantidadDeVidasSegunConfiguracion)))
+                        if(USO_DE_VIDA == (retorno = usoDeVida(recursos, jugador, &cantidadDeCaracteresDeSecuenciaIngresados, cantidadDeVidasSegunConfiguracion)))
                         {
                             ///RESETEO TEMPORIZADOR
                             recursos->temporizador.timeout = 0;
                             recursos->temporizador.detenerTemporizador = 0;
+                            system("pause");
+                            break;
                         }
                         else
                         {
                             pthread_join(id, NULL);
+
                             if(DEBO_REPETIR_RONDA == retorno)
                             {
                                 printf("Debo repetir ronda.\n");
@@ -286,11 +290,10 @@ int ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, int cantidadDeVid
 
         if(cantidadDeVidasSegunConfiguracion - recursos->cantidadDeVidasUsadasTotales >= 0)
         {
-            (recursos->ronda.vidasUsadas)++;
+//            (recursos->ronda.vidasUsadas)++;
             if(!cantidadDeCaracteresDeSecuenciaIngresados)
             {
                 printf("Debe ingresar algo. Te consumi una vida.\n");
-                return DEBO_REPETIR_RONDA;
             }
             ///LLAMADO A FUNCION DE VIDAS
             ///PUEDEN PASAR 2 COSAS -> REINICIO RONDA
@@ -314,7 +317,6 @@ int ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, int cantidadDeVid
                 {
                     printf("No te quedan mas vidas.\n");
                     ///NO TENGO MAS VIDAS -> termine de jugar
-                    return FIN_DE_RONDA;
                 }
             }
             else
@@ -343,6 +345,5 @@ int ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, int cantidadDeVid
     system("pause");
     system("cls");
 
-    (recursos->ronda.vidasUsadas)++;
     return FIN_DE_RONDA;
 }

@@ -101,7 +101,7 @@ int generaRondas(tRecursos* recursos, tJugador* jugador, int cantidadDeVidasSegu
     unsigned cantidadDeCaracteresDeSecuencia = 1;
     unsigned tiempoParaVisualizarSecuencia = recursos->configuraciones[recursos->indiceDeNivelDeConfiguracionElegida].tiempoDeVisualizacionSecuenciaCorrecta;
     unsigned tiempoParaIngresarSecuencia = recursos->configuraciones[recursos->indiceDeNivelDeConfiguracionElegida].tiempoRespuestaPorRonda;
-    unsigned jugarRonda = 1;
+    int jugarRonda;
 
     jugador->puntosTotales = 0;
     while(cantidadDeVidasSegunConfiguracion - recursos->cantidadDeVidasUsadasTotales >= 0) //mientras tenga vidas.
@@ -117,8 +117,9 @@ int generaRondas(tRecursos* recursos, tJugador* jugador, int cantidadDeVidasSegu
         }
         //si recibo una letra válida: inserto en la secuencia asignada
         insertarAlFinalEnListaSimple(&(jugador->secuenciaAsignada), &letra, sizeof(char));
+        jugarRonda = DEBO_REPETIR_RONDA;
 
-        while(jugarRonda)
+        while(FIN_DE_RONDA != jugarRonda)
         {
             mostrarSecuenciaAsignada(recursos, jugador, tiempoParaVisualizarSecuencia);
             jugarRonda = ingresoDeSecuenciaManejandoPuntosYVidas(recursos, jugador, cantidadDeVidasSegunConfiguracion, cantidadDeCaracteresDeSecuencia, tiempoParaIngresarSecuencia);
@@ -129,6 +130,7 @@ int generaRondas(tRecursos* recursos, tJugador* jugador, int cantidadDeVidasSegu
         tiempoParaIngresarSecuencia++; //POR CADA RONDA, LE SUMO 1 SEGUNDO EXTRA
 
         insertarAlFinalEnListaSimple(&(jugador->rondasJugadas), &(recursos->ronda), sizeof(tRonda));///GRABO LAS RONDAS JUGADAS
+        (recursos->cantidadDeVidasUsadasTotales)++;
     }
 
     return OK;
