@@ -87,11 +87,20 @@ void mostrarCaracteresValidos()
     printf("\tN: color naranja.\n\n");
 }
 
+void liberarListaDeSecuenciasIngresadasPorRonda(void* vRecursos, void* vRonda, int* retornoCodigoDeError)
+{
+    tRonda* ronda = (tRonda*)vRonda;
+
+    vaciarListaSimple(&(ronda->secuenciaIngresada));
+}
+
 void liberarListasDeCadaJugador(void* vRecursos, void* vJugador, int* retornoCodigoDeError)///¡¡¡IMPORTANTE:HACER FREE de&jugador.rondasJugadas!!!
 {
     tJugador* jugador = (tJugador*)vJugador;
-     vaciarListaSimple(&(jugador->rondasJugadas));
-     vaciarListaSimple(&(jugador->secuenciaAsignada));
+
+    mapEnListaSimple(&(jugador->rondasJugadas), vRecursos, NULL, liberarListaDeSecuenciasIngresadasPorRonda);
+    vaciarListaSimple(&(jugador->rondasJugadas));
+    vaciarListaSimple(&(jugador->secuenciaAsignada));
 }
 
 int jugar(tRecursos* recursos)

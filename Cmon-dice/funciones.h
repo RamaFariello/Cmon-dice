@@ -14,6 +14,12 @@
 #include "./Biblioteca/include/menu/menu.h"
 #include "./Biblioteca/include/generico.h"
 
+///**********
+#define DEBO_REPETIR_RONDA 1
+#define FIN_DE_RONDA 0
+#define USO_DE_VIDA -1
+///**********
+
 ///tJugador
 #define TAM_NyA 100
 
@@ -90,7 +96,6 @@
 
 #define OK 1
 
-
 ///********************
 typedef struct
 {
@@ -103,10 +108,10 @@ typedef struct
 typedef struct
 {
     tCoordenadas coordenadas;
+    HANDLE hConsole;
     int timeout;
     int tiempoRestanteParaTemporizador;
     int detenerTemporizador;
-    HANDLE hConsole;
 }tTemporizador;
 ///********************
 
@@ -117,11 +122,11 @@ typedef struct
     unsigned puntosTotales;
     t_lista rondasJugadas; //guarda un tRonda
     t_lista secuenciaAsignada; //guarda la secuencia que debe ingresar el jugador
-    t_lista respuestaFinal; //guarda todas las respuestas del jugador.
 }tJugador;
 
 typedef struct
 {
+    t_lista secuenciaIngresada;
     unsigned puntosObtenidos;
     unsigned vidasUsadas;
 }tRonda; ///una ronda por secuencia
@@ -159,7 +164,11 @@ void deshabilitarQuickEditMode();
 void* accionParaThreadDeTemporizador(void* arg);
 void configuracionesGraficas(tRecursos* recursos);
 void inicializacionDeRecursos(tRecursos* recursos, unsigned maximoTiempoParaIngresoDeRespuesta);
-void ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, unsigned maximaCantidadDeCaracteresDeSecuencia, unsigned maximoTiempoParaIngresoDeRespuesta);
+
+int ingresoDeSecuenciaManejandoPuntosYVidas(tRecursos* recursos, tJugador* jugador, int cantidadDeVidasSegunConfiguracion, unsigned maximaCantidadDeCaracteresDeSecuencia, unsigned maximoTiempoParaIngresoDeRespuesta);
+
+int comparaCaracteres(const void* a, const void* b);
+int ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, int cantidadDeVidasSegunConfiguracion, unsigned maximaCantidadDeCaracteresDeSecuencia, unsigned maximoTiempoParaIngresoDeRespuesta);
 ///***********************
 void mostrarCaracter(const void* dato);
 void temporizador(int segundos);
@@ -189,6 +198,8 @@ int pedirLetraAleatoria(tRecursos* recursos, char* letra);
 int iniciarJuego(tRecursos* recursos);
 
 void mostrarCaracteresValidos();
+void liberarListaDeSecuenciasIngresadasPorRonda(void* vRecursos, void* vRonda, int* retornoCodigoDeError);
+void liberarListasDeCadaJugador(void* vRecursos, void* vJugador, int* retornoCodigoDeError);
 int jugar(tRecursos* recursos);
 void switchTextoMenu(int opcion, void* recursos);
 

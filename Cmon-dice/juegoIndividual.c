@@ -74,15 +74,42 @@ void mostrarCaracter(const void* dato)
 //    return OK;
 //}
 
+///ACA ESTOY JUGANDO UNA RONDA LITERALMENTE y DEBO ALMACENAR LA INFO PERTINENTE
+int ingresoDeSecuenciaManejandoPuntosYVidas(tRecursos* recursos, tJugador* jugador, int cantidadDeVidasSegunConfiguracion, unsigned maximaCantidadDeCaracteresDeSecuencia, unsigned maximoTiempoParaIngresoDeRespuesta)
+{
+    int retorno;
+    ///FUNDAMENTAL -> USAR recursos->ronda COMO BUFFER(luego se graba en jugador->rondasJugadas[se graba en generaRondas])
+    ///ACTUALIZAR recursos->ronda.puntosObtenidos
+    ///ACTUALIZAR recursos->ronda.vidasUsadas
+
+    retorno = ingresoDeSecuencia(recursos, jugador, cantidadDeVidasSegunConfiguracion, maximaCantidadDeCaracteresDeSecuencia, maximoTiempoParaIngresoDeRespuesta);
+    (recursos->cantidadDeVidasUsadasTotales) += (recursos->ronda.vidasUsadas);
+
+    if(DEBO_REPETIR_RONDA == retorno)
+    {
+        return DEBO_REPETIR_RONDA;
+    }
+
+    jugador->puntosTotales += recursos->ronda.puntosObtenidos;///ACTUALIZO TOTAL
+    return FIN_DE_RONDA;
+}
+
 /// generarRondas es por CADA RONDA del jugador.
 int generaRondas(tRecursos* recursos, tJugador* jugador, int cantidadDeVidasSegunConfiguracion, int* retornoCodigoDeError)
 {
     char letra;
-    int puntosTotalesAcumulados = 0;
     unsigned cantidadDeCaracteresDeSecuencia = 1;
+    unsigned tiempoParaVisualizarSecuencia = recursos->configuraciones[recursos->indiceDeNivelDeConfiguracionElegida].tiempoDeVisualizacionSecuenciaCorrecta;
+    unsigned tiempoParaIngresarSecuencia = recursos->configuraciones[recursos->indiceDeNivelDeConfiguracionElegida].tiempoRespuestaPorRonda;
+    unsigned jugarRonda = 1;
 
+    jugador->puntosTotales = 0;
     while(cantidadDeVidasSegunConfiguracion - recursos->cantidadDeVidasUsadasTotales >= 0) //mientras tenga vidas.
     {
+        recursos->ronda.puntosObtenidos = 0;
+        recursos->ronda.vidasUsadas = 0;
+        crearListaSimple(&(recursos->ronda.secuenciaIngresada));///CREO UNA LISTA DE SECUENCIA INGRESADA POR RONDA -> LA VACIO en funcion que libera lista de Rondas por jugador
+
         if(OK != (*retornoCodigoDeError = pedirLetraAleatoria(recursos, &letra))) //si no recibo una letra válida
         {
             fprintf(stderr, "No pude obtener letra aleatoria para formar secuencia.\n");
@@ -91,18 +118,19 @@ int generaRondas(tRecursos* recursos, tJugador* jugador, int cantidadDeVidasSegu
         //si recibo una letra válida: inserto en la secuencia asignada
         insertarAlFinalEnListaSimple(&(jugador->secuenciaAsignada), &letra, sizeof(char));
 
-        mostrarSecuenciaAsignada(recursos, jugador, recursos->configuraciones[recursos->indiceDeNivelDeConfiguracionElegida].tiempoDeVisualizacionSecuenciaCorrecta);
-        ingresoDeSecuencia(recursos, jugador, cantidadDeCaracteresDeSecuencia,
-                           recursos->configuraciones[recursos->indiceDeNivelDeConfiguracionElegida].tiempoRespuestaPorRonda
-                           );
-        system("pause");
-        system("cls");
+        while(jugarRonda)
+        {
+            mostrarSecuenciaAsignada(recursos, jugador, tiempoParaVisualizarSecuencia);
+            jugarRonda = ingresoDeSecuenciaManejandoPuntosYVidas(recursos, jugador, cantidadDeVidasSegunConfiguracion, cantidadDeCaracteresDeSecuencia, tiempoParaIngresarSecuencia);
+        }
 
         cantidadDeCaracteresDeSecuencia++;
-        ///HARDCODEADO - BORRAR DESPUÉS: para que no siga en bucle infinito porque todavía no está la lógica de juego terminada
-        recursos->cantidadDeVidasUsadasTotales++;
+        tiempoParaVisualizarSecuencia++;//POR CADA RONDA, LE SUMO 1 SEGUNDO EXTRA
+        tiempoParaIngresarSecuencia++; //POR CADA RONDA, LE SUMO 1 SEGUNDO EXTRA
+
+        insertarAlFinalEnListaSimple(&(jugador->rondasJugadas), &(recursos->ronda), sizeof(tRonda));///GRABO LAS RONDAS JUGADAS
     }
-    jugador->puntosTotales = puntosTotalesAcumulados; //posiblemente haya que borrar la variable puntosTotalesAcumulados...
+
     return OK;
 }
 
@@ -112,9 +140,6 @@ void jugarRondas(void* vRecursos, void* vJugador, int* retornoCodigoDeError) //e
     tRecursos* recursos = (tRecursos*)vRecursos;
     tJugador* jugador = (tJugador*)vJugador;
     recursos->cantidadDeVidasUsadasTotales = 0;
-
-    recursos->ronda.puntosObtenidos = 0;
-    recursos->ronda.vidasUsadas = 0;
 
     printf("En este momento esta jugando:\n");
     mostrarJugador(jugador);

@@ -254,3 +254,26 @@ void* mapEnListaSimple(const t_lista* pl, void* recursos, int* retornoCodigoDeEr
     return inicioLista;
 }
 
+int verificarIgualdadEnCantidadDeElementosYContenidoEnListaSimple(t_lista* lista1, t_lista* lista2, int(*comparar)(const void* a, const void* b))
+{
+    int cmp;
+
+    if(!*lista1 || !*lista2)
+    {
+        return LISTAS_VACIAS;
+    }
+
+    while(*lista1 && *lista2 && !(cmp = comparar((*lista1)->dato, (*lista2)->dato)))
+    {
+        lista1 = &((*lista1)->sig);
+        lista2 = &((*lista2)->sig);
+    }
+
+    if((*lista1 || *lista2) || cmp)
+    {
+        return NO_SON_IGUALES;
+    }
+
+    return OK;
+}
+
