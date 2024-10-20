@@ -70,22 +70,11 @@ void mostrarListaSimpleEnOrden(const t_lista* pl, void (*mostrar)(const void* da
     while(*pl)
     {
         mostrar((*pl)->dato);
-        printf("\n");
         pl = &((*pl)->sig);
     }
+    printf("\n");
 }
 
-void mostrarListaSimpleEnOrdenFormatoEspecial(const t_lista* pl, void (*mostrar)(const void* dato))
-{
-    printf("\n");
-    while(*pl)
-    {
-        mostrar((*pl)->dato);
-        printf(" ");
-        pl = &((*pl)->sig);
-    }
-    printf("\n");
-}
 
 int listaSimpleVacia(const t_lista* pl)
 {

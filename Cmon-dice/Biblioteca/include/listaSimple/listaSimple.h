@@ -25,7 +25,6 @@ void crearListaSimple(t_lista* pl);
 int insertarAlFinalEnListaSimple(t_lista* pl, const void* dato, unsigned tam);
 int sacarPrimeroEnListaSimple(t_lista* pl, void* dato, unsigned tam);
 void mostrarListaSimpleEnOrden(const t_lista* pl, void (*mostrar)(const void* dato));
-void mostrarListaSimpleEnOrdenFormatoEspecial(const t_lista* pl, void (*mostrar)(const void* dato));
 void vaciarListaSimple(t_lista *pl);
 int listaSimpleVacia(const t_lista* pl);
 //int insertarOrdenadoSinDuplicados(t_lista* pl, const void* dato, unsigned tam, int (*comparar)(const void* a, const void* b));

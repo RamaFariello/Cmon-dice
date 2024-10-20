@@ -4,8 +4,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <conio.h>
-#include <windows.h>
+#include <conio.h>     //Para _kbhit() y _getch()
+#include <windows.h>   //Para Sleep y funciones de Windows
+#include <pthread.h>   //Para usar hilos para temporizador en paralelo
+
 #include "curl.h"
 
 #include "./Biblioteca/include/listaSimple/listaSimple.h"
@@ -88,6 +90,26 @@
 
 #define OK 1
 
+
+///********************
+typedef struct
+{
+    COORD posicionDeOrigen;
+    COORD posicionDeTextoLetraIngresada;
+    COORD posicionDeTextoFinal;
+    COORD posicionDelTemporizadorEnConsola;
+}tCoordenadas;
+
+typedef struct
+{
+    tCoordenadas coordenadas;
+    int timeout;
+    int tiempoRestanteParaTemporizador;
+    int detenerTemporizador;
+    HANDLE hConsole;
+}tTemporizador;
+///********************
+
 typedef struct
 {
     unsigned id;
@@ -124,8 +146,22 @@ typedef struct
     tReconstruccionDato datoRespuestaAPI; // para almacenar la respuesta de la API
     char* cadenaDeIndicesTraidosDeAPI;
     unsigned cantidadDeIndicesDeCaracteresDeSecuenciaRestantes;
+
+    tTemporizador temporizador;///AGREGADO PARA TEST
 }tRecursos;
 
+///***********************
+void mostrarSecuenciaAsignada(tRecursos* recursos, tJugador* jugador, unsigned tiempoDeVisualizacion);
+
+void ocultarCursor(tRecursos* recursos);
+void limpiarConsola(tRecursos* recursos);
+void deshabilitarQuickEditMode();
+void* accionParaThreadDeTemporizador(void* arg);
+void configuracionesGraficas(tRecursos* recursos);
+void inicializacionDeRecursos(tRecursos* recursos, unsigned maximoTiempoParaIngresoDeRespuesta);
+void ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, unsigned maximaCantidadDeCaracteresDeSecuencia, unsigned maximoTiempoParaIngresoDeRespuesta);
+///***********************
+void mostrarCaracter(const void* dato);
 void temporizador(int segundos);
 
 void mostrarConfiguracionElegida(tConfiguracion* configuracion, unsigned indiceDeNivelDeConfiguracionElegida);

@@ -275,85 +275,89 @@
 1728853595 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\main.c
 	"funciones.h"
 
-1728702921 source:c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\src\cola\cola.c
+1729381220 source:c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\src\cola\cola.c
 	"../../include/cola/cola.h"
 
-1728702921 c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\include\cola\cola.h
+1729381220 c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\include\cola\cola.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 
-1728702921 source:c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\src\generico.c
+1729381220 source:c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\src\generico.c
 	"../include/generico.h"
 
-1728702921 c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\include\generico.h
+1729381220 c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\include\generico.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 
-1728747674 source:c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\src\listasimple\listasimple.c
+1729388000 source:c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\src\listasimple\listasimple.c
 	"../../include/listaSimple/listaSimple.h"
 
-1728747520 c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\include\listasimple\listasimple.h
+1729388002 c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\include\listasimple\listasimple.h
 	<stdlib.h>
 	<stdio.h>
 	<string.h>
 	<time.h>
 
-1728702921 source:c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\src\menu\arbol.c
+1729381220 source:c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\src\menu\arbol.c
 	"../../include/menu/arbol.h"
 
-1728702921 c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\include\menu\arbol.h
+1729381220 c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\include\menu\arbol.h
 	<stdlib.h>
 	<string.h>
 	<stdio.h>
 
-1728702921 source:c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\src\menu\menu.c
+1729381220 source:c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\src\menu\menu.c
 	"../../include/menu/menu.h"
 
-1728702921 c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\include\menu\menu.h
+1729381220 c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\include\menu\menu.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	"arbol.h"
 
-1728702921 source:c:\users\pc\desktop\cmon-dice\cmon-dice\curl.c
+1729381220 source:c:\users\pc\desktop\cmon-dice\cmon-dice\curl.c
 	"curl.h"
 
-1728702921 c:\users\pc\desktop\cmon-dice\cmon-dice\curl.h
+1729381220 c:\users\pc\desktop\cmon-dice\cmon-dice\curl.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<curl/curl.h>
 
-1728749968 source:c:\users\pc\desktop\cmon-dice\cmon-dice\main.c
+1729381220 source:c:\users\pc\desktop\cmon-dice\cmon-dice\main.c
 	"funciones.h"
 
-1728745832 c:\users\pc\desktop\cmon-dice\cmon-dice\funciones.h
+1729386999 c:\users\pc\desktop\cmon-dice\cmon-dice\funciones.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
+	<time.h>
+	<conio.h>
+	<windows.h>
+	<pthread.h>
 	"curl.h"
 	"./Biblioteca/include/listaSimple/listaSimple.h"
 	"./Biblioteca/include/menu/menu.h"
 	"./Biblioteca/include/generico.h"
 
-1728842509 source:c:\users\pc\desktop\cmon-dice\cmon-dice\funciones.c
+1729384188 source:c:\users\pc\desktop\cmon-dice\cmon-dice\funciones.c
 	"funciones.h"
 
 1728860621 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\juegoindividual.c
 	"funciones.h"
 
-1728843036 source:c:\users\pc\desktop\cmon-dice\cmon-dice\juegoindividual.c
+1729387955 source:c:\users\pc\desktop\cmon-dice\cmon-dice\juegoindividual.c
 	"funciones.h"
 
-1728779348 source:c:\users\pc\desktop\cmon-dice\cmon-dice\consumoapi.c
+1729381220 source:c:\users\pc\desktop\cmon-dice\cmon-dice\consumoapi.c
 	"funciones.h"
 
-1728706461 source:c:\users\pc\desktop\cmon-dice\cmon-dice\informe.c
+1729381220 source:c:\users\pc\desktop\cmon-dice\cmon-dice\informe.c
 	"funciones.h"
 
-1728746931 source:c:\users\pc\desktop\cmon-dice\cmon-dice\configuraciones.c
+1729381220 source:c:\users\pc\desktop\cmon-dice\cmon-dice\configuraciones.c
 	"funciones.h"
 
 1728853595 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\configuraciones.c
@@ -363,5 +367,8 @@
 	"funciones.h"
 
 1728853595 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\informe.c
+	"funciones.h"
+
+1729387571 source:c:\users\pc\desktop\cmon-dice\cmon-dice\ingresodesecuencia.c
 	"funciones.h"
 
