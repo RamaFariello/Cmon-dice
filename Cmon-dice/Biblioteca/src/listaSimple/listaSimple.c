@@ -277,3 +277,28 @@ int verificarIgualdadEnCantidadDeElementosYContenidoEnListaSimple(t_lista* lista
     return OK;
 }
 
+int sacarUltimoEnListaSimple(t_lista* pl, void* dato, unsigned tam)
+{
+    t_nodo* nodoAEliminar;
+
+    if(!*pl)
+    {
+        return NO_HAY_ELEMENTOS;
+    }
+
+    while((*pl)->sig)
+    {
+        pl = &((*pl)->sig);
+    }
+
+    nodoAEliminar = *pl;
+    memcpy(dato, nodoAEliminar->dato, MENOR(nodoAEliminar->tam, tam));
+
+    *pl = nodoAEliminar->sig;
+
+    free(nodoAEliminar->dato);
+    free(nodoAEliminar);
+
+    return OK;
+}
+

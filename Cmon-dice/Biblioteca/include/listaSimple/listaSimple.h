@@ -42,5 +42,5 @@ void mezclarListaSimpleAleatoriamente(t_lista* pl, unsigned cantidadDeElementos)
 void* mapEnListaSimple(const t_lista* pl, void* recursos, int* retornoCodigoDeError, void (*accion)(void* recursos, void* dato, int* retornoCodigoDeError));
 
 int verificarIgualdadEnCantidadDeElementosYContenidoEnListaSimple(t_lista* lista1, t_lista* lista2, int(*comparar)(const void* a, const void* b));
-
+int sacarUltimoEnListaSimple(t_lista* pl, void* dato, unsigned tam);
 #endif // LISTASIMPLE_H_INCLUDED
