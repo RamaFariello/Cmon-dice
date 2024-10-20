@@ -274,7 +274,7 @@ int verificarIgualdadEnCantidadDeElementosYContenidoEnListaSimple(t_lista* lista
         return NO_SON_IGUALES;
     }
 
-    return OK;
+    return SON_IGUALES;
 }
 
 int sacarUltimoEnListaSimple(t_lista* pl, void* dato, unsigned tam)

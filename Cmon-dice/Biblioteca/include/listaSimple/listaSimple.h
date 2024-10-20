@@ -8,8 +8,9 @@
 #define NO_PUDE_INSERTAR 0
 #define NO_HAY_ELEMENTOS 0
 
-#define NO_SON_IGUALES 0
 #define LISTAS_VACIAS -1
+#define NO_SON_IGUALES 0
+#define SON_IGUALES 1
 
 #define OK 1
 

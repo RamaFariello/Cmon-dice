@@ -5,82 +5,12 @@ void mostrarCaracter(const void* dato)
     printf("%c\n", *(char*)dato);
 }
 
-//void temporizador(int segundos)
-//{
-//    double tiempoLimite = (double)segundos; // Tiempo límite en segundos
-//
-//    // Capturar el tiempo de inicio
-//    clock_t tiempoInicio = clock();
-//
-//    while (1)
-//    {
-//
-//        // Calcular el tiempo transcurrido
-//        clock_t tiempoActual = clock();
-//        double tiempoTranscurrido = (double)(tiempoActual - tiempoInicio) / CLOCKS_PER_SEC;
-//
-//        // Verificar si han pasado los segundos
-//        if (tiempoTranscurrido >= tiempoLimite)
-//        {
-//            break;
-//        }
-//
-//        // Agregar un pequeño retraso para evitar consumir demasiados recursos
-//        Sleep(100); // 100 milisegundos
-//    }
-//
-//    //si salgo del while es que se agotó el tiempo
-//    printf("Tiempo agotado.\n");
-//}
-
-//int respuestaJugador(tRecursos* recursos, tJugador* jugador, unsigned tiempoVisualizacion, unsigned tiempoRespuesta)
-//{
-//    char caracterIngresado[2];
-//    t_lista secuenciaIngresada;
-//    crearListaSimple(&secuenciaIngresada);
-//
-//    ///muestro la secuencia por tiempo configurado.
-//    printf("\nSecuencia asignada:");
-//    mostrarListaSimpleEnOrdenFormatoEspecial(&(jugador->secuenciaAsignada), mostrarCaracter);
-//    temporizador(tiempoVisualizacion);
-//    system("cls");
-//
-//
-////    /// 4. El jugador ingresa su respuesta (magia del juego)
-///// VER DE PONER EL LÍMITE DEL TIEMPO
-//    fflush(stdin);
-//    fgets(caracterIngresado,2,stdin);
-//    do
-//    {
-//        insertarAlFinalEnListaSimple(&secuenciaIngresada, &caracterIngresado, sizeof(char));
-//    }
-//    while(strstr(caracterIngresado,CARACTERES_VALIDOS_A_INGRESAR_PARA_SECUENCIA));
-//
-////    /** COSAS A TENER EN CUENTA:
-////        - USO DE VIDAS: resetean el tiempo, pueden finalizar la jugada (si se acaban),
-////         hay que retroceder en la lista de respuesta según la cantidad de vidas usadas.
-////        - TIEMPO: si se acaba el tiempo se pierde una vida y se vuelve a mostrar la secuencia.
-//    // RECORDAR: se suma 1 segundo al tiempo de respuesta por cada respuesta correcta (o por cada ronda superada).
-////     */
-////
-////    /// 4.1 El jugador sigue en juego
-//
-////
-////    /// 4.2 El jugador PERDIÓ --> Se quedó sin vida.
-//
-///// 4.3 obligatorio: se guarda la respuesta mandada en jugador.respuestaFinal (no importa si acertó o no).
-////    //se tiene que guardar la última respuesta que hizo que el jugador perdiera + puntos ganados (técnicamente 0).
-//    vaciarListaSimple(&secuenciaIngresada);
-//    return OK;
-//}
-
 ///ACA ESTOY JUGANDO UNA RONDA LITERALMENTE y DEBO ALMACENAR LA INFO PERTINENTE
 int ingresoDeSecuenciaManejandoPuntosYVidas(tRecursos* recursos, tJugador* jugador, int cantidadDeVidasSegunConfiguracion, unsigned maximaCantidadDeCaracteresDeSecuencia, unsigned maximoTiempoParaIngresoDeRespuesta)
 {
     int retorno;
-    ///FUNDAMENTAL -> USAR recursos->ronda COMO BUFFER(luego se graba en jugador->rondasJugadas[se graba en generaRondas])
-    ///ACTUALIZAR recursos->ronda.puntosObtenidos
-    ///ACTUALIZAR recursos->ronda.vidasUsadas
+    ///ACTUALIZAR recursos->ronda.puntosObtenidos[ingresoDeSecuencia ACÁ!!!]
+    ///ACTUALIZAR recursos->ronda.vidasUsadas[ingresoDeSecuencia ACÁ!!!]
 
     retorno = ingresoDeSecuencia(recursos, jugador, cantidadDeVidasSegunConfiguracion, maximaCantidadDeCaracteresDeSecuencia, maximoTiempoParaIngresoDeRespuesta);
     (recursos->cantidadDeVidasUsadasTotales) += (recursos->ronda.vidasUsadas);
@@ -103,7 +33,7 @@ int generaRondas(tRecursos* recursos, tJugador* jugador, int cantidadDeVidasSegu
     unsigned tiempoParaIngresarSecuencia = recursos->configuraciones[recursos->indiceDeNivelDeConfiguracionElegida].tiempoRespuestaPorRonda;
     int jugarRonda;
 
-    jugador->puntosTotales = 0;
+    *retornoCodigoDeError = OK;
     while(cantidadDeVidasSegunConfiguracion - recursos->cantidadDeVidasUsadasTotales >= 0) //mientras tenga vidas.
     {
         recursos->ronda.puntosObtenidos = 0;
@@ -117,23 +47,26 @@ int generaRondas(tRecursos* recursos, tJugador* jugador, int cantidadDeVidasSegu
         }
         //si recibo una letra válida: inserto en la secuencia asignada
         insertarAlFinalEnListaSimple(&(jugador->secuenciaAsignada), &letra, sizeof(char));
-        jugarRonda = DEBO_REPETIR_RONDA;
 
+        jugarRonda = DEBO_REPETIR_RONDA;
         while(FIN_DE_RONDA != jugarRonda)
         {
             mostrarSecuenciaAsignada(recursos, jugador, tiempoParaVisualizarSecuencia);
             jugarRonda = ingresoDeSecuenciaManejandoPuntosYVidas(recursos, jugador, cantidadDeVidasSegunConfiguracion, cantidadDeCaracteresDeSecuencia, tiempoParaIngresarSecuencia);
+            printf("\n");
+            system("pause");
+            system("cls");
         }
 
         cantidadDeCaracteresDeSecuencia++;
         tiempoParaVisualizarSecuencia++;//POR CADA RONDA, LE SUMO 1 SEGUNDO EXTRA
         tiempoParaIngresarSecuencia++; //POR CADA RONDA, LE SUMO 1 SEGUNDO EXTRA
 
-        insertarAlFinalEnListaSimple(&(jugador->rondasJugadas), &(recursos->ronda), sizeof(tRonda));///GRABO LAS RONDAS JUGADAS
-        (recursos->cantidadDeVidasUsadasTotales)++;
+        insertarAlFinalEnListaSimple(&(jugador->rondasJugadas), &(recursos->ronda), sizeof(tRonda));
     }
+    (recursos->cantidadDeJugadores) --;///AYUDO A CONSUMO API PARA SER MAS EFICIENTE.
 
-    return OK;
+    return *retornoCodigoDeError;
 }
 
 /// jugarRondas es UNA VEZ por jugador.
@@ -142,6 +75,7 @@ void jugarRondas(void* vRecursos, void* vJugador, int* retornoCodigoDeError) //e
     tRecursos* recursos = (tRecursos*)vRecursos;
     tJugador* jugador = (tJugador*)vJugador;
     recursos->cantidadDeVidasUsadasTotales = 0;
+    jugador->puntosTotales = 0;
 
     printf("En este momento esta jugando:\n");
     mostrarJugador(jugador);
@@ -178,44 +112,3 @@ int iniciarJuego(tRecursos* recursos)
     liberarRecursosParaConsumoDeAPI(recursos);
     return retornoCodigoDeError;
 }
-
-
-//int generarRondasViejo(tRecursos* recursos)
-//{
-//    /// 1. inicializar variables y listas
-//    //crearLista(respuesta);
-//
-//    //ronda.vidasUsadas = 0;
-//    //tiempo = recursos.configuracion[INDICE].tiempo;
-//    //ronda.puntosObtenidos = 0;
-//    char letra; //para poder guardarla en la secuencia;
-//    int retornoCodigoDeError;
-//
-//    /// 2. Pedir la secuencia
-//    if(OK != (retornoCodigoDeError = pedirLetraAleatoria(recursos, &letra)))/// ver lógica para volver a consumir API
-//    {
-//        return retornoCodigoDeError;
-//    }
-//
-//    /// 3.guardar y mostrar la secuencia
-//    //insertarAlFinalDeLista(jugador.secuencia, &letra);
-//    // mostrarSecuenciaPorTiempo();
-//
-//    /// 4. El jugador ingresa su respuesta (magia del juego)
-//
-//    //ingresarRespuesta();
-//    /** COSAS A TENER EN CUENTA:
-//        - USO DE VIDAS: resetean el tiempo, pueden finalizar la jugada (si se acaban),
-//         hay que retroceder en la lista de respuesta según la cantidad de vidas usadas.
-//        - TIEMPO: si se acaba el tiempo se pierde una vida y se vuelve a mostrar la secuencia.
-//     */
-//
-//    /// 4.1 El jugador sigue en juego
-//
-//    /// 4.2 El jugador PERDIÓ --> Se quedó sin vida.
-//    //se tiene que guardar la última respuesta que hizo que el jugador perdiera + puntos ganados (técnicamente 0).
-//
-//    /// 5.Liberar recursos temporales
-//    return retornoCodigoDeError;
-//}
-

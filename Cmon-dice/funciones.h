@@ -152,7 +152,7 @@ typedef struct
     char* cadenaDeIndicesTraidosDeAPI;
     unsigned cantidadDeIndicesDeCaracteresDeSecuenciaRestantes;
 
-    tTemporizador temporizador;///AGREGADO PARA TEST
+    tTemporizador temporizador;
 }tRecursos;
 
 ///***********************
