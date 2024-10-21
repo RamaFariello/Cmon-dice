@@ -72,6 +72,7 @@ int ingresoDeNombresAListaSimple(t_lista* listaDeJugadores, unsigned* cantidadDe
         {
             (jugador.id)++;///SOLO SI ES UN NOMBRE VALIDO LE ASIGNO ID
             (*cantidadDeJugadores) = jugador.id;
+            jugador.puntosTotales = 0;
 
             ///ACA VAN TODAS LAS INICIALIZACIONES NECESARIAS PARA LOS JUGADORES:
             crearListaSimple(&jugador.rondasJugadas);

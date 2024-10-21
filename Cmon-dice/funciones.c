@@ -98,7 +98,7 @@ void liberarListasDeCadaJugador(void* vRecursos, void* vJugador, int* retornoCod
 {
     tJugador* jugador = (tJugador*)vJugador;
 
-    mapEnListaSimple(&(jugador->rondasJugadas), vRecursos, NULL, liberarListaDeSecuenciasIngresadasPorRonda);
+    mapEnListaSimple(&(jugador->rondasJugadas), NULL, NULL, liberarListaDeSecuenciasIngresadasPorRonda);
     vaciarListaSimple(&(jugador->rondasJugadas));
     vaciarListaSimple(&(jugador->secuenciaAsignada));
 }

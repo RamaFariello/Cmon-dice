@@ -460,3 +460,88 @@
 1729438514 source:c:\users\pc\desktop\cmon-dice-actual\cmon-dice\temporizador.c
 	"funciones.h"
 
+1729381220 source:c:\users\pc\desktop\cmon-dice - actual\cmon-dice\biblioteca\src\cola\cola.c
+	"../../include/cola/cola.h"
+
+1729381220 c:\users\pc\desktop\cmon-dice - actual\cmon-dice\biblioteca\include\cola\cola.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1729381220 source:c:\users\pc\desktop\cmon-dice - actual\cmon-dice\biblioteca\src\generico.c
+	"../include/generico.h"
+
+1729381220 c:\users\pc\desktop\cmon-dice - actual\cmon-dice\biblioteca\include\generico.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1729455814 source:c:\users\pc\desktop\cmon-dice - actual\cmon-dice\biblioteca\src\listasimple\listasimple.c
+	"../../include/listaSimple/listaSimple.h"
+
+1729455831 c:\users\pc\desktop\cmon-dice - actual\cmon-dice\biblioteca\include\listasimple\listasimple.h
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<time.h>
+
+1729381220 source:c:\users\pc\desktop\cmon-dice - actual\cmon-dice\biblioteca\src\menu\arbol.c
+	"../../include/menu/arbol.h"
+
+1729381220 c:\users\pc\desktop\cmon-dice - actual\cmon-dice\biblioteca\include\menu\arbol.h
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+
+1729381220 source:c:\users\pc\desktop\cmon-dice - actual\cmon-dice\biblioteca\src\menu\menu.c
+	"../../include/menu/menu.h"
+
+1729381220 c:\users\pc\desktop\cmon-dice - actual\cmon-dice\biblioteca\include\menu\menu.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"arbol.h"
+
+1729512705 source:c:\users\pc\desktop\cmon-dice - actual\cmon-dice\configuraciones.c
+	"funciones.h"
+
+1729543793 c:\users\pc\desktop\cmon-dice - actual\cmon-dice\funciones.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<conio.h>
+	<windows.h>
+	<pthread.h>
+	"curl.h"
+	"./Biblioteca/include/listaSimple/listaSimple.h"
+	"./Biblioteca/include/menu/menu.h"
+	"./Biblioteca/include/generico.h"
+
+1729381220 c:\users\pc\desktop\cmon-dice - actual\cmon-dice\curl.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<curl/curl.h>
+
+1729381220 source:c:\users\pc\desktop\cmon-dice - actual\cmon-dice\consumoapi.c
+	"funciones.h"
+
+1729381220 source:c:\users\pc\desktop\cmon-dice - actual\cmon-dice\curl.c
+	"curl.h"
+
+1729525460 source:c:\users\pc\desktop\cmon-dice - actual\cmon-dice\funciones.c
+	"funciones.h"
+
+1729381220 source:c:\users\pc\desktop\cmon-dice - actual\cmon-dice\informe.c
+	"funciones.h"
+
+1729543857 source:c:\users\pc\desktop\cmon-dice - actual\cmon-dice\juegoindividual.c
+	"funciones.h"
+
+1729511918 source:c:\users\pc\desktop\cmon-dice - actual\cmon-dice\main.c
+	"funciones.h"
+
+1729545348 source:c:\users\pc\desktop\cmon-dice - actual\cmon-dice\temporizador.c
+	"funciones.h"
+

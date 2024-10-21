@@ -21,7 +21,6 @@ int main()
 
     if(!cargarConfiguraciones(aConfiguracion, recursos.configuraciones))
     {
-        vaciarListaSimple(&recursos.listaDeJugadores);
         fclose(aConfiguracion);
         return ARCHIVO_TXT_DE_CONFIGURACION_CON_ERRORES;
     }

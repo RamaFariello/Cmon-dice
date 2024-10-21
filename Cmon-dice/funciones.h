@@ -14,11 +14,12 @@
 #include "./Biblioteca/include/menu/menu.h"
 #include "./Biblioteca/include/generico.h"
 
-///**********
-#define DEBO_REPETIR_RONDA 1
-#define FIN_DE_RONDA 0
-#define USO_DE_VIDA -1
-///**********
+#define REINICIAR_NIVEL -1
+#define FIN_DE_JUEGO 0
+#define INGRESO_SIN_MOSTRAR 1
+
+#define FIN_DE_RONDA_ACTUAL -1000
+
 
 ///tJugador
 #define TAM_NyA 100
@@ -117,19 +118,19 @@ typedef struct
 
 typedef struct
 {
-    unsigned id;
-    char nya[TAM_NyA];
-    unsigned puntosTotales;
-    t_lista rondasJugadas; //guarda un tRonda
-    t_lista secuenciaAsignada; //guarda la secuencia que debe ingresar el jugador
-}tJugador;
-
-typedef struct
-{
     t_lista secuenciaIngresada;
     unsigned puntosObtenidos;
     unsigned vidasUsadas;
-}tRonda; ///una ronda por secuencia
+}tRonda;
+
+typedef struct
+{
+    unsigned id;
+    char nya[TAM_NyA];
+    unsigned puntosTotales;
+    t_lista rondasJugadas;  ///contenido de esta lista: NODOS de tipo tRonda
+    t_lista secuenciaAsignada;
+}tJugador;
 
 typedef struct
 {
@@ -140,15 +141,13 @@ typedef struct
 
 typedef struct
 {
-    tConfiguracion configuraciones[CANTIDAD_DE_NIVELES]; // configuración según el nivel
-    unsigned indiceDeNivelDeConfiguracionElegida; // lo que se lecciona en el menú, para buscarlo en el vector de configuración según nivel
+    tConfiguracion configuraciones[CANTIDAD_DE_NIVELES];
+    unsigned indiceDeNivelDeConfiguracionElegida;
 
     t_lista listaDeJugadores;
-    tRonda ronda;   ///BUFFER para usar en cada una de las rondas para todos los jugadores
-    int cantidadDeVidasUsadasTotales;
     unsigned cantidadDeJugadores;
 
-    tReconstruccionDato datoRespuestaAPI; // para almacenar la respuesta de la API
+    tReconstruccionDato datoRespuestaAPI;
     char* cadenaDeIndicesTraidosDeAPI;
     unsigned cantidadDeIndicesDeCaracteresDeSecuenciaRestantes;
 
@@ -156,7 +155,7 @@ typedef struct
 }tRecursos;
 
 ///***********************
-void mostrarSecuenciaAsignada(tRecursos* recursos, tJugador* jugador, unsigned tiempoDeVisualizacion);
+int comparaCaracteres(const void* a, const void* b);
 
 void ocultarCursor(tRecursos* recursos);
 void limpiarConsola(tRecursos* recursos);
@@ -165,13 +164,10 @@ void* accionParaThreadDeTemporizador(void* arg);
 void configuracionesGraficas(tRecursos* recursos);
 void inicializacionDeRecursos(tRecursos* recursos, unsigned maximoTiempoParaIngresoDeRespuesta);
 
-int ingresoDeSecuenciaManejandoPuntosYVidas(tRecursos* recursos, tJugador* jugador, int cantidadDeVidasSegunConfiguracion, unsigned maximaCantidadDeCaracteresDeSecuencia, unsigned maximoTiempoParaIngresoDeRespuesta);
-
-int comparaCaracteres(const void* a, const void* b);
-int ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, int cantidadDeVidasSegunConfiguracion, unsigned maximaCantidadDeCaracteresDeSecuencia, unsigned maximoTiempoParaIngresoDeRespuesta);
+void mostrarSecuenciaAsignada(tRecursos* recursos, tJugador* jugador, unsigned tiempoParaVisualizarSecuencia);
+int ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int* cantidadDeVidasDelJugador, unsigned cantidadDeCaracteresDeSecuencia, unsigned tiempoParaIngresarSecuencia);
 ///***********************
 void mostrarCaracter(const void* dato);
-void temporizador(int segundos);
 
 void mostrarConfiguracionElegida(tConfiguracion* configuracion, unsigned indiceDeNivelDeConfiguracionElegida);
 int cargarConfiguraciones(FILE* aConfiguracion, tConfiguracion* configuraciones);
