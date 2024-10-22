@@ -44,4 +44,9 @@ void* mapEnListaSimple(const t_lista* pl, void* recursos, int* retornoCodigoDeEr
 
 int verificarIgualdadEnCantidadDeElementosYContenidoEnListaSimple(t_lista* lista1, t_lista* lista2, int(*comparar)(const void* a, const void* b));
 int sacarUltimoEnListaSimple(t_lista* pl, void* dato, unsigned tam);
+void imprimirNNodosEnListaSimple(t_lista* pl, FILE* pf, int cantidadDeElementosAImprimir, int* retornoCodigoDeError, void(*imprimir)(void* pf, void* dato, int* retornoCodigoDeError));
+t_nodo** buscarMenor (t_lista *pl, int (*comparar)(const void* a, const void* b));
+void ordenarLista (t_lista *pl, int (*comparar)(const void* a, const void* b));
+void* filtrarPorClaveEnListaSimple(t_lista* pl, const void* clave, void* recursos, int* retornoCodigoDeError, int(*comparar)(const void* a, const void* b), void (*accion)(void* recursos, void* dato, int* retornoCodigoDeError));
+
 #endif // LISTASIMPLE_H_INCLUDED
