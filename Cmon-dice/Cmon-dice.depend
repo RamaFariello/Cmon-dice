@@ -291,7 +291,7 @@
 	<stdlib.h>
 	<string.h>
 
-1729629157 source:c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\src\listasimple\listasimple.c
+1729629533 source:c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\src\listasimple\listasimple.c
 	"../../include/listaSimple/listaSimple.h"
 
 1729627204 c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\include\listasimple\listasimple.h
@@ -342,7 +342,7 @@
 	"./Biblioteca/include/menu/menu.h"
 	"./Biblioteca/include/generico.h"
 
-1729629412 source:c:\users\pc\desktop\cmon-dice\cmon-dice\funciones.c
+1729629519 source:c:\users\pc\desktop\cmon-dice\cmon-dice\funciones.c
 	"funciones.h"
 
 1728860621 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\juegoindividual.c
@@ -354,7 +354,7 @@
 1729381220 source:c:\users\pc\desktop\cmon-dice\cmon-dice\consumoapi.c
 	"funciones.h"
 
-1729628661 source:c:\users\pc\desktop\cmon-dice\cmon-dice\informe.c
+1729629423 source:c:\users\pc\desktop\cmon-dice\cmon-dice\informe.c
 	"funciones.h"
 
 1729512705 source:c:\users\pc\desktop\cmon-dice\cmon-dice\configuraciones.c

@@ -162,7 +162,9 @@ int usarVida(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int* cantida
     int cantidadIngresada;
     char aux;
 
+
     *ch = '\0';
+
     // CAMINO BONITO -> SECUENCIA CORRECTA
     if(SON_IGUALES == verificarIgualdadEnCantidadDeElementosYContenidoEnListaSimple(&(jugador->secuenciaAsignada), &(ronda->secuenciaIngresada), comparaCaracteres))
     {
@@ -236,11 +238,12 @@ int ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, tRonda* ronda, in
 
     while(FIN_DE_RONDA_ACTUAL != deboIngresarSecuencia)
     {
-        if(*cantidadDeVidasDelJugador >= 0)
-        {
-            printf("Ingresa un caracter: %s.\n", CARACTERES_VALIDOS_A_INGRESAR_PARA_SECUENCIA);
+//        if(*cantidadDeVidasDelJugador >= 0)
+//        {
+//            printf("Ingresa un caracter: %s.\n", CARACTERES_VALIDOS_A_INGRESAR_PARA_SECUENCIA);
+//
+//        }
 
-        }
         pthread_create(&id, NULL, accionParaThreadDeTemporizador, recursos);
         recursos->temporizador.timeout = 0;
         recursos->temporizador.detenerTemporizador = 0;
@@ -274,6 +277,7 @@ int ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, tRonda* ronda, in
                 }
             }
         }
+        recursos->temporizador.detenerTemporizador = 1;
         ///QUE PASO?, PORQUE SALI => MANEJARLO y darle valor a deboIngresarSecuencia para ver si necesito seguir ingresando o me voy
         recursos->temporizador.detenerTemporizador = 1;
         pthread_join(id, NULL);
@@ -299,6 +303,11 @@ int ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, tRonda* ronda, in
                 /// tengo que mostrar la secuencia ingresada por donde la dejé después de retroceder
                 mostrarListaSimpleEnOrden(&(ronda->secuenciaIngresada), mostrarCaracter);
             }
+            else if(INGRESO_SIN_MOSTRAR == deboIngresarSecuencia)
+                {
+                    /// tengo que mostrar la secuencia ingresada por donde la dejé después de retroceder
+                    mostrarListaSimpleEnOrden(&(ronda->secuenciaIngresada), mostrarCaracter);
+                }
 
 //        FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
 ///TEMPORIZADOR SE PAUSA SOLO, esta linea es solo si quiero pausarlo a mano
