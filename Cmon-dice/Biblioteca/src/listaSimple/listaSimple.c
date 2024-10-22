@@ -302,3 +302,80 @@ int sacarUltimoEnListaSimple(t_lista* pl, void* dato, unsigned tam)
     return OK;
 }
 
+///imprimirNNodosEnListaSimple(rondaFinalizada->secuenciaAsignada, *(rondaFinalizada->archivo), ronda->cantidadDeCaracteresDeSecuencia, imprimirSecuencia);
+void imprimirNNodosEnListaSimple(t_lista* pl, FILE* pf, int cantidadDeElementosAImprimir, int* retornoCodigoDeError, void(*imprimir)(void* pf, void* dato, int* retornoCodigoDeError))
+{
+    if(cantidadDeElementosAImprimir < 0)
+    {
+        fprintf(stderr, "Cantidad de elementos a mostrar negativa.\n");
+        return;
+    }
+
+    while(*pl && cantidadDeElementosAImprimir)
+    {
+        imprimir(pf, (*pl)->dato, retornoCodigoDeError);
+        cantidadDeElementosAImprimir--;
+        pl = &((*pl)->sig);
+    }
+}
+
+t_nodo** buscarMenor (t_lista *pl, int (*comparar)(const void* a, const void* b))
+{
+    t_nodo** menor = pl;
+
+    while(*pl)
+    {
+        pl = &((*pl)->sig);
+
+        if((*pl) && comparar((*pl)->dato,(*menor)->dato)<0)
+        {
+            menor = pl;
+        }
+    }
+    return menor;
+}
+
+void ordenarLista (t_lista *pl, int (*comparar)(const void* a, const void* b))
+{
+    t_nodo** menor;
+    t_nodo* aux;
+
+    while(*pl)
+    {
+        menor = buscarMenor(pl,comparar);
+        if(comparar((*menor)->dato,(*pl)->dato) != 0)
+        {
+            aux = *pl;
+            *pl = *menor;
+            *menor = aux;
+
+            aux = (*pl)->sig;
+            (*pl)->sig = (*menor)->sig;
+            (*menor)->sig = aux;
+        }
+        pl = &((*pl)->sig);
+    }
+
+}
+
+void* filtrarPorClaveEnListaSimple(t_lista* pl, const void* clave, void* recursos, int* retornoCodigoDeError, int(*comparar)(const void* a, const void* b), void (*accion)(void* recursos, void* dato, int* retornoCodigoDeError))
+{
+    t_nodo* inicioLista = *pl;
+
+    while(*pl)
+    {
+        if(!comparar((*pl)->dato, clave))
+        {
+            accion(recursos, (*pl)->dato, retornoCodigoDeError);
+        }
+        pl = &((*pl)->sig);
+    }
+
+    return inicioLista;
+}
+
+
+
+
+
+

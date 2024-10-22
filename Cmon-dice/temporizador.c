@@ -155,24 +155,27 @@ int ingresaYValida(int min, int max)
 }
 
 ///NO TERMINE DE ESCRIBIR LA SECUENCIA
-int usarVida(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int* cantidadDeVidasDelJugador, int* cantidadDeCaracteresDeSecuenciaIngresados, unsigned cantidadDeCaracteresDeSecuencia, unsigned tiempoParaIngresarSecuencia, char ch)
+int usarVida(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int* cantidadDeVidasDelJugador, int* cantidadDeCaracteresDeSecuenciaIngresados, unsigned cantidadDeCaracteresDeSecuencia, unsigned tiempoParaIngresarSecuencia, char* ch)
 {
     int min;///REVISAR!!!
     int max;
     int cantidadIngresada;
     char aux;
 
+
+    *ch = '\0';
+
     // CAMINO BONITO -> SECUENCIA CORRECTA
     if(SON_IGUALES == verificarIgualdadEnCantidadDeElementosYContenidoEnListaSimple(&(jugador->secuenciaAsignada), &(ronda->secuenciaIngresada), comparaCaracteres))
     {
         printf("\nGanaste flaco");
-        if(ronda->vidasUsadas>0)
+        if(ronda->vidasUsadas > 0)
         {
-            ronda->puntosObtenidos= 1;
+            ronda->puntosObtenidos = 1;
         }
         else
         {
-            ronda->puntosObtenidos= 3;
+            ronda->puntosObtenidos = 3;
         }
         return FIN_DE_RONDA_ACTUAL;
     }
@@ -180,7 +183,7 @@ int usarVida(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int* cantida
     // EL JUGADOR YA NO TIENE VIDAS -> PERDIÓ.
     if(!*cantidadDeVidasDelJugador)
     {
-        printf("\nNo tiene mas vidas.\nFinalizo el juego, ");
+        printf("\nNo tiene mas vidas.\nFinalizo el juego.");
         (*cantidadDeVidasDelJugador)--;
         return FIN_DE_JUEGO;
     }
@@ -189,7 +192,7 @@ int usarVida(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int* cantida
     printf("\nTiene %d cantidad de vida/s.\n", *cantidadDeVidasDelJugador);
 
     //caso 1 -> TIME OUT CON VIDA
-    if((recursos->temporizador.timeout && !cantidadDeCaracteresDeSecuenciaIngresados)  || (ch == 'X' && !cantidadDeCaracteresDeSecuenciaIngresados))
+    if((recursos->temporizador.timeout && !*cantidadDeCaracteresDeSecuenciaIngresados)  || ('X' == *ch && !*cantidadDeCaracteresDeSecuenciaIngresados))
     {
         printf("\nMostrando secuencia nuevamente.\nSe le ha restado una vida\n");
         (*cantidadDeVidasDelJugador)--;
@@ -197,7 +200,7 @@ int usarVida(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int* cantida
         return REINICIAR_NIVEL;
     }
     //caso 2-> INGRESÉ UNA SECUENCIA PERO: APRETÉ X O ESTÁ INCORRECTA --> debo elegir cuantas posiciones retroceder
-    if('X' == ch || cantidadDeCaracteresDeSecuencia >= *cantidadDeCaracteresDeSecuenciaIngresados)
+    if('X' == *ch || cantidadDeCaracteresDeSecuencia >= *cantidadDeCaracteresDeSecuenciaIngresados)
     {
         min = 1;
         max = MENOR(*cantidadDeVidasDelJugador, *cantidadDeCaracteresDeSecuenciaIngresados + 1);
@@ -235,11 +238,12 @@ int ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, tRonda* ronda, in
 
     while(FIN_DE_RONDA_ACTUAL != deboIngresarSecuencia)
     {
-//        if(*cantidadDeVidasDelJugador >= 0)
-//        {
-//            printf("Ingresa un caracter: %s.\n", CARACTERES_VALIDOS_A_INGRESAR_PARA_SECUENCIA);
-//
-//        }
+        if(*cantidadDeVidasDelJugador >= 0)
+        {
+            printf("Ingresa un caracter: %s.\n", CARACTERES_VALIDOS_A_INGRESAR_PARA_SECUENCIA);
+
+        }
+
         pthread_create(&id, NULL, accionParaThreadDeTemporizador, recursos);
         recursos->temporizador.timeout = 0;
         recursos->temporizador.detenerTemporizador = 0;
@@ -275,6 +279,7 @@ int ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, tRonda* ronda, in
         }
         recursos->temporizador.detenerTemporizador = 1;
         ///QUE PASO?, PORQUE SALI => MANEJARLO y darle valor a deboIngresarSecuencia para ver si necesito seguir ingresando o me voy
+        recursos->temporizador.detenerTemporizador = 1;
         pthread_join(id, NULL);
         if(recursos->temporizador.timeout)
         {
@@ -283,7 +288,7 @@ int ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, tRonda* ronda, in
             SetConsoleCursorPosition(recursos->temporizador.hConsole, recursos->temporizador.coordenadas.posicionDeTextoFinal);
         }
 
-        deboIngresarSecuencia= usarVida(recursos, jugador, ronda, cantidadDeVidasDelJugador, &cantidadDeCaracteresDeSecuenciaIngresados, cantidadDeCaracteresDeSecuencia, tiempoParaIngresarSecuencia, ch);
+        deboIngresarSecuencia= usarVida(recursos, jugador, ronda, cantidadDeVidasDelJugador, &cantidadDeCaracteresDeSecuenciaIngresados, cantidadDeCaracteresDeSecuencia, tiempoParaIngresarSecuencia, &ch);
 
         printf("\n");
         system("pause");
@@ -293,15 +298,16 @@ int ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, tRonda* ronda, in
         {
             return FIN_DE_RONDA_ACTUAL; //salgo del while
         }
-        else if(REINICIAR_NIVEL == deboIngresarSecuencia)
-        {
-            return REINICIAR_NIVEL; //sigo en el while, muestro de nuevo la secuencia
-        }
         else if(INGRESO_SIN_MOSTRAR == deboIngresarSecuencia)
-        {
-            /// tengo que mostrar la secuencia ingresada por donde la dejé después de retroceder
-            mostrarListaSimpleEnOrden(&(ronda->secuenciaIngresada), mostrarCaracter);
-        }
+            {
+                /// tengo que mostrar la secuencia ingresada por donde la dejé después de retroceder
+                mostrarListaSimpleEnOrden(&(ronda->secuenciaIngresada), mostrarCaracter);
+            }
+            else if(INGRESO_SIN_MOSTRAR == deboIngresarSecuencia)
+                {
+                    /// tengo que mostrar la secuencia ingresada por donde la dejé después de retroceder
+                    mostrarListaSimpleEnOrden(&(ronda->secuenciaIngresada), mostrarCaracter);
+                }
 
 //        FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
 ///TEMPORIZADOR SE PAUSA SOLO, esta linea es solo si quiero pausarlo a mano
@@ -310,4 +316,3 @@ int ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, tRonda* ronda, in
 
     return REINICIAR_NIVEL;
 }
-
