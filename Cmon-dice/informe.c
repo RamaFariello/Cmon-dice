@@ -2,7 +2,7 @@
 
 int comparaPuntosTotales(const void* a, const void* b)
 {
-    return ((tJugador*)a)->puntosTotales - ((tJugador*)b)->puntosTotales;
+    return ((tJugador*)a)->puntosTotales - *(unsigned*)b;
 }
 
 void imprimirSecuencia(void* pArchivo, void* vLetra, int* retornoCodigoDeError)
@@ -61,25 +61,34 @@ void imprimirGanador(void* pArchivo, void* vJugador, int* retornoCodigoDeError)
 {
     tJugador* jugador = (tJugador*)vJugador;
 
-    fprintf(stdout, "Jugador de ID: %u.\nNyA: %s.\nPuntos totales obtenidos: %u.\n\n",
+    fprintf(stdout, "\nJugador de ID: %u.\nNyA: %s.\n",
             jugador->id,
-            jugador->nya,
-            jugador->puntosTotales
+            jugador->nya
             );
 
-    fprintf((FILE*)pArchivo, "Jugador de ID: %u.\nNyA: %s.\nPuntos totales obtenidos: %u.\n\n",
+    fprintf((FILE*)pArchivo, "\nJugador de ID: %u.\nNyA: %s.\n",
             jugador->id,
-            jugador->nya,
-            jugador->puntosTotales
+            jugador->nya
             );
 }
 
 void imprimirGanadores(FILE* pf, tRecursos* recursos)
 {
-    fprintf(stdout, "Lista de ganadores:\n");
-    fprintf(pf, "Lista de ganadores:\n");
-
-    filtrarPorClaveEnListaSimple(&recursos->listaDeJugadores, &(recursos->mayorPuntajeTotal), pf, NULL, comparaPuntosTotales, imprimirGanador);
+    fprintf(stdout, "+-----------------------------------------------------------------------+\n");
+    fprintf(pf, "+-----------------------------------------------------------------------+\n");
+    if(recursos->mayorPuntajeTotal > 0)
+    {
+        fprintf(stdout, "Lista de ganadores con un puntaje maximo alcanzado de %u puntos:\n", recursos->mayorPuntajeTotal);
+        fprintf(pf, "Lista de ganadores con un puntaje maximo alcanzado de %u puntos:\n", recursos->mayorPuntajeTotal);
+        filtrarPorClaveEnListaSimple(&(recursos->listaDeJugadores), &(recursos->mayorPuntajeTotal), pf, NULL, comparaPuntosTotales, imprimirGanador);
+    }
+    else
+    {
+        fprintf(stdout, "No gano nadie, todos obtuvieron 0 puntos.\n");
+        fprintf(pf, "No gano nadie, todos obtuvieron 0 puntos.\n");
+    }
+    fprintf(stdout, "+-----------------------------------------------------------------------+\n\n");
+    fprintf(pf, "+-----------------------------------------------------------------------+\n\n");
 }
 
 void construccionNombreArchivoTxtInforme(char* NOMBRE_ARCHIVO_TXT_INFORME, unsigned tam, struct tm* fechaYHora)

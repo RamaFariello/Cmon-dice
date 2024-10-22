@@ -50,6 +50,7 @@ int generaRondas(tRecursos* recursos, tJugador* jugador, int* retornoCodigoDeErr
     }
 
     recursos->mayorPuntajeTotal = MAYOR(recursos->mayorPuntajeTotal, jugador->puntosTotales);
+
     (recursos->cantidadDeJugadores) --;///AYUDO A CONSUMO API PARA SER MAS EFICIENTE.
 
     return *retornoCodigoDeError;

@@ -238,11 +238,11 @@ int ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, tRonda* ronda, in
 
     while(FIN_DE_RONDA_ACTUAL != deboIngresarSecuencia)
     {
-//        if(*cantidadDeVidasDelJugador >= 0)
-//        {
-//            printf("Ingresa un caracter: %s.\n", CARACTERES_VALIDOS_A_INGRESAR_PARA_SECUENCIA);
-//
-//        }
+        if(*cantidadDeVidasDelJugador >= 0)
+        {
+            printf("Ingresa un caracter: %s.\n", CARACTERES_VALIDOS_A_INGRESAR_PARA_SECUENCIA);
+
+        }
 
         pthread_create(&id, NULL, accionParaThreadDeTemporizador, recursos);
         recursos->temporizador.timeout = 0;
