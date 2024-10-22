@@ -22,7 +22,7 @@ size_t datosObtenidosDeRespuestaURL(const char* bufferParaDatosRecibidos, size_t
 
     memcpy(((tReconstruccionDato*)sDato)->buffer + ((tReconstruccionDato*)sDato)->cantBytesCopiados, bufferParaDatosRecibidos, cantidadDeBytesRecibidos);
     (((tReconstruccionDato*)sDato)->cantBytesCopiados) += cantidadDeBytesRecibidos;
-    ((char*)(((tReconstruccionDato*)sDato)->buffer))[((tReconstruccionDato*)sDato)->cantBytesCopiados] = '\0'; // se agrega el \0 por seguridad, en caso de que la API no lo haga.
+    (((tReconstruccionDato*)sDato)->buffer)[((tReconstruccionDato*)sDato)->cantBytesCopiados] = '\0'; // se agrega el \0 por seguridad, en caso de que la API no lo haga.
 
     return cantidadDeBytesRecibidos;
 }
@@ -44,6 +44,7 @@ void configuracionEstructuraCURL(CURL* curl, const char* URL, void* dato)
     /* Activar el SSL, para que la comunicación sea segura */
     curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
     curl_easy_setopt(curl, CURLOPT_CAINFO, CERTIFICADO_SITIO_SEGURO);
+    curl_easy_setopt(curl, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_3);//feat: asegurarme que utilizo TLS[la version 1.3 utiliza mejores algoritmos de cifrado] y no SSL porque esta obsoleto, tiene vulnerabilidades[La macro se llama SSL por motivos historicos, pero es TLS].
 
     curl_easy_setopt(curl, CURLOPT_URL, URL); //utiliza la url que se armó con los parámetros especificados
 

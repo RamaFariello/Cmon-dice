@@ -3,11 +3,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+#include <conio.h>     //Para _kbhit() y _getch()
+#include <windows.h>   //Para Sleep y funciones de Windows
+#include <pthread.h>   //Para usar hilos para temporizador en paralelo
+
 #include "curl.h"
 
 #include "./Biblioteca/include/listaSimple/listaSimple.h"
 #include "./Biblioteca/include/menu/menu.h"
 #include "./Biblioteca/include/generico.h"
+
+#define REINICIAR_NIVEL -1
+#define FIN_DE_JUEGO 0
+#define INGRESO_SIN_MOSTRAR 1
+
+#define FIN_DE_RONDA_ACTUAL -1000
+
 
 ///tJugador
 #define TAM_NyA 100
@@ -67,11 +79,15 @@
 ///obtenerCaracterDeSecuencia
 #define A_NUMERO(X) ((X) - '0')
 
-///generarRondas
+///pedirLetraAleatoria
 #define COLOR_VERDE 'V'
 #define COLOR_AMARILLO 'A'
 #define COLOR_ROJO 'R'
 #define COLOR_NARANJA 'N'
+#define RANGO_MIN_DE_INDICE_VALIDO '0'
+#define RANGO_MAX_DE_INDICE_VALIDO '3'
+#define ES_RANGO_INDICE_VALIDO(X) (((X) >= (RANGO_MIN_DE_INDICE_VALIDO)) && ((X) <= (RANGO_MAX_DE_INDICE_VALIDO)))
+#define NO_PUDE_ASIGNAR_CARACTER_DE_SECUENCIA -4
 
 ///jugar
 #define CARACTERES_VALIDOS_A_INGRESAR_PARA_SECUENCIA "X-V-A-R-N"
@@ -81,13 +97,39 @@
 
 #define OK 1
 
+///********************
+typedef struct
+{
+    COORD posicionDeOrigen;
+    COORD posicionDeTextoLetraIngresada;
+    COORD posicionDeTextoFinal;
+    COORD posicionDelTemporizadorEnConsola;
+}tCoordenadas;
+
+typedef struct
+{
+    tCoordenadas coordenadas;
+    HANDLE hConsole;
+    int timeout;
+    int tiempoRestanteParaTemporizador;
+    int detenerTemporizador;
+}tTemporizador;
+///********************
+
+typedef struct
+{
+    t_lista secuenciaIngresada;
+    unsigned puntosObtenidos;
+    unsigned vidasUsadas;
+}tRonda;
+
 typedef struct
 {
     unsigned id;
     char nya[TAM_NyA];
-    unsigned cantidadDeVidas;
-    t_lista rondasJugadas;
-    t_lista secuenciaFinalRespondida;///COLA PARA GRABAR, PILA PARA USO DE VIDAS
+    unsigned puntosTotales;
+    t_lista rondasJugadas;  ///contenido de esta lista: NODOS de tipo tRonda
+    t_lista secuenciaAsignada;
 }tJugador;
 
 typedef struct
@@ -99,13 +141,33 @@ typedef struct
 
 typedef struct
 {
-    tConfiguracion configuraciones[CANTIDAD_DE_NIVELES]; // configuración según el nivel
-    unsigned indiceDeNivelDeConfiguracionElegida; // lo que se lecciona en el menú, para buscarlo en el vector de configuración según nivel
+    tConfiguracion configuraciones[CANTIDAD_DE_NIVELES];
+    unsigned indiceDeNivelDeConfiguracionElegida;
+
     t_lista listaDeJugadores;
     unsigned cantidadDeJugadores;
-    tReconstruccionDato datoRespuestaAPI; // para almacenar la respuesta de la API
-    char* cadenaConIndices; // para acceder al vector de cadena (VARN), según el valor que traiga la API
+
+    tReconstruccionDato datoRespuestaAPI;
+    char* cadenaDeIndicesTraidosDeAPI;
+    unsigned cantidadDeIndicesDeCaracteresDeSecuenciaRestantes;
+
+    tTemporizador temporizador;
 }tRecursos;
+
+///***********************
+int comparaCaracteres(const void* a, const void* b);
+
+void ocultarCursor(tRecursos* recursos);
+void limpiarConsola(tRecursos* recursos);
+void deshabilitarQuickEditMode();
+void* accionParaThreadDeTemporizador(void* arg);
+void configuracionesGraficas(tRecursos* recursos);
+void inicializacionDeRecursos(tRecursos* recursos, unsigned maximoTiempoParaIngresoDeRespuesta);
+
+void mostrarSecuenciaAsignada(tRecursos* recursos, tJugador* jugador, unsigned tiempoParaVisualizarSecuencia);
+int ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int* cantidadDeVidasDelJugador, unsigned cantidadDeCaracteresDeSecuencia, unsigned tiempoParaIngresarSecuencia);
+///***********************
+void mostrarCaracter(const void* dato);
 
 void mostrarConfiguracionElegida(tConfiguracion* configuracion, unsigned indiceDeNivelDeConfiguracionElegida);
 int cargarConfiguraciones(FILE* aConfiguracion, tConfiguracion* configuraciones);
@@ -119,16 +181,22 @@ void ingresoDeNivel(unsigned* indiceDeNivelDeConfiguracionElegida);
 int validaFormatoRespuestaAPI(const char* respuesta);
 void construccionURL(char* URL, unsigned tam, unsigned ce);
 int consumoAPI(tReconstruccionDato* dato, unsigned cantidadDeJugadores, void (*construccionURL)(char* URL, unsigned tam, unsigned ce));
+int inicializarRecursosParaConsumoDeAPI(tRecursos* recursos);
+void liberarRecursosParaConsumoDeAPI(tRecursos* recursos);
 
 void imprimirResultados(FILE* pf, tRecursos* recursos);
 void construccionNombreArchivoTxtInforme(char* NOMBRE_ARCHIVO_TXT_INFORME, unsigned tam, struct tm* fechaYHora);
 int generarInforme(tRecursos* recursos, void (*construccionNombreArchivoTxtInforme)(char* NOMBRE_ARCHIVO_TXT_INFORME, unsigned tam, struct tm* fechaYHora));
 
-char obtenerCaracterDeSecuencia(const char* cadenaConIndices, const char* caracteresDeSecuencia);
-int generarRondas(tRecursos* recursos);
+int convertirIndiceEnCaracterDeSecuencia(char caracterIndice, char* letra);
+int obtenerCaracterDeSecuenciaAleatorio(tRecursos* recursos, char* letra);
+int pedirLetraAleatoria(tRecursos* recursos, char* letra);
 int iniciarJuego(tRecursos* recursos);
-int jugar(tRecursos* recursos);
 
+void mostrarCaracteresValidos();
+void liberarListaDeSecuenciasIngresadasPorRonda(void* vRecursos, void* vRonda, int* retornoCodigoDeError);
+void liberarListasDeCadaJugador(void* vRecursos, void* vJugador, int* retornoCodigoDeError);
+int jugar(tRecursos* recursos);
 void switchTextoMenu(int opcion, void* recursos);
 
 #endif // FUNCIONES_H_INCLUDED
