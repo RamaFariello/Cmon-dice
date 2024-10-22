@@ -222,10 +222,10 @@
 	<stdlib.h>
 	<string.h>
 
-1728245482 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\biblioteca\src\listasimple\listasimple.c
+1728853595 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\biblioteca\src\listasimple\listasimple.c
 	"../../include/listaSimple/listaSimple.h"
 
-1728245482 c:\users\lulis\documents\github\cmon-dice\cmon-dice\biblioteca\include\listasimple\listasimple.h
+1728853595 c:\users\lulis\documents\github\cmon-dice\cmon-dice\biblioteca\include\listasimple\listasimple.h
 	<stdlib.h>
 	<stdio.h>
 	<string.h>
@@ -248,27 +248,385 @@
 	<string.h>
 	"arbol.h"
 
-1728245481 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\curl.c
+1728685944 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\curl.c
 	"curl.h"
 
-1728245481 c:\users\lulis\documents\github\cmon-dice\cmon-dice\curl.h
+1728685944 c:\users\lulis\documents\github\cmon-dice\cmon-dice\curl.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<curl/curl.h>
 
-1728251839 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\funciones.c
+1728856327 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\funciones.c
 	"funciones.h"
 
-1728250485 c:\users\lulis\documents\github\cmon-dice\cmon-dice\funciones.h
+1728860705 c:\users\lulis\documents\github\cmon-dice\cmon-dice\funciones.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
+	<time.h>
+	<conio.h>
+	<windows.h>
 	"curl.h"
 	"./Biblioteca/include/listaSimple/listaSimple.h"
 	"./Biblioteca/include/menu/menu.h"
 	"./Biblioteca/include/generico.h"
 
-1728250485 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\main.c
+1728853595 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\main.c
+	"funciones.h"
+
+1729381220 source:c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\src\cola\cola.c
+	"../../include/cola/cola.h"
+
+1729381220 c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\include\cola\cola.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1729381220 source:c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\src\generico.c
+	"../include/generico.h"
+
+1729381220 c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\include\generico.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1729455814 source:c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\src\listasimple\listasimple.c
+	"../../include/listaSimple/listaSimple.h"
+
+1729455831 c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\include\listasimple\listasimple.h
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<time.h>
+
+1729381220 source:c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\src\menu\arbol.c
+	"../../include/menu/arbol.h"
+
+1729381220 c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\include\menu\arbol.h
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+
+1729381220 source:c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\src\menu\menu.c
+	"../../include/menu/menu.h"
+
+1729381220 c:\users\pc\desktop\cmon-dice\cmon-dice\biblioteca\include\menu\menu.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"arbol.h"
+
+1729381220 source:c:\users\pc\desktop\cmon-dice\cmon-dice\curl.c
+	"curl.h"
+
+1729381220 c:\users\pc\desktop\cmon-dice\cmon-dice\curl.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<curl/curl.h>
+
+1729511918 source:c:\users\pc\desktop\cmon-dice\cmon-dice\main.c
+	"funciones.h"
+
+1729543793 c:\users\pc\desktop\cmon-dice\cmon-dice\funciones.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<conio.h>
+	<windows.h>
+	<pthread.h>
+	"curl.h"
+	"./Biblioteca/include/listaSimple/listaSimple.h"
+	"./Biblioteca/include/menu/menu.h"
+	"./Biblioteca/include/generico.h"
+
+1729525460 source:c:\users\pc\desktop\cmon-dice\cmon-dice\funciones.c
+	"funciones.h"
+
+1728860621 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\juegoindividual.c
+	"funciones.h"
+
+1729543857 source:c:\users\pc\desktop\cmon-dice\cmon-dice\juegoindividual.c
+	"funciones.h"
+
+1729381220 source:c:\users\pc\desktop\cmon-dice\cmon-dice\consumoapi.c
+	"funciones.h"
+
+1729381220 source:c:\users\pc\desktop\cmon-dice\cmon-dice\informe.c
+	"funciones.h"
+
+1729512705 source:c:\users\pc\desktop\cmon-dice\cmon-dice\configuraciones.c
+	"funciones.h"
+
+1728853595 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\configuraciones.c
+	"funciones.h"
+
+1728853595 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\consumoapi.c
+	"funciones.h"
+
+1728853595 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\informe.c
+	"funciones.h"
+
+1729387571 source:c:\users\pc\desktop\cmon-dice\cmon-dice\ingresodesecuencia.c
+	"funciones.h"
+
+1729548950 source:c:\users\pc\desktop\cmon-dice\cmon-dice\temporizador.c
+	"funciones.h"
+
+1729381220 source:c:\users\pc\desktop\cmon-dice-actual\cmon-dice\biblioteca\src\cola\cola.c
+	"../../include/cola/cola.h"
+
+1729381220 c:\users\pc\desktop\cmon-dice-actual\cmon-dice\biblioteca\include\cola\cola.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1729381220 source:c:\users\pc\desktop\cmon-dice-actual\cmon-dice\biblioteca\src\generico.c
+	"../include/generico.h"
+
+1729381220 c:\users\pc\desktop\cmon-dice-actual\cmon-dice\biblioteca\include\generico.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1729435326 source:c:\users\pc\desktop\cmon-dice-actual\cmon-dice\biblioteca\src\listasimple\listasimple.c
+	"../../include/listaSimple/listaSimple.h"
+
+1729435333 c:\users\pc\desktop\cmon-dice-actual\cmon-dice\biblioteca\include\listasimple\listasimple.h
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<time.h>
+
+1729381220 source:c:\users\pc\desktop\cmon-dice-actual\cmon-dice\biblioteca\src\menu\arbol.c
+	"../../include/menu/arbol.h"
+
+1729381220 c:\users\pc\desktop\cmon-dice-actual\cmon-dice\biblioteca\include\menu\arbol.h
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+
+1729381220 source:c:\users\pc\desktop\cmon-dice-actual\cmon-dice\biblioteca\src\menu\menu.c
+	"../../include/menu/menu.h"
+
+1729381220 c:\users\pc\desktop\cmon-dice-actual\cmon-dice\biblioteca\include\menu\menu.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"arbol.h"
+
+1729381220 source:c:\users\pc\desktop\cmon-dice-actual\cmon-dice\configuraciones.c
+	"funciones.h"
+
+1729436833 c:\users\pc\desktop\cmon-dice-actual\cmon-dice\funciones.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<conio.h>
+	<windows.h>
+	<pthread.h>
+	"curl.h"
+	"./Biblioteca/include/listaSimple/listaSimple.h"
+	"./Biblioteca/include/menu/menu.h"
+	"./Biblioteca/include/generico.h"
+
+1729381220 c:\users\pc\desktop\cmon-dice-actual\cmon-dice\curl.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<curl/curl.h>
+
+1729381220 source:c:\users\pc\desktop\cmon-dice-actual\cmon-dice\consumoapi.c
+	"funciones.h"
+
+1729381220 source:c:\users\pc\desktop\cmon-dice-actual\cmon-dice\curl.c
+	"curl.h"
+
+1729437867 source:c:\users\pc\desktop\cmon-dice-actual\cmon-dice\funciones.c
+	"funciones.h"
+
+1729381220 source:c:\users\pc\desktop\cmon-dice-actual\cmon-dice\informe.c
+	"funciones.h"
+
+1729438021 source:c:\users\pc\desktop\cmon-dice-actual\cmon-dice\juegoindividual.c
+	"funciones.h"
+
+1729381220 source:c:\users\pc\desktop\cmon-dice-actual\cmon-dice\main.c
+	"funciones.h"
+
+1729438514 source:c:\users\pc\desktop\cmon-dice-actual\cmon-dice\temporizador.c
+	"funciones.h"
+
+1729381220 source:c:\users\pc\desktop\cmon-dice - actual\cmon-dice\biblioteca\src\cola\cola.c
+	"../../include/cola/cola.h"
+
+1729381220 c:\users\pc\desktop\cmon-dice - actual\cmon-dice\biblioteca\include\cola\cola.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1729381220 source:c:\users\pc\desktop\cmon-dice - actual\cmon-dice\biblioteca\src\generico.c
+	"../include/generico.h"
+
+1729381220 c:\users\pc\desktop\cmon-dice - actual\cmon-dice\biblioteca\include\generico.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1729455814 source:c:\users\pc\desktop\cmon-dice - actual\cmon-dice\biblioteca\src\listasimple\listasimple.c
+	"../../include/listaSimple/listaSimple.h"
+
+1729455831 c:\users\pc\desktop\cmon-dice - actual\cmon-dice\biblioteca\include\listasimple\listasimple.h
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<time.h>
+
+1729381220 source:c:\users\pc\desktop\cmon-dice - actual\cmon-dice\biblioteca\src\menu\arbol.c
+	"../../include/menu/arbol.h"
+
+1729381220 c:\users\pc\desktop\cmon-dice - actual\cmon-dice\biblioteca\include\menu\arbol.h
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+
+1729381220 source:c:\users\pc\desktop\cmon-dice - actual\cmon-dice\biblioteca\src\menu\menu.c
+	"../../include/menu/menu.h"
+
+1729381220 c:\users\pc\desktop\cmon-dice - actual\cmon-dice\biblioteca\include\menu\menu.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"arbol.h"
+
+1729512705 source:c:\users\pc\desktop\cmon-dice - actual\cmon-dice\configuraciones.c
+	"funciones.h"
+
+1729543793 c:\users\pc\desktop\cmon-dice - actual\cmon-dice\funciones.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<conio.h>
+	<windows.h>
+	<pthread.h>
+	"curl.h"
+	"./Biblioteca/include/listaSimple/listaSimple.h"
+	"./Biblioteca/include/menu/menu.h"
+	"./Biblioteca/include/generico.h"
+
+1729381220 c:\users\pc\desktop\cmon-dice - actual\cmon-dice\curl.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<curl/curl.h>
+
+1729381220 source:c:\users\pc\desktop\cmon-dice - actual\cmon-dice\consumoapi.c
+	"funciones.h"
+
+1729381220 source:c:\users\pc\desktop\cmon-dice - actual\cmon-dice\curl.c
+	"curl.h"
+
+1729525460 source:c:\users\pc\desktop\cmon-dice - actual\cmon-dice\funciones.c
+	"funciones.h"
+
+1729381220 source:c:\users\pc\desktop\cmon-dice - actual\cmon-dice\informe.c
+	"funciones.h"
+
+1729543857 source:c:\users\pc\desktop\cmon-dice - actual\cmon-dice\juegoindividual.c
+	"funciones.h"
+
+1729511918 source:c:\users\pc\desktop\cmon-dice - actual\cmon-dice\main.c
+	"funciones.h"
+
+1729545348 source:c:\users\pc\desktop\cmon-dice - actual\cmon-dice\temporizador.c
+	"funciones.h"
+
+1728249611 source:c:\users\jazmín sierra\documents\github\cmon-dice\cmon-dice\biblioteca\src\cola\cola.c
+	"../../include/cola/cola.h"
+
+1728249611 c:\users\jazmín sierra\documents\github\cmon-dice\cmon-dice\biblioteca\include\cola\cola.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1728249611 source:c:\users\jazmín sierra\documents\github\cmon-dice\cmon-dice\biblioteca\src\generico.c
+	"../include/generico.h"
+
+1728249611 c:\users\jazmín sierra\documents\github\cmon-dice\cmon-dice\biblioteca\include\generico.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1729520269 source:c:\users\jazmín sierra\documents\github\cmon-dice\cmon-dice\biblioteca\src\listasimple\listasimple.c
+	"../../include/listaSimple/listaSimple.h"
+
+1729520269 c:\users\jazmín sierra\documents\github\cmon-dice\cmon-dice\biblioteca\include\listasimple\listasimple.h
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<time.h>
+
+1728249611 source:c:\users\jazmín sierra\documents\github\cmon-dice\cmon-dice\biblioteca\src\menu\arbol.c
+	"../../include/menu/arbol.h"
+
+1728249611 c:\users\jazmín sierra\documents\github\cmon-dice\cmon-dice\biblioteca\include\menu\arbol.h
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+
+1728249611 source:c:\users\jazmín sierra\documents\github\cmon-dice\cmon-dice\biblioteca\src\menu\menu.c
+	"../../include/menu/menu.h"
+
+1728249611 c:\users\jazmín sierra\documents\github\cmon-dice\cmon-dice\biblioteca\include\menu\menu.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"arbol.h"
+
+1729546170 source:c:\users\jazmín sierra\documents\github\cmon-dice\cmon-dice\configuraciones.c
+	"funciones.h"
+
+1729546170 c:\users\jazmín sierra\documents\github\cmon-dice\cmon-dice\funciones.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<conio.h>
+	<windows.h>
+	<pthread.h>
+	"curl.h"
+	"./Biblioteca/include/listaSimple/listaSimple.h"
+	"./Biblioteca/include/menu/menu.h"
+	"./Biblioteca/include/generico.h"
+
+1729283119 c:\users\jazmín sierra\documents\github\cmon-dice\cmon-dice\curl.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<curl/curl.h>
+
+1729283119 source:c:\users\jazmín sierra\documents\github\cmon-dice\cmon-dice\consumoapi.c
+	"funciones.h"
+
+1729283119 source:c:\users\jazmín sierra\documents\github\cmon-dice\cmon-dice\curl.c
+	"curl.h"
+
+1729546170 source:c:\users\jazmín sierra\documents\github\cmon-dice\cmon-dice\funciones.c
+	"funciones.h"
+
+1729283119 source:c:\users\jazmín sierra\documents\github\cmon-dice\cmon-dice\informe.c
+	"funciones.h"
+
+1729562315 source:c:\users\jazmín sierra\documents\github\cmon-dice\cmon-dice\juegoindividual.c
+	"funciones.h"
+
+1729546170 source:c:\users\jazmín sierra\documents\github\cmon-dice\cmon-dice\main.c
+	"funciones.h"
+
+1729563065 source:c:\users\jazmín sierra\documents\github\cmon-dice\cmon-dice\temporizador.c
 	"funciones.h"
 

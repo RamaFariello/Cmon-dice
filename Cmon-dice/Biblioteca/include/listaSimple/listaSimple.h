@@ -7,6 +7,11 @@
 #include <time.h>
 #define NO_PUDE_INSERTAR 0
 #define NO_HAY_ELEMENTOS 0
+
+#define LISTAS_VACIAS -1
+#define NO_SON_IGUALES 0
+#define SON_IGUALES 1
+
 #define OK 1
 
 #define MENOR(X,Y) (((X)>(Y))? (Y):(X))
@@ -35,6 +40,8 @@ void insertarArchivoBinarioEnListaSimple(FILE* pf, t_lista* pl, void* dato, unsi
 void swapDeNodos(t_nodo** nodo1, t_nodo** nodo2);
 t_nodo** direccionDeSigNodoAnteriorAlAzar(t_nodo** base, unsigned cantidadDeElementos);
 void mezclarListaSimpleAleatoriamente(t_lista* pl, unsigned cantidadDeElementos);
+void* mapEnListaSimple(const t_lista* pl, void* recursos, int* retornoCodigoDeError, void (*accion)(void* recursos, void* dato, int* retornoCodigoDeError));
 
-
+int verificarIgualdadEnCantidadDeElementosYContenidoEnListaSimple(t_lista* lista1, t_lista* lista2, int(*comparar)(const void* a, const void* b));
+int sacarUltimoEnListaSimple(t_lista* pl, void* dato, unsigned tam);
 #endif // LISTASIMPLE_H_INCLUDED

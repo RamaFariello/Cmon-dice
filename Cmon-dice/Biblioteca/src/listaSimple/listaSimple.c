@@ -70,10 +70,11 @@ void mostrarListaSimpleEnOrden(const t_lista* pl, void (*mostrar)(const void* da
     while(*pl)
     {
         mostrar((*pl)->dato);
-        printf("\n");
         pl = &((*pl)->sig);
     }
+    printf("\n");
 }
+
 
 int listaSimpleVacia(const t_lista* pl)
 {
@@ -226,3 +227,78 @@ void mezclarListaSimpleAleatoriamente(t_lista* pl, unsigned cantidadDeElementos)
         pl = &((*pl)->sig);
     }
 }
+
+void* mapEnListaSimple(const t_lista* pl, void* recursos, int* retornoCodigoDeError, void (*accion)(void* recursos, void* dato, int* retornoCodigoDeError))
+{
+    t_nodo* inicioLista = *pl;
+    int usoCodigoDeError = 0;
+
+    if(NULL != retornoCodigoDeError)
+    {
+        usoCodigoDeError = 1;
+        *retornoCodigoDeError = OK;
+    }
+
+    while(*pl)
+    {
+        if(usoCodigoDeError && OK != *retornoCodigoDeError)
+        {
+            fprintf(stderr, "Fallo aplicando accion en map.\n");
+            return NULL;
+        }
+        accion(recursos, (*pl)->dato, retornoCodigoDeError);
+
+        pl = &((*pl)->sig);
+    }
+
+    return inicioLista;
+}
+
+int verificarIgualdadEnCantidadDeElementosYContenidoEnListaSimple(t_lista* lista1, t_lista* lista2, int(*comparar)(const void* a, const void* b))
+{
+    int cmp;
+
+    if(!*lista1 || !*lista2)
+    {
+        return LISTAS_VACIAS;
+    }
+
+    while(*lista1 && *lista2 && !(cmp = comparar((*lista1)->dato, (*lista2)->dato)))
+    {
+        lista1 = &((*lista1)->sig);
+        lista2 = &((*lista2)->sig);
+    }
+
+    if((*lista1 || *lista2) || cmp)
+    {
+        return NO_SON_IGUALES;
+    }
+
+    return SON_IGUALES;
+}
+
+int sacarUltimoEnListaSimple(t_lista* pl, void* dato, unsigned tam)
+{
+    t_nodo* nodoAEliminar;
+
+    if(!*pl)
+    {
+        return NO_HAY_ELEMENTOS;
+    }
+
+    while((*pl)->sig)
+    {
+        pl = &((*pl)->sig);
+    }
+
+    nodoAEliminar = *pl;
+    memcpy(dato, nodoAEliminar->dato, MENOR(nodoAEliminar->tam, tam));
+
+    *pl = nodoAEliminar->sig;
+
+    free(nodoAEliminar->dato);
+    free(nodoAEliminar);
+
+    return OK;
+}
+
