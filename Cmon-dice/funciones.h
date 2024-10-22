@@ -18,7 +18,7 @@
 #define FIN_DE_JUEGO 0
 #define INGRESO_SIN_MOSTRAR 1
 
-#define FIN_DE_RONDA_ACTUAL -1000
+#define FIN_DE_RONDA_ACTUAL -260611
 
 
 ///tJugador
@@ -97,7 +97,6 @@
 
 #define OK 1
 
-///********************
 typedef struct
 {
     COORD posicionDeOrigen;
@@ -114,11 +113,17 @@ typedef struct
     int tiempoRestanteParaTemporizador;
     int detenerTemporizador;
 }tTemporizador;
-///********************
+
+typedef struct
+{
+    FILE** archivo;
+    t_lista* secuenciaAsignada;
+}tRondaFinalizadaInforme;
 
 typedef struct
 {
     t_lista secuenciaIngresada;
+    unsigned cantidadDeCaracteresDeSecuencia;
     unsigned puntosObtenidos;
     unsigned vidasUsadas;
 }tRonda;
@@ -146,6 +151,7 @@ typedef struct
 
     t_lista listaDeJugadores;
     unsigned cantidadDeJugadores;
+    unsigned mayorPuntajeTotal;
 
     tReconstruccionDato datoRespuestaAPI;
     char* cadenaDeIndicesTraidosDeAPI;

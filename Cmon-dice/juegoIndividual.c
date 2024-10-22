@@ -12,13 +12,12 @@ int generaRondas(tRecursos* recursos, tJugador* jugador, int* retornoCodigoDeErr
     unsigned tiempoParaVisualizarSecuencia = recursos->configuraciones[recursos->indiceDeNivelDeConfiguracionElegida].tiempoDeVisualizacionSecuenciaCorrecta;
     unsigned tiempoParaIngresarSecuencia = recursos->configuraciones[recursos->indiceDeNivelDeConfiguracionElegida].tiempoRespuestaPorRonda;
     char letra;
-    ///QUITADO DE LA ESTRUCTURA DE recursos
-    tRonda ronda;///puntosObtenidos - vidasUsadas
-    unsigned cantidadDeCaracteresDeSecuencia = 1;
 
+    tRonda ronda;///puntosObtenidos - vidasUsadas
     int juegoRondaActual;
 
     *retornoCodigoDeError = OK;
+    ronda.cantidadDeCaracteresDeSecuencia = 0;
     while(cantidadDeVidasDelJugador >= 0)
     {
         ///inicializo el tRonda
@@ -34,16 +33,15 @@ int generaRondas(tRecursos* recursos, tJugador* jugador, int* retornoCodigoDeErr
             return *retornoCodigoDeError;
         }
 
-        ///si recibo una letra válida: inserto en la secuencia asignada
         insertarAlFinalEnListaSimple(&(jugador->secuenciaAsignada), &letra, sizeof(char));
+        (ronda.cantidadDeCaracteresDeSecuencia)++;
 
         while(FIN_DE_RONDA_ACTUAL != juegoRondaActual)
         {
             mostrarSecuenciaAsignada(recursos, jugador, tiempoParaVisualizarSecuencia);
-            juegoRondaActual = ingresoDeSecuencia(recursos, jugador, &ronda, &cantidadDeVidasDelJugador, cantidadDeCaracteresDeSecuencia, tiempoParaIngresarSecuencia);
+            juegoRondaActual = ingresoDeSecuencia(recursos, jugador, &ronda, &cantidadDeVidasDelJugador, ronda.cantidadDeCaracteresDeSecuencia, tiempoParaIngresarSecuencia);
         }
 
-        cantidadDeCaracteresDeSecuencia++;
         tiempoParaVisualizarSecuencia++;//POR CADA RONDA, LE SUMO 1 SEGUNDO EXTRA
         tiempoParaIngresarSecuencia++; //POR CADA RONDA, LE SUMO 1 SEGUNDO EXTRA
 
@@ -51,6 +49,7 @@ int generaRondas(tRecursos* recursos, tJugador* jugador, int* retornoCodigoDeErr
         insertarAlFinalEnListaSimple(&(jugador->rondasJugadas), &ronda, sizeof(tRonda));///INSERTO CADA UNA DE LAS RONDAS JUGADAS
     }
 
+    recursos->mayorPuntajeTotal = MAYOR(recursos->mayorPuntajeTotal, jugador->puntosTotales);
     (recursos->cantidadDeJugadores) --;///AYUDO A CONSUMO API PARA SER MAS EFICIENTE.
 
     return *retornoCodigoDeError;
@@ -84,6 +83,7 @@ int iniciarJuego(tRecursos* recursos)
 
     recursos->datoRespuestaAPI.buffer = NULL;//para hacer free de NULL y no de basura en caso de errores
     recursos->cantidadDeIndicesDeCaracteresDeSecuenciaRestantes = 0;
+    recursos->mayorPuntajeTotal = 0;
 
     mapEnListaSimple(&(recursos->listaDeJugadores), recursos, &retornoCodigoDeError, jugarRondas);
 

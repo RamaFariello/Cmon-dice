@@ -1,9 +1,85 @@
 #include "funciones.h"
 
+int comparaPuntosTotales(const void* a, const void* b)
+{
+    return ((tJugador*)a)->puntosTotales - ((tJugador*)b)->puntosTotales;
+}
+
+void imprimirSecuencia(void* pArchivo, void* vLetra, int* retornoCodigoDeError)
+{
+    fprintf(stdout, "\t%c\n", *(char*)(vLetra));
+    fprintf((FILE*)pArchivo, "\t%c\n", *(char*)(vLetra));
+}
+
+void imprimirRonda(void* vERondaFinalizada, void* vRonda, int* retornoCodigoDeError)
+{
+    tRonda* ronda = (tRonda*)vRonda;
+    tRondaFinalizadaInforme* rondaFinalizada = (tRondaFinalizadaInforme*)vERondaFinalizada;
+
+    fprintf(stdout, "\tSecuencia %u:\n", ronda->cantidadDeCaracteresDeSecuencia);
+    fprintf(*((FILE**)rondaFinalizada->archivo), "\tSecuencia %u:\n", ronda->cantidadDeCaracteresDeSecuencia);
+    imprimirNNodosEnListaSimple(rondaFinalizada->secuenciaAsignada, *(rondaFinalizada->archivo), ronda->cantidadDeCaracteresDeSecuencia, NULL, imprimirSecuencia);
+
+    fprintf(stdout, "\n\tRespuesta %u:\n", ronda->cantidadDeCaracteresDeSecuencia);
+    fprintf(*((FILE**)rondaFinalizada->archivo), "\n\tRespuesta %u:\n", ronda->cantidadDeCaracteresDeSecuencia);
+    mapEnListaSimple(&ronda->secuenciaIngresada, *(rondaFinalizada->archivo), NULL, imprimirSecuencia);
+
+    fprintf(stdout, "\tCantidad de vidas usadas en ronda %u: %u.\n", ronda->cantidadDeCaracteresDeSecuencia, ronda->vidasUsadas);
+    fprintf(*((FILE**)rondaFinalizada->archivo), "\tCantidad de vidas usadas en ronda %u: %u.\n", ronda->cantidadDeCaracteresDeSecuencia, ronda->vidasUsadas);
+
+    fprintf(stdout, "\tPuntos obtenidos en ronda %u: %u.\n\n", ronda->cantidadDeCaracteresDeSecuencia, ronda->puntosObtenidos);
+    fprintf(*((FILE**)rondaFinalizada->archivo), "\tPuntos obtenidos en ronda %u: %u.\n\n", ronda->cantidadDeCaracteresDeSecuencia, ronda->puntosObtenidos);
+}
+
+void imprimirJugador(void* pArchivo, void* vJugador, int* retornoCodigoDeError)
+{
+    tJugador* jugador = (tJugador*)vJugador;
+    tRondaFinalizadaInforme rondaFinal;
+
+    fprintf(stdout, "Jugador de ID: %u.\nNyA: %s.\nPuntos totales obtenidos: %u.\n\n",
+        jugador->id,
+        jugador->nya,
+        jugador->puntosTotales
+        );
+    fprintf(*(FILE**)pArchivo, "Jugador de ID: %u.\nNyA: %s.\nPuntos totales obtenidos: %u.\n\n",
+            jugador->id,
+            jugador->nya,
+            jugador->puntosTotales
+            );
+    rondaFinal.archivo = (FILE**)pArchivo;
+    rondaFinal.secuenciaAsignada = &jugador->secuenciaAsignada;
+
+    mapEnListaSimple(&jugador->rondasJugadas, &rondaFinal, NULL, imprimirRonda);
+}
+
 void imprimirResultados(FILE* pf, tRecursos* recursos)
 {
-    fprintf(pf, "\nIMPLEMENTAR FORMATO DE INFORME EN LA FUNCION imprimirResultado\n"
-           );
+    mapEnListaSimple(&recursos->listaDeJugadores, &pf, NULL, imprimirJugador);
+}
+
+void imprimirGanador(void* pArchivo, void* vJugador, int* retornoCodigoDeError)
+{
+    tJugador* jugador = (tJugador*)vJugador;
+
+    fprintf(stdout, "Jugador de ID: %u.\nNyA: %s.\nPuntos totales obtenidos: %u.\n\n",
+            jugador->id,
+            jugador->nya,
+            jugador->puntosTotales
+            );
+
+    fprintf((FILE*)pArchivo, "Jugador de ID: %u.\nNyA: %s.\nPuntos totales obtenidos: %u.\n\n",
+            jugador->id,
+            jugador->nya,
+            jugador->puntosTotales
+            );
+}
+
+void imprimirGanadores(FILE* pf, tRecursos* recursos)
+{
+    fprintf(stdout, "Lista de ganadores:\n");
+    fprintf(pf, "Lista de ganadores:\n");
+
+    filtrarPorClaveEnListaSimple(&recursos->listaDeJugadores, &(recursos->mayorPuntajeTotal), pf, NULL, comparaPuntosTotales, imprimirGanador);
 }
 
 void construccionNombreArchivoTxtInforme(char* NOMBRE_ARCHIVO_TXT_INFORME, unsigned tam, struct tm* fechaYHora)
@@ -26,8 +102,6 @@ int generarInforme(tRecursos* recursos, void (*construccionNombreArchivoTxtInfor
     time_t tiempoTranscurrido;
     struct tm* fechaYHora;
 
-    imprimirResultados(stdout, recursos);
-
     tiempoTranscurrido = time(NULL);
     fechaYHora = localtime(&tiempoTranscurrido);
 
@@ -39,6 +113,7 @@ int generarInforme(tRecursos* recursos, void (*construccionNombreArchivoTxtInfor
     }
 
     imprimirResultados(aInforme, recursos);
+    imprimirGanadores(aInforme, recursos);
 
     fclose(aInforme);
 
