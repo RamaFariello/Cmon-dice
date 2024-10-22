@@ -18,8 +18,6 @@ int generaRondas(tRecursos* recursos, tJugador* jugador, int* retornoCodigoDeErr
 
     int juegoRondaActual;
 
-    int contador = 0;
-
     *retornoCodigoDeError = OK;
     while(cantidadDeVidasDelJugador >= 0)
     {
@@ -43,16 +41,7 @@ int generaRondas(tRecursos* recursos, tJugador* jugador, int* retornoCodigoDeErr
         {
             mostrarSecuenciaAsignada(recursos, jugador, tiempoParaVisualizarSecuencia);
             juegoRondaActual = ingresoDeSecuencia(recursos, jugador, &ronda, &cantidadDeVidasDelJugador, cantidadDeCaracteresDeSecuencia, tiempoParaIngresarSecuencia);
-            printf("\n");
-            system("pause");
-            system("cls");
         }
-
-        if(2 == contador)
-        {
-            cantidadDeVidasDelJugador = -1;
-        }
-        contador ++;
 
         cantidadDeCaracteresDeSecuencia++;
         tiempoParaVisualizarSecuencia++;//POR CADA RONDA, LE SUMO 1 SEGUNDO EXTRA

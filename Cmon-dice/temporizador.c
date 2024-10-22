@@ -148,20 +148,47 @@ int ingresaYValida(int min, int max)
         {
             printf("Ingreso invalido, intente nuevamente.\n");
         }
-    }while(!(cantidadIngresada >= min && cantidadIngresada <= max));
+    }
+    while(!(cantidadIngresada >= min && cantidadIngresada <= max));
 
     return cantidadIngresada;
 }
+/* if('X' == ch)
+ {
+     ///uso vida
+     deboIngresarSecuencia=1;
+ }else //Si el tiempo se acabo o si se completo toda la secuencia ocurriria lo mismo
+     {
+         ///verificar igualdad de secuencias
+         //si -> gane la ronda
+                     //deboIngresarSecuencia=0;
+         //no -> USO VIDA
+                 //SI USE LA VIDA deboIngresarSecuencia=1;
+                 //SI NO, deboIngresarSecuencia=0;
+
+     }*/
 
 ///NO TERMINE DE ESCRIBIR LA SECUENCIA
-int usarVida(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int* cantidadDeVidasDelJugador, int* cantidadDeCaracteresDeSecuenciaIngresados, unsigned cantidadDeCaracteresDeSecuencia, unsigned tiempoParaIngresarSecuencia)
+int usarVida(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int* cantidadDeVidasDelJugador, int* cantidadDeCaracteresDeSecuenciaIngresados, unsigned cantidadDeCaracteresDeSecuencia, unsigned tiempoParaIngresarSecuencia, char ch)
 {
     int min;///REVISAR!!!
     int max;
     int cantidadIngresada;
     char aux;
 
-    recursos->temporizador.detenerTemporizador = 1;
+    if(SON_IGUALES == verificarIgualdadEnCantidadDeElementosYContenidoEnListaSimple(&(jugador->secuenciaAsignada), &(ronda->secuenciaIngresada), comparaCaracteres))
+    {
+        printf("\nGanaste flaco");
+        if(ronda->vidasUsadas>0)
+        {
+            ronda->puntosObtenidos= 1;
+        }
+        else
+        {
+            ronda->puntosObtenidos= 3;
+        }
+        return FIN_DE_RONDA_ACTUAL;
+    }
 
     if(!*cantidadDeVidasDelJugador)
     {
@@ -169,160 +196,42 @@ int usarVida(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int* cantida
         (*cantidadDeVidasDelJugador)--;
         return FIN_DE_JUEGO;
     }
+
     recursos->temporizador.tiempoRestanteParaTemporizador = tiempoParaIngresarSecuencia;
     printf("\nTiene %d cantidad de vida/s.\n", *cantidadDeVidasDelJugador);
-
-    min = 1;
-    max = MENOR(*cantidadDeVidasDelJugador, *cantidadDeCaracteresDeSecuenciaIngresados + 1);
-    cantidadIngresada = ingresaYValida(min, max);
-    (*cantidadDeVidasDelJugador) -= cantidadIngresada;
-    ronda->vidasUsadas += cantidadIngresada;
-
-    while(cantidadIngresada && sacarUltimoEnListaSimple(&ronda->secuenciaIngresada, &aux, sizeof(char)))
+    //caso 1 -> TIME OUT CON VIDA
+    if(recursos->temporizador.timeout || (ch == 'X' && !cantidadDeCaracteresDeSecuenciaIngresados))
     {
-        cantidadIngresada--;
-        (*cantidadDeCaracteresDeSecuenciaIngresados)--;
-    }
-
-    if(cantidadIngresada)
-    {
+        printf("\nTIME OUT O X SIN INGRESAR SECUENCIA.\nSe le ha restado una vida\n");
+        (*cantidadDeVidasDelJugador)--;
+        (ronda->vidasUsadas)++;
         return REINICIAR_NIVEL;
     }
+    //caso 2-> APRETO X con caracteres ingresados o COMPLETO TODO PERO INCORRECTO
+    if(ch == 'X' || cantidadDeCaracteresDeSecuencia == *cantidadDeCaracteresDeSecuenciaIngresados)
+    {
+        min = 1;
+        max = MENOR(*cantidadDeVidasDelJugador, *cantidadDeCaracteresDeSecuenciaIngresados + 1);
+        cantidadIngresada = ingresaYValida(min, max);
+        (*cantidadDeVidasDelJugador) -= cantidadIngresada;
+        ronda->vidasUsadas += cantidadIngresada;
 
-    recursos->temporizador.detenerTemporizador = 0;
+        while(cantidadIngresada && sacarUltimoEnListaSimple(&ronda->secuenciaIngresada, &aux, sizeof(char)))
+        {
+            cantidadIngresada--;
+            (*cantidadDeCaracteresDeSecuenciaIngresados)--;
+        }
+
+        if(cantidadIngresada)
+        {
+            return REINICIAR_NIVEL;
+        }
+        return INGRESO_SIN_MOSTRAR;
+
+    }
+    //caso 4-> NO TERMINO DE INGRESAR LA SECUENCIA
     return INGRESO_SIN_MOSTRAR;
 }
-
-/////RETORNAR 0 CONDICION DE CORTE[FIN DE RONDA]
-/////ACTUALIZAR *cantidadDeVidasDelJugador CONDICION DE CORTE(cantVidas < 0)[FIN DE RONDA ACTUAL]
-/////ACTUALIZAR ronda.puntosObtenidos(esta inicializado en 0)
-/////ACTUALIZAR ronda.vidasUsadas(esta inicializado en 0)
-//int ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int* cantidadDeVidasDelJugador, unsigned cantidadDeCaracteresDeSecuencia, unsigned tiempoParaIngresarSecuencia)
-//{
-//    pthread_t id;
-//    char ch;
-//    int cantidadDeCaracteresDeSecuenciaIngresados = 0; //Contador de intentos
-//
-//    inicializacionDeRecursos(recursos, tiempoParaIngresarSecuencia);
-//    configuracionesGraficas(recursos);
-//
-//    pthread_create(&id, NULL, accionParaThreadDeTemporizador, recursos);   //EJECUTA TEMPORIZADOR EN PARALELO
-//    ///*************************************************************************************************************************************************
-//                                                                                                    ronda->vidasUsadas = 0;///BORRAR!!!
-//    ///*************************************************************************************************************************************************
-//    printf("Ingresa un caracter: %s.\n", CARACTERES_VALIDOS_A_INGRESAR_PARA_SECUENCIA);
-//    while(1)//DEBO SEGUIR INGRESANDO MIENTRAS -> (TENGA VIDAS y NO CONTESTE BIEN SECUENCIA INGRESADA), (SECUENCIA INGRESADA INCOMPLETA y TENGO TIEMPO)
-//    {
-//        //Bucle para esperar la entrada del usuario o el timeout
-//        while(!recursos->temporizador.timeout)
-//        {
-//            if(_kbhit())//Verifica si presione una tecla
-//            {
-//                ch = _getch(); //Lee un caracter SIN ESPERAR ENTER
-//
-//                if(ES_LETRA(ch))
-//                {
-//                    ch = toupper(ch);
-//                }
-//
-//                if ('X' == ch || 'V' == ch || 'A' == ch || 'R' == ch || 'N' == ch)
-//                {
-//                    //Posición para mostrar secuencia ingresada
-//                    recursos->temporizador.coordenadas.posicionDeTextoLetraIngresada.X = recursos->temporizador.coordenadas.posicionDeOrigen.X;
-//                    recursos->temporizador.coordenadas.posicionDeTextoLetraIngresada.Y = recursos->temporizador.coordenadas.posicionDeOrigen.Y + cantidadDeCaracteresDeSecuenciaIngresados + 2;
-//
-//                    SetConsoleCursorPosition(recursos->temporizador.hConsole, recursos->temporizador.coordenadas.posicionDeTextoLetraIngresada); // Mueve el cursor para mostrar el caracter ingresado
-//                    printf("Letra de secuencia ingresada: %c", ch); //Mostrar el caracter ingresado
-//
-//                    if('X' != ch)
-//                    {
-//                        insertarAlFinalEnListaSimple(&(ronda->secuenciaIngresada), &ch, sizeof(char));
-//                        cantidadDeCaracteresDeSecuenciaIngresados++; //Incrementar el contador de intentos
-//
-//                        if(cantidadDeCaracteresDeSecuencia == cantidadDeCaracteresDeSecuenciaIngresados)///INGRESE TODO
-//                        {
-//                            if(SON_IGUALES == verificarIgualdadEnCantidadDeElementosYContenidoEnListaSimple(&jugador->secuenciaAsignada, &ronda->secuenciaIngresada, comparaCaracteres))
-//                            {
-//                                if(!ronda->vidasUsadas)
-//                                {
-//                                    ronda->puntosObtenidos = 3;
-//                                }
-//                                else
-//                                {
-//                                    ronda->puntosObtenidos = 1;
-//                                }
-//                                printf("\nGano la ronda actual. Sumo %d punto/s.\n", ronda->puntosObtenidos);
-//                                recursos->temporizador.detenerTemporizador = 1;
-//                                pthread_join(id, NULL);
-//                                return FIN_DE_RONDA_ACTUAL;
-//                            }
-//                            else///INGRESE TODO Y NO ESTA BIEN
-//                            {
-//                                if(FIN_DE_JUEGO == usarVida(recursos, jugador, ronda, cantidadDeVidasDelJugador, &cantidadDeCaracteresDeSecuenciaIngresados, cantidadDeCaracteresDeSecuencia, tiempoParaIngresarSecuencia))
-//                                {
-//                                    printf("ingreso toda la secuencia y cometio errores.\n");
-//                                    pthread_join(id, NULL);
-//                                    return FIN_DE_RONDA_ACTUAL;
-//                                }
-//                                else
-//                                {
-//                                    ///hacer algo
-//                                }
-//                            }
-//                        }
-//                    }
-//                    else
-//                    {
-//                        break;  ///ESTO HACE QUE EL CASO !cantidadDeCaracteresDeSecuenciaIngresados funcione BIEN
-//                    }
-//                }
-//            }
-//        }
-//
-//        if(!cantidadDeCaracteresDeSecuenciaIngresados)
-//        {
-//            if(FIN_DE_JUEGO == usarVida(recursos, jugador, ronda, cantidadDeVidasDelJugador, &cantidadDeCaracteresDeSecuenciaIngresados, cantidadDeCaracteresDeSecuencia, tiempoParaIngresarSecuencia))
-//            {
-//                printf("no ingreso ningun caracter de secuencia.\n");
-//                pthread_join(id, NULL);
-//                return FIN_DE_RONDA_ACTUAL;
-//            }
-//        }
-//
-//        if(recursos->temporizador.timeout || cantidadDeCaracteresDeSecuenciaIngresados == cantidadDeCaracteresDeSecuencia)
-//        {
-//            recursos->temporizador.detenerTemporizador = 1;
-//            break; //Fin ronda
-//        }
-//    }
-//
-//    pthread_join(id, NULL);///FUERZO AL HILO MAIN a que el hilo del temporizador termine para proseguir con la ejecucion del codigo
-//    if(recursos->temporizador.timeout)
-//    {
-//        recursos->temporizador.coordenadas.posicionDeTextoFinal.X = recursos->temporizador.coordenadas.posicionDeOrigen.X;
-//        recursos->temporizador.coordenadas.posicionDeTextoFinal.Y = recursos->temporizador.coordenadas.posicionDeOrigen.Y + cantidadDeCaracteresDeSecuenciaIngresados + 2;
-//        SetConsoleCursorPosition(recursos->temporizador.hConsole, recursos->temporizador.coordenadas.posicionDeTextoFinal);
-//    }
-//
-//    printf("\n");
-//    if(recursos->temporizador.timeout)
-//    {
-//        printf("No completaste la secuencia. Se acabo el tiempo.\n");
-//    }else if(cantidadDeCaracteresDeSecuenciaIngresados == cantidadDeCaracteresDeSecuencia)
-//        {
-//            printf("Secuencia ingresada exitosamente!\n");
-//        }
-//        else
-//        {
-//            printf("Uso de vida.\n");
-//        }
-//
-////    ronda->puntosObtenidos= 1000;   ///DEJAR ESTO ASI PORQUE PERMITE VISUALIZAR CANTIDAD DE VECES QUE SE EJECUTO ESTA FUNCION
-////    ronda->vidasUsadas = -1;         ///eso no importa, todavia no uso vidas, es para no olvidarme de en algun momento inicializarlo
-////    *cantidadDeVidasDelJugador = 1;    ///FIN DE JUEGO
-//    return FIN_DE_RONDA_ACTUAL;///FIN DE RONDA ACTUAL
-//}
-
 
 ///ESTA ES MI VERSION CRAZY
 int ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int* cantidadDeVidasDelJugador, unsigned cantidadDeCaracteresDeSecuencia, unsigned tiempoParaIngresarSecuencia)
@@ -330,12 +239,12 @@ int ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, tRonda* ronda, in
     pthread_t id;
     char ch = '\0';
     int cantidadDeCaracteresDeSecuenciaIngresados = 0;
+    int deboIngresarSecuencia = 1;
 
     inicializacionDeRecursos(recursos, tiempoParaIngresarSecuencia);
     configuracionesGraficas(recursos);
 
-    int deboIngresarSecuencia = 4;///CUIDADO
-    while(deboIngresarSecuencia)
+    while(FIN_DE_RONDA_ACTUAL != deboIngresarSecuencia)
     {
         printf("Ingresa un caracter: %s.\n", CARACTERES_VALIDOS_A_INGRESAR_PARA_SECUENCIA);
         pthread_create(&id, NULL, accionParaThreadDeTemporizador, recursos);
@@ -371,7 +280,6 @@ int ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, tRonda* ronda, in
             }
         }
         ///QUE PASO?, PORQUE SALI => MANEJARLO y darle valor a deboIngresarSecuencia para ver si necesito seguir ingresando o me voy
-
         pthread_join(id, NULL);
         if(recursos->temporizador.timeout)
         {
@@ -380,16 +288,22 @@ int ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, tRonda* ronda, in
             SetConsoleCursorPosition(recursos->temporizador.hConsole, recursos->temporizador.coordenadas.posicionDeTextoFinal);
         }
 
-        deboIngresarSecuencia--;
+        deboIngresarSecuencia= usarVida(recursos, jugador, ronda, cantidadDeVidasDelJugador, &cantidadDeCaracteresDeSecuenciaIngresados, cantidadDeCaracteresDeSecuencia, tiempoParaIngresarSecuencia, ch);
+
         printf("\n");
         system("pause");
         system("cls");
+
+        if(FIN_DE_RONDA_ACTUAL == deboIngresarSecuencia || FIN_DE_JUEGO == deboIngresarSecuencia)
+        {
+            return FIN_DE_RONDA_ACTUAL; //salgo del while
+        }
+
 //        FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
 ///TEMPORIZADOR SE PAUSA SOLO, esta linea es solo si quiero pausarlo a mano
 //        recursos->temporizador.detenerTemporizador = 1;
     }
 
-    *cantidadDeVidasDelJugador = 1;
     return FIN_DE_RONDA_ACTUAL;
 }
 
