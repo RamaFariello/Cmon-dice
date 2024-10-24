@@ -141,7 +141,9 @@ int ingresaYValida(int min, int max)
 
     do
     {
+
         printf("Ingrese posiciones a retroceder:\t");
+        fflush(stdin);
         scanf("%d", &cantidadIngresada);
 
         if(!(cantidadIngresada >= min && cantidadIngresada <= max))
@@ -161,9 +163,6 @@ int usarVida(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int* cantida
     int max;
     int cantidadIngresada;
     char aux;
-
-
-    *ch = '\0';
 
     // CAMINO BONITO -> SECUENCIA CORRECTA
     if(SON_IGUALES == verificarIgualdadEnCantidadDeElementosYContenidoEnListaSimple(&(jugador->secuenciaAsignada), &(ronda->secuenciaIngresada), comparaCaracteres))
@@ -189,7 +188,7 @@ int usarVida(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int* cantida
     }
 
     recursos->temporizador.tiempoRestanteParaTemporizador = tiempoParaIngresarSecuencia;
-    printf("\nTiene %d cantidad de vida/s.\n", *cantidadDeVidasDelJugador);
+    printf("\nTiene %d vida/s.\n", *cantidadDeVidasDelJugador);
 
     //caso 1 -> TIME OUT CON VIDA
     if((recursos->temporizador.timeout && !*cantidadDeCaracteresDeSecuenciaIngresados)  || ('X' == *ch && !*cantidadDeCaracteresDeSecuenciaIngresados))
@@ -200,29 +199,28 @@ int usarVida(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int* cantida
         return REINICIAR_NIVEL;
     }
     //caso 2-> INGRESÉ UNA SECUENCIA PERO: APRETÉ X O ESTÁ INCORRECTA --> debo elegir cuantas posiciones retroceder
-    if('X' == *ch || cantidadDeCaracteresDeSecuencia >= *cantidadDeCaracteresDeSecuenciaIngresados)
+    *ch = '\0';
+    min = 1;
+    max = MENOR(*cantidadDeVidasDelJugador, *cantidadDeCaracteresDeSecuenciaIngresados + 1);
+    system("pause");
+    system("cls");
+    cantidadIngresada = ingresaYValida(min, max);
+    (*cantidadDeVidasDelJugador) -= cantidadIngresada;
+    ronda->vidasUsadas += cantidadIngresada;
+
+    while(cantidadIngresada && sacarUltimoEnListaSimple(&ronda->secuenciaIngresada, &aux, sizeof(char)))
     {
-        min = 1;
-        max = MENOR(*cantidadDeVidasDelJugador, *cantidadDeCaracteresDeSecuenciaIngresados + 1);
-        cantidadIngresada = ingresaYValida(min, max);
-        (*cantidadDeVidasDelJugador) -= cantidadIngresada;
-        ronda->vidasUsadas += cantidadIngresada;
+        cantidadIngresada--;
+        (*cantidadDeCaracteresDeSecuenciaIngresados)--;
+    }
 
-        while(cantidadIngresada && sacarUltimoEnListaSimple(&ronda->secuenciaIngresada, &aux, sizeof(char)))
-        {
-            cantidadIngresada--;
-            (*cantidadDeCaracteresDeSecuenciaIngresados)--;
-        }
-
-        // Si retrocede cantidadDeCaracteresIngresados +1 -> vuelvo a mostrar la secuencia asignada
-        if(cantidadIngresada)
-        {
-            return REINICIAR_NIVEL;
-        }
-        return INGRESO_SIN_MOSTRAR;
-
+    // Si retrocede cantidadDeCaracteresIngresados +1 -> vuelvo a mostrar la secuencia asignada
+    if(cantidadIngresada)
+    {
+        return REINICIAR_NIVEL;
     }
     return INGRESO_SIN_MOSTRAR;
+
 }
 
 ///ESTA ES MI VERSION CRAZY
@@ -274,6 +272,7 @@ int ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, tRonda* ronda, in
                 if('X' == ch)
                 {
                     printf("\nUso de vida.\n");
+
                 }
             }
         }
@@ -299,17 +298,17 @@ int ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, tRonda* ronda, in
             return FIN_DE_RONDA_ACTUAL; //salgo del while
         }
         else if(INGRESO_SIN_MOSTRAR == deboIngresarSecuencia)
-            {
-                /// tengo que mostrar la secuencia ingresada por donde la dejé después de retroceder
-                mostrarListaSimpleEnOrden(&(ronda->secuenciaIngresada), mostrarCaracter);
-            }
-            else if(INGRESO_SIN_MOSTRAR == deboIngresarSecuencia)
-                {
-                    /// tengo que mostrar la secuencia ingresada por donde la dejé después de retroceder
-                    mostrarListaSimpleEnOrden(&(ronda->secuenciaIngresada), mostrarCaracter);
-                }
+        {
+            /// tengo que mostrar la secuencia ingresada por donde la dejé después de retroceder
+            mostrarListaSimpleEnOrden(&(ronda->secuenciaIngresada), mostrarCaracter);
+        }
+        else if (REINICIAR_NIVEL == deboIngresarSecuencia)
+        {
 
-//        FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
+            return REINICIAR_NIVEL;
+        }
+
+        //FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
 ///TEMPORIZADOR SE PAUSA SOLO, esta linea es solo si quiero pausarlo a mano
 //        recursos->temporizador.detenerTemporizador = 1;
     }
