@@ -5,15 +5,13 @@ void mostrarCaracter(const void* dato)
     printf("%c\n", *(char*)dato);
 }
 
-/// generarRondas es por CADA RONDA del jugador.
-int generaRondas(tRecursos* recursos, tJugador* jugador, int* retornoCodigoDeError) ///ESTA FUNCION ANDA BIEN[NO CAMBIAR!]
+int generaRondas(tRecursos* recursos, tJugador* jugador, int* retornoCodigoDeError)///generarRondas se ejecuta 1 vez por ronda para cada jugador.
 {
+    tRonda ronda;///puntosObtenidos - vidasUsadas
     int cantidadDeVidasDelJugador = recursos->configuraciones[recursos->indiceDeNivelDeConfiguracionElegida].cantidadDeVidas;
     unsigned tiempoParaVisualizarSecuencia = recursos->configuraciones[recursos->indiceDeNivelDeConfiguracionElegida].tiempoDeVisualizacionSecuenciaCorrecta;
     unsigned tiempoParaIngresarSecuencia = recursos->configuraciones[recursos->indiceDeNivelDeConfiguracionElegida].tiempoRespuestaPorRonda;
     char letra;
-
-    tRonda ronda;///puntosObtenidos - vidasUsadas
 
     *retornoCodigoDeError = OK;
     ronda.cantidadDeCaracteresDeSecuencia = 0;
@@ -58,6 +56,7 @@ void jugarRondas(void* vRecursos, void* vJugador, int* retornoCodigoDeError)
 
     printf("En este momento esta jugando:\n");
     mostrarJugador(jugador);
+    printf("\n");
     system("pause");
     system("cls");
 
@@ -66,7 +65,7 @@ void jugarRondas(void* vRecursos, void* vJugador, int* retornoCodigoDeError)
         system("cls");
         printf("Secuencia final asignada:");
         mostrarListaSimpleEnOrden(&(jugador->secuenciaAsignada), mostrarCaracter);
-        printf("Cantidad de puntos totales acumulados por el jugador: %d\n", jugador->puntosTotales);
+        printf("Cantidad de puntos totales acumulados por el jugador: %d\n\n", jugador->puntosTotales);
     }
     system("pause");
     system("cls");
@@ -86,7 +85,7 @@ int iniciarJuego(tRecursos* recursos)
     {
         fprintf(stderr, "Juego suspendido.\n");
     }
-    printf("Final de juego para el jugador.\n");
+    printf("Final de juego para el jugador.\n\n");
     system("pause");
     system("cls");
 

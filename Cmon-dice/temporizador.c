@@ -167,7 +167,7 @@ int determinarAccion(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int*
     //CAMINO BONITO -> SECUENCIA CORRECTA
     if(SON_IGUALES == verificarIgualdadEnCantidadDeElementosYContenidoEnListaSimple(&(jugador->secuenciaAsignada), &(ronda->secuenciaIngresada), comparaCaracteres))
     {
-        printf("\nCorrecto!\n");
+        printf("\nCorrecto!\n\n");
         if(ronda->vidasUsadas > 0)
         {
             ronda->puntosObtenidos = 1;
@@ -182,7 +182,8 @@ int determinarAccion(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int*
     // EL JUGADOR YA NO TIENE VIDAS -> PERDIÓ.
     if(!*cantidadDeVidasDelJugador)
     {
-        printf("No tiene mas vidas.\n");
+        system("cls");
+        printf("No tiene mas vidas.\n\n");
         (*cantidadDeVidasDelJugador)--;
         return FIN_DE_RONDA_ACTUAL;
     }
@@ -196,14 +197,21 @@ int determinarAccion(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int*
         {
             printf("\nSe ha quedado sin tiempo\n");
         }
-        printf("Se le ha restado una vida.\n");
+        printf("Se le ha restado una vida.\n\n");
         (*cantidadDeVidasDelJugador)--;
         (ronda->vidasUsadas)++;
         return REINICIAR_NIVEL;
     }
 
     //caso 2-> INGRESÉ UNA SECUENCIA PERO: APRETÉ X O ESTÁ INCORRECTA --> debo elegir cuantas posiciones retroceder
-    printf("\nHa ingresado una secuencia pero cometiendo uno o varios errores.\n");
+    if('X' == ch)
+    {
+        printf("\nUso de vida.\n");
+    }
+    else
+    {
+        printf("Ha ingresado una secuencia pero cometiendo uno o varios errores.\n");
+    }
     min = 1;
     max = MENOR(*cantidadDeVidasDelJugador, *cantidadDeCaracteresDeSecuenciaIngresados + 1);
     cantidadIngresada = ingresaYValida(min, max, *cantidadDeVidasDelJugador, *cantidadDeCaracteresDeSecuenciaIngresados);
@@ -273,7 +281,6 @@ int jugarRonda(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int* canti
 
                 if('X' == ch)
                 {
-                    system("cls");
                     break;
                 }
             }
