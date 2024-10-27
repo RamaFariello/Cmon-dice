@@ -78,8 +78,8 @@ void imprimirGanadores(FILE* pf, tRecursos* recursos)
     fprintf(pf, "+-----------------------------------------------------------------------+\n");
     if(recursos->mayorPuntajeTotal > 0)
     {
-        fprintf(stdout, "El puntaje maximo alcanzado ha sido de %u punto/s:\nLista de ganadores.\n", recursos->mayorPuntajeTotal);
-        fprintf(pf, "El puntaje maximo alcanzado ha sido de %u punto/s:\nLista de ganadores.\n", recursos->mayorPuntajeTotal);
+        fprintf(stdout, "El puntaje maximo alcanzado ha sido de %u punto/s.\nLista de ganadores:\n", recursos->mayorPuntajeTotal);
+        fprintf(pf, "El puntaje maximo alcanzado ha sido de %u punto/s.\nLista de ganadores:\n", recursos->mayorPuntajeTotal);
         filtrarPorClaveEnListaSimple(&(recursos->listaDeJugadores), &(recursos->mayorPuntajeTotal), pf, NULL, comparaPuntosTotales, imprimirGanador);
     }
     else
