@@ -52,7 +52,6 @@ int pedirLetraAleatoria(tRecursos* recursos, char* letra)
             return retornoCodigoDeError;
         }
 
-        ///PODRIA HACER UN RETRY DE 3 INTENTOS POR SI EL SERVER TIRA 500 PARA SALVAR EL ERROR.
         if(OK != (retornoCodigoDeError = consumoAPI(&(recursos->datoRespuestaAPI), recursos->cantidadDeJugadores, construccionURL)))
         {
             fprintf(stderr, "No pude consumir API.\n");
@@ -130,7 +129,7 @@ int jugar(tRecursos* recursos)
         system("pause");
         system("cls");
 
-        if(OK != (retornoCodigoDeError = iniciarJuego(recursos)))   ///ACA EMPIEZA EL JUEGO
+        if(OK != (retornoCodigoDeError = iniciarJuego(recursos)))
         {
             fprintf(stderr, "No se pudo jugar, intente nuevamente.\n");
             mapEnListaSimple(&(recursos->listaDeJugadores), recursos, NULL, liberarListasDeCadaJugador);
@@ -146,7 +145,7 @@ int jugar(tRecursos* recursos)
             return retornoCodigoDeError;
         }
     }
-    //RESETEO TODOS LOS PARAMETROS PARA VOLVER A JUGAR
+
     mapEnListaSimple(&(recursos->listaDeJugadores), recursos, NULL, liberarListasDeCadaJugador);
     vaciarListaSimple(&(recursos->listaDeJugadores));
 

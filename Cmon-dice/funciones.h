@@ -14,7 +14,6 @@
 #include "./Biblioteca/include/menu/menu.h"
 #include "./Biblioteca/include/generico.h"
 
-
 ///jugarRonda - determinarAccion - generaRondas
 #define REINICIAR_NIVEL -1
 #define FIN_DE_JUEGO 0

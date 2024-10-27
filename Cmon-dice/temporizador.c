@@ -195,9 +195,9 @@ int determinarAccion(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int*
     {
         if(recursos->temporizador.timeout)
         {
-            printf("\nSe ha quedado sin tiempo\n");
+            printf("\nSe ha quedado sin tiempo.");
         }
-        printf("Se le ha restado una vida.\n\n");
+        printf("\nSe le ha restado una vida.\n\n");
         (*cantidadDeVidasDelJugador)--;
         (ronda->vidasUsadas)++;
         return REINICIAR_NIVEL;
@@ -210,7 +210,7 @@ int determinarAccion(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int*
     }
     else
     {
-        printf("Ha ingresado una secuencia pero cometiendo uno o varios errores.\n");
+        printf("\nHa ingresado una secuencia pero cometiendo uno o varios errores.\n");
     }
     min = 1;
     max = MENOR(*cantidadDeVidasDelJugador, *cantidadDeCaracteresDeSecuenciaIngresados + 1);

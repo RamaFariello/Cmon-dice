@@ -146,13 +146,13 @@ int defineIndiceDeNivelSegunCaracter(char caracter)
         return INDICE_NIVEL_FACIL;
     }
     else if(MEDIO == caracter)
-    {
-        return INDICE_NIVEL_MEDIO;
-    }
-    else if(DIFICIL == caracter)
-    {
-        return INDICE_NIVEL_DIFICIL;
-    }
+        {
+            return INDICE_NIVEL_MEDIO;
+        }
+        else if(DIFICIL == caracter)
+            {
+                return INDICE_NIVEL_DIFICIL;
+            }
 
     return INDICE_INVALIDO;
 }

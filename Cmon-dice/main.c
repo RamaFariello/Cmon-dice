@@ -12,7 +12,7 @@ int main()
     };
     unsigned cantidadDeRegistros = sizeof(textoMenuPrincipal) / MAX_TAM_TEXTO;
 
-    ///*********************************IMPLEMENTAR TAM CONSOLA FIJA*********************************
+    system("mode con: cols=100 lines=25");
 
     if(!abrirArchivo(&aConfiguracion, NOMBRE_ARCHIVO_TXT_CONFIGURACION, "rt"))
     {

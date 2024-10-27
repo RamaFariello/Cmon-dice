@@ -318,7 +318,7 @@
 	<string.h>
 	"arbol.h"
 
-1729995588 source:c:\users\pc\desktop\cmon-dice\cmon-dice\curl.c
+1730055148 source:c:\users\pc\desktop\cmon-dice\cmon-dice\curl.c
 	"curl.h"
 
 1730000382 c:\users\pc\desktop\cmon-dice\cmon-dice\curl.h
@@ -327,7 +327,7 @@
 	<string.h>
 	<curl/curl.h>
 
-1729996029 source:c:\users\pc\desktop\cmon-dice\cmon-dice\main.c
+1730055495 source:c:\users\pc\desktop\cmon-dice\cmon-dice\main.c
 	"funciones.h"
 
 1730003983 c:\users\pc\desktop\cmon-dice\cmon-dice\funciones.h
@@ -343,7 +343,7 @@
 	"./Biblioteca/include/menu/menu.h"
 	"./Biblioteca/include/generico.h"
 
-1729995708 source:c:\users\pc\desktop\cmon-dice\cmon-dice\funciones.c
+1730055127 source:c:\users\pc\desktop\cmon-dice\cmon-dice\funciones.c
 	"funciones.h"
 
 1729873126 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\juegoindividual.c
@@ -352,13 +352,13 @@
 1730006636 source:c:\users\pc\desktop\cmon-dice\cmon-dice\juegoindividual.c
 	"funciones.h"
 
-1729995588 source:c:\users\pc\desktop\cmon-dice\cmon-dice\consumoapi.c
+1730055167 source:c:\users\pc\desktop\cmon-dice\cmon-dice\consumoapi.c
 	"funciones.h"
 
-1730005658 source:c:\users\pc\desktop\cmon-dice\cmon-dice\informe.c
+1730008292 source:c:\users\pc\desktop\cmon-dice\cmon-dice\informe.c
 	"funciones.h"
 
-1729995588 source:c:\users\pc\desktop\cmon-dice\cmon-dice\configuraciones.c
+1730054980 source:c:\users\pc\desktop\cmon-dice\cmon-dice\configuraciones.c
 	"funciones.h"
 
 1729738716 source:c:\users\lulis\documents\github\cmon-dice\cmon-dice\configuraciones.c
@@ -373,7 +373,7 @@
 1729387571 source:c:\users\pc\desktop\cmon-dice\cmon-dice\ingresodesecuencia.c
 	"funciones.h"
 
-1730006130 source:c:\users\pc\desktop\cmon-dice\cmon-dice\temporizador.c
+1730055325 source:c:\users\pc\desktop\cmon-dice\cmon-dice\temporizador.c
 	"funciones.h"
 
 1729381220 source:c:\users\pc\desktop\cmon-dice-actual\cmon-dice\biblioteca\src\cola\cola.c
