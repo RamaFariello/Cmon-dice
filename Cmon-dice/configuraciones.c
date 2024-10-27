@@ -115,12 +115,11 @@ int cargarConfiguraciones(FILE* aConfiguracion, tConfiguracion* configuraciones)
             return ARCHIVO_TXT_DE_CONFIGURACION_CON_ERRORES;
         }
 
-        sscanf(buffer, "%*c|%u|%u|%u",
+        sscanf(buffer, "%*c|%d|%d|%d",
                &(configuraciones[indice].tiempoDeVisualizacionSecuenciaCorrecta),
                &(configuraciones[indice].tiempoRespuestaPorRonda),
                &(configuraciones[indice].cantidadDeVidas)
               );//%*c ignora la primer letra
-
         if(
             !(configuraciones[indice].tiempoDeVisualizacionSecuenciaCorrecta > MIN_TIEMPO_JUEGO_POR_RONDA && configuraciones[indice].tiempoDeVisualizacionSecuenciaCorrecta <= MAX_TIEMPO_JUEGO_POR_RONDA) ||
             !(configuraciones[indice].tiempoRespuestaPorRonda > MIN_TIEMPO_JUEGO_POR_RONDA && configuraciones[indice].tiempoRespuestaPorRonda <= MAX_TIEMPO_JUEGO_POR_RONDA) ||
