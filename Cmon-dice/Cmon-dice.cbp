@@ -31,9 +31,6 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="Biblioteca/src/cola/cola.c">
-			<Option compilerVar="CC" />
-		</Unit>
 		<Unit filename="Biblioteca/src/generico.c">
 			<Option compilerVar="CC" />
 		</Unit>

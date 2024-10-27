@@ -78,8 +78,8 @@ void imprimirGanadores(FILE* pf, tRecursos* recursos)
     fprintf(pf, "+-----------------------------------------------------------------------+\n");
     if(recursos->mayorPuntajeTotal > 0)
     {
-        fprintf(stdout, "Lista de ganadores. El puntaje maximo alcanzado ha sido de %u punto/s:\n", recursos->mayorPuntajeTotal);
-        fprintf(pf, "Lista de ganadores. El puntaje maximo alcanzado ha sido de %u punto/s:\n", recursos->mayorPuntajeTotal);
+        fprintf(stdout, "El puntaje maximo alcanzado ha sido de %u punto/s.\nLista de ganadores:\n", recursos->mayorPuntajeTotal);
+        fprintf(pf, "El puntaje maximo alcanzado ha sido de %u punto/s.\nLista de ganadores:\n", recursos->mayorPuntajeTotal);
         filtrarPorClaveEnListaSimple(&(recursos->listaDeJugadores), &(recursos->mayorPuntajeTotal), pf, NULL, comparaPuntosTotales, imprimirGanador);
     }
     else
@@ -90,10 +90,9 @@ void imprimirGanadores(FILE* pf, tRecursos* recursos)
     fprintf(stdout, "+-----------------------------------------------------------------------+\n\n");
     fprintf(pf, "+-----------------------------------------------------------------------+\n\n");
 }
-
+//uso de time.h
 void construccionNombreArchivoTxtInforme(char* NOMBRE_ARCHIVO_TXT_INFORME, unsigned tam, struct tm* fechaYHora)
 {
-    /** se utiliza la biblioteca time.h */
     snprintf(NOMBRE_ARCHIVO_TXT_INFORME, tam,
              "informe-juego_%4d-%02d-%02d-%02d-%02d.txt",
              fechaYHora->tm_year + 1900, // +1900 para sumarle la fecha base y que de 2024

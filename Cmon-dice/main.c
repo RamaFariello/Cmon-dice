@@ -12,20 +12,20 @@ int main()
     };
     unsigned cantidadDeRegistros = sizeof(textoMenuPrincipal) / MAX_TAM_TEXTO;
 
-    ///*********************************IMPLEMENTAR TAM CONSOLA FIJA*********************************
+    system("mode con: cols=100 lines=25");
 
     if(!abrirArchivo(&aConfiguracion, NOMBRE_ARCHIVO_TXT_CONFIGURACION, "rt"))
     {
         return NO_PUDE_ABRIR_ARCHIVO_TXT_CONFIGURACION;
     }
 
-    if(!cargarConfiguraciones(aConfiguracion, recursos.configuraciones))
+    if(ARCHIVO_TXT_DE_CONFIGURACION_CON_ERRORES == validaArchivoDeConfiguraciones(aConfiguracion, &recursos))
     {
         fclose(aConfiguracion);
         return ARCHIVO_TXT_DE_CONFIGURACION_CON_ERRORES;
     }
 
-    menu(textoMenuPrincipal, cantidadDeRegistros, switchTextoMenu, &recursos, DESACTIVAR_AYUDA_AL_USUARIO); // (texto de opciones, cant filas, función switch, variables necesarias para el menu
+    menu(textoMenuPrincipal, cantidadDeRegistros, switchTextoMenu, &recursos, DESACTIVAR_AYUDA_AL_USUARIO);
 
     fclose(aConfiguracion);
 

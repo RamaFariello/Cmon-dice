@@ -1,6 +1,6 @@
 #include "curl.h"
 
-/// firma de función de la biblioteca curl
+//firma de función de la biblioteca curl
 size_t datosObtenidosDeRespuestaURL(const char* bufferParaDatosRecibidos, size_t itemSize, size_t nItems, void* sDato)
 {
     size_t cantidadDeBytesRecibidos = itemSize * nItems;
