@@ -14,14 +14,12 @@ int generaRondas(tRecursos* recursos, tJugador* jugador, int* retornoCodigoDeErr
     char letra;
 
     tRonda ronda;///puntosObtenidos - vidasUsadas
-    int juegoRondaActual;
 
     *retornoCodigoDeError = OK;
     ronda.cantidadDeCaracteresDeSecuencia = 0;
     while(cantidadDeVidasDelJugador >= 0)
     {
         ///inicializo el tRonda
-        juegoRondaActual = 1;
         ronda.puntosObtenidos = 0;
         ronda.vidasUsadas = 0;
         crearListaSimple(&(ronda.secuenciaIngresada));///CREO UNA LISTA DE SECUENCIA INGRESADA POR RONDA -> LA VACIO en funcion que libera lista de Rondas por jugador
@@ -36,11 +34,7 @@ int generaRondas(tRecursos* recursos, tJugador* jugador, int* retornoCodigoDeErr
         insertarAlFinalEnListaSimple(&(jugador->secuenciaAsignada), &letra, sizeof(char));
         (ronda.cantidadDeCaracteresDeSecuencia)++;
 
-        while(FIN_DE_RONDA_ACTUAL != juegoRondaActual)
-        {
-            mostrarSecuenciaAsignada(recursos, jugador, tiempoParaVisualizarSecuencia);
-            juegoRondaActual = ingresoDeSecuencia(recursos, jugador, &ronda, &cantidadDeVidasDelJugador, ronda.cantidadDeCaracteresDeSecuencia, tiempoParaIngresarSecuencia);
-        }
+        jugarRonda(recursos, jugador, &ronda, &cantidadDeVidasDelJugador, ronda.cantidadDeCaracteresDeSecuencia, tiempoParaVisualizarSecuencia, tiempoParaIngresarSecuencia);
 
         tiempoParaVisualizarSecuencia++;//POR CADA RONDA, LE SUMO 1 SEGUNDO EXTRA
         tiempoParaIngresarSecuencia++; //POR CADA RONDA, LE SUMO 1 SEGUNDO EXTRA
@@ -92,6 +86,9 @@ int iniciarJuego(tRecursos* recursos)
     {
         fprintf(stderr, "Juego suspendido.\n");
     }
+    printf("Final de juego para el jugador.\n");
+    system("pause");
+    system("cls");
 
     liberarRecursosParaConsumoDeAPI(recursos);
     return retornoCodigoDeError;
