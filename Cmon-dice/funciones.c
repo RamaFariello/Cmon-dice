@@ -94,7 +94,7 @@ void liberarListaDeSecuenciasIngresadasPorRonda(void* vRecursos, void* vRonda, i
     vaciarListaSimple(&(ronda->secuenciaIngresada));
 }
 
-void liberarListasDeCadaJugador(void* vRecursos, void* vJugador, int* retornoCodigoDeError)///¡¡¡IMPORTANTE:HACER FREE de&jugador.rondasJugadas!!!
+void liberarListasDeCadaJugador(void* vRecursos, void* vJugador, int* retornoCodigoDeError)
 {
     tJugador* jugador = (tJugador*)vJugador;
 

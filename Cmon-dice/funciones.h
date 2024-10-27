@@ -169,9 +169,11 @@ void deshabilitarQuickEditMode();
 void* accionParaThreadDeTemporizador(void* arg);
 void configuracionesGraficas(tRecursos* recursos);
 void inicializacionDeRecursos(tRecursos* recursos, unsigned maximoTiempoParaIngresoDeRespuesta);
-
 void mostrarSecuenciaAsignada(tRecursos* recursos, tJugador* jugador, unsigned tiempoParaVisualizarSecuencia);
-int ingresoDeSecuencia(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int* cantidadDeVidasDelJugador, unsigned cantidadDeCaracteresDeSecuencia, unsigned tiempoParaIngresarSecuencia);
+int ingresaYValida(int min, int max, int cantidadDeVidasDelJugador, int cantidadDeCaracteresDeSecuenciaIngresados);
+int determinarAccion(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int* cantidadDeVidasDelJugador, int* cantidadDeCaracteresDeSecuenciaIngresados, unsigned cantidadDeCaracteresDeSecuencia, unsigned tiempoParaIngresarSecuencia, char ch);
+void mostrarSecuenciaAsignada(tRecursos* recursos, tJugador* jugador, unsigned tiempoParaVisualizarSecuencia);
+int jugarRonda(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int* cantidadDeVidasDelJugador, unsigned cantidadDeCaracteresDeSecuencia, unsigned tiempoParaVisualizarSecuencia, unsigned tiempoParaIngresarSecuencia);
 ///***********************
 void mostrarCaracter(const void* dato);
 

@@ -51,7 +51,7 @@ int generaRondas(tRecursos* recursos, tJugador* jugador, int* retornoCodigoDeErr
 }
 
 /// jugarRondas es UNA VEZ por jugador.
-void jugarRondas(void* vRecursos, void* vJugador, int* retornoCodigoDeError) //ex funcion inicializarJugador[esta funcion es la que se ejecuta en el map]
+void jugarRondas(void* vRecursos, void* vJugador, int* retornoCodigoDeError)
 {
     tRecursos* recursos = (tRecursos*)vRecursos;
     tJugador* jugador = (tJugador*)vJugador;

@@ -25,7 +25,7 @@ int main()
         return ARCHIVO_TXT_DE_CONFIGURACION_CON_ERRORES;
     }
 
-    menu(textoMenuPrincipal, cantidadDeRegistros, switchTextoMenu, &recursos, DESACTIVAR_AYUDA_AL_USUARIO); // (texto de opciones, cant filas, función switch, variables necesarias para el menu
+    menu(textoMenuPrincipal, cantidadDeRegistros, switchTextoMenu, &recursos, DESACTIVAR_AYUDA_AL_USUARIO);
 
     fclose(aConfiguracion);
 
