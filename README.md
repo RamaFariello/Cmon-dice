@@ -52,13 +52,13 @@ Se le mostrará al jugador la secuencia asignada durante el tiempo determinado p
 - Por cada respuesta correcta, se le sumará 1 segundo extra de visualización y de respuesta.
 
 ### Uso de vidas
-El jugador podrá utilizar vidas, apretando la tecla ‘X’, para retroceder posiciones en su respuesta ingresada. Puede retroceder tantas posiciones como vidas tenga.
-Si se han ingresado N caracteres de secuencia y se desean utilizar N+1 vidas, se le mostrará nuevamente la secuencia asignada al jugador. Caso contrario, no se mostrará la secuencia y el jugador deberá continuar ingresando los caracteres desde la posición en la que quedó.
-Si el jugador no ha ingresado ningún caracter y se le ha agotado el tiempo: se mostrará la secuencia asignada nuevamente.
-Si el jugador no ha ingresado ningún caracter y presiona la tecla ‘X’: se mostrará la secuencia asignada nuevamente.
+- El jugador podrá utilizar vidas, apretando la tecla ‘X’, para retroceder posiciones en su respuesta ingresada. Puede retroceder tantas posiciones como vidas tenga.
+- Si se han ingresado N caracteres de secuencia y se desean utilizar N+1 vidas, se le mostrará nuevamente la secuencia asignada al jugador. Caso contrario, no se mostrará la secuencia y el jugador deberá continuar ingresando los caracteres desde la posición en la que quedó.
+- Si el jugador no ha ingresado ningún caracter y se le ha agotado el tiempo: se mostrará la secuencia asignada nuevamente.
+- Si el jugador no ha ingresado ningún caracter y presiona la tecla ‘X’: se mostrará la secuencia asignada nuevamente.
 
 ### Fin del juego
-Si el jugador se equivoca y ya no le quedan vidas, termina su ronda y se pasa al siguiente jugador.
+Si el jugador se equivoca y ya no le quedan vidas, termina su ronda y se pasa al siguiente jugador.<br/>
 Una vez que todos los jugadores hayan tenido su turno se mostrará el informe y los ganadores en pantalla. También se generará un archivo informe.txt con la misma información.
 
 
