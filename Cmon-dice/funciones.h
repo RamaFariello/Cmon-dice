@@ -3,13 +3,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
-#include <conio.h>     //Para _kbhit() y _getch()
-#include <windows.h>   //Para Sleep y funciones de Windows
-#include <pthread.h>   //Para usar hilos para temporizador en paralelo
-
+#include <time.h>       //Para informe con fecha y hora
+#include <conio.h>      //Para _kbhit() y _getch()
+#include <windows.h>    //Para Sleep y funciones de Windows
+#include <pthread.h>    //Para usar hilos para temporizador en paralelo
 #include "curl.h"
-
 #include "./Biblioteca/include/listaSimple/listaSimple.h"
 #include "./Biblioteca/include/menu/menu.h"
 #include "./Biblioteca/include/generico.h"
@@ -165,11 +163,6 @@ void deshabilitarQuickEditMode();
 void* accionParaThreadDeTemporizador(void* arg);
 void configuracionesGraficas(tRecursos* recursos);
 void inicializacionDeRecursos(tRecursos* recursos, unsigned maximoTiempoParaIngresoDeRespuesta);
-void mostrarSecuenciaAsignada(tRecursos* recursos, tJugador* jugador, unsigned tiempoParaVisualizarSecuencia);
-int comparaCaracteres(const void* a, const void* b);
-int ingresaYValida(int min, int max, int cantidadDeVidasDelJugador, int cantidadDeCaracteresDeSecuenciaIngresados);
-int determinarAccion(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int* cantidadDeVidasDelJugador, int* cantidadDeCaracteresDeSecuenciaIngresados, unsigned cantidadDeCaracteresDeSecuencia, unsigned tiempoParaIngresarSecuencia, char ch);
-int jugarRonda(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int* cantidadDeVidasDelJugador, unsigned cantidadDeCaracteresDeSecuencia, unsigned tiempoParaVisualizarSecuencia, unsigned tiempoParaIngresarSecuencia);
 
 //configuraciones.c
 int validoIngresoDeNombre(const char* cadena);
@@ -199,6 +192,14 @@ int generarInforme(tRecursos* recursos, void (*construccionNombreArchivoTxtInfor
 
 //juegoIndividual.c
 void mostrarCaracter(const void* dato);
+void mostrarSecuenciaAsignada(tRecursos* recursos, tJugador* jugador, unsigned tiempoParaVisualizarSecuencia);
+int comparaCaracteres(const void* a, const void* b);
+int ingresaYValida(int min, int max, int cantidadDeVidasDelJugador, int cantidadDeCaracteresDeSecuenciaIngresados);
+int determinarAccion(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int* cantidadDeVidasDelJugador, int* cantidadDeCaracteresDeSecuenciaIngresados, unsigned cantidadDeCaracteresDeSecuencia, unsigned tiempoParaIngresarSecuencia, char ch);
+int jugarRonda(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int* cantidadDeVidasDelJugador, unsigned cantidadDeCaracteresDeSecuencia, unsigned tiempoParaVisualizarSecuencia, unsigned tiempoParaIngresarSecuencia);
+int convertirIndiceEnCaracterDeSecuencia(char caracterIndice, char* letra);
+int obtenerCaracterDeSecuenciaAleatorio(tRecursos* recursos, char* letra);
+int pedirLetraAleatoria(tRecursos* recursos, char* letra);
 int generarInforme(tRecursos* recursos, void (*construccionNombreArchivoTxtInforme)(char* NOMBRE_ARCHIVO_TXT_INFORME, unsigned tam, struct tm* fechaYHora));
 int generaRondas(tRecursos* recursos, tJugador* jugador, int* retornoCodigoDeError);
 void jugarRondas(void* vRecursos, void* vJugador, int* retornoCodigoDeError);
@@ -206,9 +207,6 @@ int iniciarJuego(tRecursos* recursos);
 
 //funciones.c
 void mostrarJugador(const void* dato);
-int convertirIndiceEnCaracterDeSecuencia(char caracterIndice, char* letra);
-int obtenerCaracterDeSecuenciaAleatorio(tRecursos* recursos, char* letra);
-int pedirLetraAleatoria(tRecursos* recursos, char* letra);
 void mostrarCaracteresValidos();
 void liberarListaDeSecuenciasIngresadasPorRonda(void* vRecursos, void* vRonda, int* retornoCodigoDeError);
 void liberarListasDeCadaJugador(void* vRecursos, void* vJugador, int* retornoCodigoDeError);
