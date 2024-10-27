@@ -163,12 +163,11 @@ int determinarAccion(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int*
     int min;
     int max;
     int cantidadIngresada;
-    printf("\n");
 
     // CAMINO BONITO -> SECUENCIA CORRECTA
     if(SON_IGUALES == verificarIgualdadEnCantidadDeElementosYContenidoEnListaSimple(&(jugador->secuenciaAsignada), &(ronda->secuenciaIngresada), comparaCaracteres))
     {
-        printf("Correcto!\n");
+        printf("\nCorrecto!\n");
         if(ronda->vidasUsadas > 0)
         {
             ronda->puntosObtenidos = 1;
@@ -195,7 +194,7 @@ int determinarAccion(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int*
     {
         if(recursos->temporizador.timeout)
         {
-            printf("Se ha quedado sin tiempo.\n");
+            printf("\nSe ha quedado sin tiempo\n");
         }
         printf("Se le ha restado una vida.\n");
         (*cantidadDeVidasDelJugador)--;
@@ -204,11 +203,11 @@ int determinarAccion(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int*
     }
 
     //caso 2-> INGRESÉ UNA SECUENCIA PERO: APRETÉ X O ESTÁ INCORRECTA --> debo elegir cuantas posiciones retroceder
-    printf("Ha ingresado una secuencia pero cometiendo uno o varios errores.\n");
+    printf("\nHa ingresado una secuencia pero cometiendo uno o varios errores.\n");
     min = 1;
     max = MENOR(*cantidadDeVidasDelJugador, *cantidadDeCaracteresDeSecuenciaIngresados + 1);
     cantidadIngresada = ingresaYValida(min, max, *cantidadDeVidasDelJugador, *cantidadDeCaracteresDeSecuenciaIngresados);
-    printf("Se le han restado vidas.\n");
+    printf("\nSe le han restado vidas.\n");
     (*cantidadDeVidasDelJugador) -= cantidadIngresada;
     ronda->vidasUsadas += cantidadIngresada;
 
