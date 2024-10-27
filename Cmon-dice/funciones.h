@@ -33,8 +33,8 @@
 #define MIN_TIEMPO_JUEGO_POR_RONDA 0
 #define MAX_TIEMPO_JUEGO_POR_RONDA 20
 ///errores main y cargarConfiguraciones
-#define NO_PUDE_ABRIR_ARCHIVO_TXT_CONFIGURACION 0  //NO LO PUDE ABRIR
-#define ARCHIVO_TXT_DE_CONFIGURACION_CON_ERRORES 0 //LO PUDE ABRIR, PERO TENIA ERRORES DE FORMATO
+#define NO_PUDE_ABRIR_ARCHIVO_TXT_CONFIGURACION -300198  //NO LO PUDE ABRIR
+#define ARCHIVO_TXT_DE_CONFIGURACION_CON_ERRORES -160505 //LO PUDE ABRIR, PERO TENIA ERRORES DE FORMATO
 
 ///validoIngresoDeNombre
 #define NOMBRE_INVALIDO 0
@@ -168,7 +168,8 @@ void inicializacionDeRecursos(tRecursos* recursos, unsigned maximoTiempoParaIngr
 int validoIngresoDeNombre(const char* cadena);
 int ingresoDeNombresAListaSimple(t_lista* listaDeJugadores, unsigned* cantidadDeJugadores);
 void mostrarConfiguracionElegida(tConfiguracion* configuracion, unsigned indiceDeNivelDeConfiguracionElegida);
-int cargarConfiguraciones(FILE* aConfiguracion, tConfiguracion* configuraciones);
+int indicesDeNivelesValidos(const int* nivelesCargados);
+int cargarConfiguraciones(FILE* aConfiguracion, tConfiguracion* configuraciones, int* nivelesCargados);
 int defineIndiceDeNivelSegunCaracter(char caracter);
 void ingresoDeNivel(unsigned* indiceDeNivelDeConfiguracionElegida);
 

@@ -11,6 +11,7 @@ int main()
         "[B] Salida."
     };
     unsigned cantidadDeRegistros = sizeof(textoMenuPrincipal) / MAX_TAM_TEXTO;
+    int nivelesCargados[] = {INDICE_INVALIDO, INDICE_INVALIDO, INDICE_INVALIDO};
 
     system("mode con: cols=100 lines=25");
 
@@ -19,7 +20,7 @@ int main()
         return NO_PUDE_ABRIR_ARCHIVO_TXT_CONFIGURACION;
     }
 
-    if(!cargarConfiguraciones(aConfiguracion, recursos.configuraciones))
+    if(ARCHIVO_TXT_DE_CONFIGURACION_CON_ERRORES == cargarConfiguraciones(aConfiguracion, recursos.configuraciones, nivelesCargados) || INDICE_INVALIDO == indicesDeNivelesValidos(nivelesCargados))
     {
         fclose(aConfiguracion);
         return ARCHIVO_TXT_DE_CONFIGURACION_CON_ERRORES;

@@ -102,7 +102,23 @@ void mostrarConfiguracionElegida(tConfiguracion* configuracion, unsigned indiceD
     printf("\tCantidad de vidas: %u.\n", configuracion[indiceDeNivelDeConfiguracionElegida].cantidadDeVidas);
 }
 
-int cargarConfiguraciones(FILE* aConfiguracion, tConfiguracion* configuraciones)
+int indicesDeNivelesValidos(const int* nivelesCargados)
+{
+    int i;
+
+    for(i = 0; i < CANTIDAD_DE_NIVELES; i++)
+    {
+        if(INDICE_INVALIDO == *nivelesCargados)
+        {
+            fprintf(stderr, "No cargo los 3 niveles requeridos.\n");
+            return INDICE_INVALIDO;
+        }
+        nivelesCargados++;
+    }
+    return OK;
+}
+
+int cargarConfiguraciones(FILE* aConfiguracion, tConfiguracion* configuraciones, int* nivelesCargados)
 {
     char buffer[TAM_BUFFER_CARGA_CONFIGURACIONES];
     unsigned indice;
@@ -129,6 +145,7 @@ int cargarConfiguraciones(FILE* aConfiguracion, tConfiguracion* configuraciones)
             fprintf(stderr, "Error de grabacion de archivo de configuraciones: VALORES FUERA DE RANGO.\n");
             return ARCHIVO_TXT_DE_CONFIGURACION_CON_ERRORES;
         }
+        nivelesCargados[indice] = indice;
     }
     return OK;
 }
