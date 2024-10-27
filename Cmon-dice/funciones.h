@@ -170,6 +170,7 @@ int ingresoDeNombresAListaSimple(t_lista* listaDeJugadores, unsigned* cantidadDe
 void mostrarConfiguracionElegida(tConfiguracion* configuracion, unsigned indiceDeNivelDeConfiguracionElegida);
 int indicesDeNivelesValidos(const int* nivelesCargados);
 int cargarConfiguraciones(FILE* aConfiguracion, tConfiguracion* configuraciones, int* nivelesCargados);
+int validaArchivoDeConfiguraciones(FILE* aConfiguracion, tRecursos* recursos);
 int defineIndiceDeNivelSegunCaracter(char caracter);
 void ingresoDeNivel(unsigned* indiceDeNivelDeConfiguracionElegida);
 

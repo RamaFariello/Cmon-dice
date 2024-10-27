@@ -150,6 +150,18 @@ int cargarConfiguraciones(FILE* aConfiguracion, tConfiguracion* configuraciones,
     return OK;
 }
 
+int validaArchivoDeConfiguraciones(FILE* aConfiguracion, tRecursos* recursos)
+{
+    int nivelesCargados[] = {INDICE_INVALIDO, INDICE_INVALIDO, INDICE_INVALIDO};
+
+    if(ARCHIVO_TXT_DE_CONFIGURACION_CON_ERRORES == cargarConfiguraciones(aConfiguracion, recursos->configuraciones, nivelesCargados) || INDICE_INVALIDO == indicesDeNivelesValidos(nivelesCargados))
+    {
+        return ARCHIVO_TXT_DE_CONFIGURACION_CON_ERRORES;
+    }
+
+    return OK;
+}
+
 int defineIndiceDeNivelSegunCaracter(char caracter)
 {
     if(!ES_LETRA(caracter))
@@ -181,7 +193,7 @@ void ingresoDeNivel(unsigned* indiceDeNivelDeConfiguracionElegida)//aca no soy t
 
     do
     {
-        printf("Ingrese nivel de dificiltad[FACIL(F) - MEDIO(M) - DIFICIL(D)]:\t");
+        printf("Ingrese nivel de dificultad[FACIL(F) - MEDIO(M) - DIFICIL(D)]:\t");
         fflush(stdin);
         scanf("%c", &nivelDeDificultadIngresado);
         nivelDeDificultadIngresado = A_MAYUS(nivelDeDificultadIngresado);
