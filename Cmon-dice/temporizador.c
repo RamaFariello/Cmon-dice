@@ -73,7 +73,7 @@ void* accionParaThreadDeTemporizador(void* arg)
 
     if(!recursos->temporizador.tiempoRestanteParaTemporizador)//Si no queda tiempo restante
     {
-        recursos->temporizador.timeout = 1;///SE TERMINO EL TIEMPO
+        recursos->temporizador.timeout = 1;//SE TERMINO EL TIEMPO
     }
 
     return NULL;
@@ -164,7 +164,7 @@ int determinarAccion(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int*
     int max;
     int cantidadIngresada;
 
-    // CAMINO BONITO -> SECUENCIA CORRECTA
+    //CAMINO BONITO -> SECUENCIA CORRECTA
     if(SON_IGUALES == verificarIgualdadEnCantidadDeElementosYContenidoEnListaSimple(&(jugador->secuenciaAsignada), &(ronda->secuenciaIngresada), comparaCaracteres))
     {
         printf("\nCorrecto!\n");
@@ -189,7 +189,7 @@ int determinarAccion(tRecursos* recursos, tJugador* jugador, tRonda* ronda, int*
 
     recursos->temporizador.tiempoRestanteParaTemporizador = tiempoParaIngresarSecuencia;
 
-    //caso 1 -> TIME OUT CON VIDA
+    //caso 1 - 3 -> TIME OUT CON VIDA o USO DE VIDA CON VIDA
     if((recursos->temporizador.timeout && !*cantidadDeCaracteresDeSecuenciaIngresados)  || ('X' == ch && !*cantidadDeCaracteresDeSecuenciaIngresados))
     {
         if(recursos->temporizador.timeout)
