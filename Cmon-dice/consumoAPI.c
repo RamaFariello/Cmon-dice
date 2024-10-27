@@ -38,7 +38,7 @@ int validaFormatoRespuestaAPI(const char* respuesta)
     return OK;
 }
 
-void construccionURL(char* URL, unsigned tam, unsigned ce)//doy la flexibilidad de usar cantidad de elementos o no
+void construccionURL(char* URL, unsigned tam, unsigned ce)
 {
     /**Armo la URL que le mando a la API*/
     /* A la URL base se le especifica:
